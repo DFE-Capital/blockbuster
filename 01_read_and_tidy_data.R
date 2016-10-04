@@ -6,22 +6,41 @@
 # INPUT -------------------------------------------------------------------
 
 library(tidyverse)
+
 block_data <- read_tsv(file  = "blockbuster_data.txt",
-                       col_names = TRUE)
-#  when read in some NULL in composition, only missing data, should be 1? omit for now
-#  see GDA of condition, final plot visna for details and proof of this
-#  available on CDC Trello board
+                       col_names = TRUE)  #  blockbuster_data_v3_MG
 
 # LOOK AT DATA ------------------------------------------------------------
-
+# dodgy encoding for first variable, thus repositioned in SQL query
 #glimpse(block_data)
-#nrow(block_data) - sum(complete.cases(block_data))  #  dodgy rows
+#nrow(block_data) - sum(complete.cases(block_data))  #  dodgy rows, composition NULL
 block_data_complete <- block_data %>%
-  filter(complete.cases(.))
+  filter(complete.cases(.)) %>%
+  mutate(timestep = as.integer(0))  #  add time zero  
+  
+# ADD VARIABLES -----------------------------------------------------------
+# compute the sum of repair costs by block, then append this on for tidy data
+block_cost_sum <- block_data_complete %>%
+  group_by(buildingid) %>%
+  summarise(cost_sum = sum(cost))
 
-# VALID NAMES -------------------------------------------------------------
-# Easier to change in SQL for future compatability?
-# Worry aboiut this later
+block_data_complete <- block_data_complete %>%
+  left_join(x = ., y = block_cost_sum, by = "buildingid")  #  where . passes data
 
-# CLEAN -------------------------------------------------------------------
+#glimpse(block_data_complete)
 
+# VARIABLE TYPE -------------------------------------------------------------------
+to_correct <- c("site_ref", "block_ref",
+                "element", "sub_element", "const_type",
+                "const_type_accessible", "grade", "swimming_pool")
+# Correct data type of variable
+# use mutate_each_, which is the standard evaluation version, to change variable classes
+block_data_correct_type <- block_data_complete %>%
+  mutate_each_(funs(factor), to_correct)
+#glimpse(block_data_correct_type)
+
+
+# TIDY DATA ---------------------------------------------------------------
+
+block_tidy <- block_data_correct_type
+#glimpse(block_tidy)
