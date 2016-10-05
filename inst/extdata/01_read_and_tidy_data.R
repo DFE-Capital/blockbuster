@@ -1,4 +1,9 @@
 
+# Convert SQL tab delimited .txt to .RData --------------------------------
+# purpose as above, take SQL query data as tab delimited file
+# tidy and create some useful new variables
+
+
 # GET DATA ----------------------------------------------------------------
 # source("00_get_data.R")
 # script currently empty
@@ -7,7 +12,7 @@
 
 library(tidyverse)
 
-block_data <- read_tsv(file  = "blockbuster_data.txt",
+block_data <- read_tsv(file  = "C:/Users/mammykins/Documents/GitHub/blockbuster/blockbuster_data.txt",
                        col_names = TRUE)  #  blockbuster_data_v3_MG
 
 # LOOK AT DATA ------------------------------------------------------------
@@ -42,5 +47,10 @@ block_data_correct_type <- block_data_complete %>%
 
 # TIDY DATA ---------------------------------------------------------------
 
-block_tidy <- block_data_correct_type
+blockbuster_pds <- block_data_correct_type
 #glimpse(block_tidy)
+
+
+# CREATE R DATA -----------------------------------------------------------
+
+devtools::use_data(blockbuster_pds)
