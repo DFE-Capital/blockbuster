@@ -1,0 +1,14 @@
+#' Condition of a quarter of a million building elements making up the School Estate.
+#'
+#' A dataset containing the condition grade and other attributes of almost 255,000
+#' building elements of the English School Estate.
+#'
+#' @format A tibble with 254,878 rows and 30 variables:
+#' \describe{
+#'   \item{businessunitid}{unique identifier code of the School which can exist on more than one site}
+#'   \item{composition}{the proportion of that elementid of a given grade}
+#'   \item{grade}{the condition of that element ranked }
+#'   ...
+#' }
+#' @source \url{https://www.gov.uk/government/organisations/education-funding-agency}
+"blockbuster_pds"
