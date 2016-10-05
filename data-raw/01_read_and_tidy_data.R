@@ -51,7 +51,8 @@ levels(block_data_correct_type$grade) <- list(N = "N", A = "A", B = "B",
 
 # TIDY DATA ---------------------------------------------------------------
 
-blockbuster_pds <- block_data_correct_type
+blockbuster_pds <- block_data_correct_type %>%
+  select(-1, -dfeno, -urn)  #  drop irrelevant yet sensitive columns
 #glimpse(block_tidy)
 
 
