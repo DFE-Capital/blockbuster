@@ -3,4 +3,4 @@
 .RData
 .Ruserdata
 data-raw/blockbuster_data.txt
-*.rda
+blockbuster_data

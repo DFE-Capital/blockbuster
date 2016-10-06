@@ -21,7 +21,7 @@ block_data <- read_tsv(file  = "./data-raw/blockbuster_data.txt",
 #nrow(block_data) - sum(complete.cases(block_data))  #  dodgy rows, composition NULL
 block_data_complete <- block_data %>%
   filter(complete.cases(.)) %>%
-  mutate(timestep = as.integer(0))  #  add time zero  
+  mutate(timestep = as.integer(0), unit_area = double(1))  #  add time zero, unit_area
   
 # ADD VARIABLES -----------------------------------------------------------
 # compute the sum of repair costs by block, then append this on for tidy data
