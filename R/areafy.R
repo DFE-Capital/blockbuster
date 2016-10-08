@@ -8,7 +8,7 @@
 # deterioration stages, as you need an approximation of how much of something there
 # is, if you want to deteriorate it using a discrete-time markov chain approach.
 
-#' Estimate the unit_area for an observation for a Property Data Survey tibble.
+#' Estimate the unit_area for an observation for a Property Condition Data Survey tibble.
 #'
 #' @param blockbuster_initial_state
 #' @return a blockbuster tibble with the unit_area estimated for each row.
@@ -31,7 +31,7 @@ areafy <- function(blockbuster_initial_state) {
                                             element == "Electrical Services" |          element == "Redecorations" |
                                             element == "Fixed Furniture and Fittings" | element == "External Areas",
                                           true = gifa,
-                                          false = if_else(element == "External Walls" | element == "Windows and Doors",
+                                          false = if_else(element == "External Walls, Windows and Doors",
                                                           true = (block_perimeter*height) - windows_doors,
                                                           false = if_else(element == "Playing Fields",
                                                                           true = field_area,
@@ -40,8 +40,39 @@ areafy <- function(blockbuster_initial_state) {
                                                             )
                                           )
                           )
-    ) #%>%  #  Keep it readable, that's using element level, some we need sub-element detail for method
-    
+    ) %>%  #  Keep it readable, that's using element level, some we need sub-element detail for method
+    mutate(unit_area = if_else(sub_element == "Suspended floors – Structure", true = gifa - ground_gifa,
+                               false = if_else(sub_element == "Windows and doors", true = windows_doors,
+                                               false = if_else(sub_element == "Lifts", true = number_lifts,
+                                                               false = if_else(sub_element == "Roads and car parks" |
+                                                                                 sub_element == "Paths, pedestrian paved areas, play areas" |
+                                                                                 sub_element == "Soft Landscaping" |
+                                                                                 sub_element == "Mains Services" |
+                                                                                 sub_element == "Other walls, fences and barriers, including around tennis courts, MUGAs etc",
+                                                                               true = site_area_exc_field - ground_gifa,
+                                                                 false = if_else(sub_element == "Boundary walls and fences", true = boundary_length,
+                                                                                 false = if_else(sub_element == "Swimming Pools - Plant" |
+                                                                                                   sub_element == "Swimming Pools - Structure",
+                                                                                                 true = as.integer(swimming_pool) - 1,  #  Factor, level 1 is No, level 2 is Yes (alphabetical)
+                                                                                                   false = unit_area  #  already defined earlier
+                                                                                                 )
+                                                                   
+                                                                 )
+                                                               )
+                                                 
+                                               )
+                                                 )
+      
+    )
+    ) %>%  #  Here we introduce fixes for some errors in the original methods of unit_area estimation
+    mutate(unit_area = if_else(unit_area == 0 & sub_element == "Suspended floors – Structure",
+                               true = ground_gifa,
+                               false = unit_area
+      
+    )
+      
+    )
+  
   invisible(as_tibble(areafyed))
 }
 
