@@ -10,7 +10,7 @@
 
 #' Estimate the unit_area for an observation for a Property Condition Data Survey tibble.
 #'
-#' @param blockbuster_initial_state
+#' @param blockbuster_initial_state a blockbuster dataframe or tibble.
 #' @return a blockbuster tibble with the unit_area estimated for each row.
 #' This should be used to provide the initial estimates of the unit_area
 #' of each element-sub-element construction type in the dataframe.
@@ -20,7 +20,8 @@
 #' square metre.
 #' @seealso \link{/data-raw/blockbuster_unit_quantity_methods.csv}
 #' @export
-#' @examples
+#' @examples 
+#' pds_data <- areafy(blockbuster_pds)
 
 areafy <- function(blockbuster_initial_state) {
   areafyed <- blockbuster_initial_state %>%
