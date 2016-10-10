@@ -1,7 +1,8 @@
 #' Condition of a quarter of a million building elements making up the School Estate.
 #'
 #' A dataset containing the condition grade and other attributes of almost 255,000
-#' building elements of the English School Estate.
+#' building elements of the English School Estate. The unit_area was estimated using
+#' the \code{areafy} function in this package.
 #'
 #' @format A tibble with 254,878 rows and 30 variables:
 #' \describe{
