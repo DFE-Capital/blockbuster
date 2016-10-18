@@ -4,3 +4,6 @@
 .Ruserdata
 data-raw/blockbuster_data.txt
 blockbuster_data
+.xlsx
+det_data.txt
+#blockbuster_det_data.rda
