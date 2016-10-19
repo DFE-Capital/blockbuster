@@ -1,4 +1,9 @@
 
+# PURPOSE -----------------------------------------------------------------
+
+# Create a markov chain list of deterioration rate transition matrices
+# for every unique element sub-element construction type combination
+
 # Get deterioration rates into useable format --------------------------------
 # take Deterioration Rates.xlsx provided by EC Harris
 # using the Overarching Rates sheet
@@ -35,7 +40,7 @@ det_data <- read_tsv(file  = "./data-raw/det_data.txt",
 # sum(!complete.cases(det_data))  #  these seem to be relics from the Excel, not used
 # let's remove the NA, we need to consider this later
 
-blockbuster_det_data <- det_data
+blockbuster_det_data <- as_tibble(det_data)
 
 # CREATE R DATA -----------------------------------------------------------
 
@@ -63,19 +68,45 @@ det_dtmc <- new("markovchain",
                                           nrow = 6, ncol = 6, byrow = TRUE),
                 states = c("n", "a", "b", "c", "d", "e"),
                 name = as.character(det_data[1, "concated_det"]))  #duplicate names have been removed
+
 # Works for the single case, let's create a list
+rm(det_dtmc, get_det)
 
 # MARKOV LIST -------------------------------------------------------------
-# to do, get ths to work for a list
+
+#  fix function for use in for loop, note i change
 get_det <- function(x) {
-  as.numeric(det_data[, x])
+  as.numeric(det_data[i, x])
 }
 
+#  pre-allocate memory for list
+mc_list <- vector(mode = "list", length = nrow(det_data))
 
+#  for loop interpretable and fast here
+#  create list to pass to markov chain list
+for (i in 1:nrow(det_data)) {
+  mc_list[[i]] <- new("markovchain",
+                      transitionMatrix = matrix(c(1 - get_det("na"), get_det("na"), 0, 0, 0, 0,  #  n
+                                                  0, 1 - get_det("ab"), get_det("ab"), 0, 0, 0,  #  a
+                                                  0, 0, 1 - get_det("bc"), get_det("bc"), 0, 0,  #  b
+                                                  0, 0, 0, 1 - get_det("cd"), get_det("cd"), 0,  #  c
+                                                  0, 0, 0, 0, 1 - get_det("de"), get_det("de"),  #  d
+                                                  0, 0, 0, 0, 0, 1),  #  ee is 1
+                                                nrow = 6, ncol = 6, byrow = TRUE),
+                      states = c("n", "a", "b", "c", "d", "e"),
+                      name = as.character(det_data[i, "concated_det"]))
+}
 
+rm(i, get_det)
+# Make Markov Chain list
+# See documentation for markovchainList
 blockbuster_mc_list <- new("markovchainList",
-                           markovchains = list(
-                              
-                           ),
+                           markovchains = mc_list
+                           ,
                            name = "A list of Markov chains for each element sub_element con_type"
                            )
+
+# blockbuster_mc_list@markovchains[[1]]@name  #  find individual name
+
+# SAVE MC LIST ------------------------------------------------------------
+devtools::use_data(blockbuster_mc_list, overwrite = TRUE)
