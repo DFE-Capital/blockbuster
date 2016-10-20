@@ -4,7 +4,7 @@
 \alias{det_eriorate}
 \title{The deterioration of one blockbuster row through one time period.}
 \usage{
-det_eriorate()
+det_eriorate(blockbuster_initial_state_row)
 }
 \arguments{
 \item{blockbuster_initial_state_row}{a blockbuster dataframe or tibble single row. 
@@ -14,7 +14,8 @@ Can only accept one row at a time due to how \code{grep} works
 \value{
 A one (if row is condition E) or two row tibble containing
 the \code{unit_area} and condition of the \code{element sub_element constr_type} 
-combination after one time period.
+combination after one time period. Duplicating all other variables and values.
+The timestep needs to increase by one.
 }
 \description{
 The deterioration of one blockbuster row through one time period.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/deteriorate.R
 \name{det_what_tm}
 \alias{det_what_tm}
-\title{Select the correct markovchain object for deterioration.}
+\title{Select the correct markovchain object for deterioration of a row.}
 \usage{
 det_what_tm(blockbuster_initial_state_row)
 }
@@ -14,7 +14,7 @@ a markovchain object containing the appropriate transition matrix
 for the input blockbuster row. Can only except one row at a time due to how grep works.
 }
 \description{
-Select the correct markovchain object for deterioration.
+Select the correct markovchain object for deterioration of a row.
 }
 \examples{
 dtmc_a <- det_what_tm(blockbuster_pds[1, ])
