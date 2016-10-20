@@ -6,4 +6,5 @@ data-raw/blockbuster_data.txt
 blockbuster_data
 .xlsx
 det_data.txt
+missing_dtmc
 #blockbuster_det_data.rda

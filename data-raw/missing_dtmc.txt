@@ -1,0 +1,15 @@
+element	sub_element	const_type
+"External Walls, Windows and Doors"	Walls - External finishes	No Wall Finish/ Exposed Structure
+Mechanical Services	Mechanical ventilation / air conditioning	No mechanical ventilation or air conditioning
+Redecorations	External - walls	Unpainted
+Internal Walls and Doors	Walls and partitions finishes	No Internal Wall Finish/Exposed Structure
+Redecorations	Internal - ceilings	Unpainted
+Ceilings	Generally	No Ceiling/ Exposed Structure
+Roofs	Coverings and insulation	Pitched roof - Natural slates
+"External Walls, Windows and Doors"	Walls - Internal finishes	No Internal Wall Finish/Exposed Structure
+Redecorations	Internal - walls	Unpainted
+Redecorations	"External - windows, doors, etc."	Metal - painted
+Ceilings	Generally	Suspended rafts below fair faced / plaster soffit
+Roofs	Drainage	Flat roof - Fibre cement
+Roofs	Coverings and insulation	Flat roof - Green roof
+Roofs	Drainage	Pitched roof - Fibre Cement

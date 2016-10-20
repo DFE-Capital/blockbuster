@@ -108,6 +108,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   output <- dplyr::bind_rows(same_grade, worse_grade)
   #  Drop duplicate row for "E" grade.
   output <- dplyr::filter(output, unit_area != 0)
+  output <- tibble::as_tibble(output)
   
   return(output)
   

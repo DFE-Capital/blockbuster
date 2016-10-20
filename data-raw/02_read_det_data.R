@@ -40,7 +40,7 @@ det_data <- read_tsv(file  = "./data-raw/det_data.txt",
                        col_names = TRUE) %>%
   mutate(concated_det = paste(element, sub_element, const_type,
                           sep = "_")) %>%
-  filter(complete.cases(.)) %>%  
+  filter(complete.cases(.)) %>%  # NA are getting removed
   filter(!duplicated(.[["concated_det"]])) #  remove duplicates from Excel
 
 # length(unique(det_data$concated_det))
