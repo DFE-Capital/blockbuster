@@ -2,7 +2,7 @@
 % Please edit documentation in R/areafy.R
 \name{areafy}
 \alias{areafy}
-\title{Estimate the unit_area for an observation for a Property Condition Data Survey tibble.}
+\title{Estimate the unit_area for an observation for a blockbuster tibble.}
 \usage{
 areafy(blockbuster_initial_state)
 }
@@ -19,7 +19,7 @@ calculations or estimation methods. A window or door is assumed to have an area 
 square metre.
 }
 \description{
-Estimate the unit_area for an observation for a Property Condition Data Survey tibble.
+Estimate the unit_area for an observation for a blockbuster tibble.
 }
 \examples{
 pds_data <- areafy(blockbuster_pds)

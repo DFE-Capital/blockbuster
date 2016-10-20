@@ -20,3 +20,4 @@ Imports:
 URL: https://about.me/mammykins
 BugReports: https://github.com/mammykins/blockbuster/issues
 RoxygenNote: 5.0.1
+Suggests: testthat

@@ -9,7 +9,14 @@
 # using the Overarching Rates sheet
 # copy and pasted and then adjusted column names and fixed NA coding
 # extract for each unique element_sub_element_con_type
-
+# An encoding error occurred: http://stackoverflow.com/questions/24500162/display-u0096-in-a-jsp
+# I replaced the offending character with a -
+# This made me think, it would be better, to ensure character matching
+# by manually comparing the levels of det rate ele, sub and const with the pds data.
+# It seems there is an error with minus sign encoding
+# "Staircases - Balustrades" == "Staircases – Balustrades"
+# gsub("[^[:alnum:] ]", "", "Staircases - Balustrades") == gsub("[^[:alnum:] ]", "", "Staircases – Balustrades")
+# Matchign occurs jsut on alphanumeric now
 
 # CAVEAT ------------------------------------------------------------------
 # The overarching rates are assumed to be the averages irrespective of building type

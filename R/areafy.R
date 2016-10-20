@@ -8,7 +8,7 @@
 # deterioration stages, as you need an approximation of how much of something there
 # is, if you want to deteriorate it using a discrete-time markov chain approach.
 
-#' Estimate the unit_area for an observation for a Property Condition Data Survey tibble.
+#' Estimate the unit_area for an observation for a blockbuster tibble.
 #'
 #' @param blockbuster_initial_state a blockbuster dataframe or tibble.
 #' @return a blockbuster tibble with the unit_area estimated for each row.
