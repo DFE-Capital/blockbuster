@@ -114,3 +114,82 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   
   
 }
+
+#' The deterioration of more than one blockbuster rows through one time period.
+#'
+#' @param blockbuster_tibble a blockbuster dataframe or tibble. 
+#' @return A tibble containing
+#' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
+#' combination after one time period. Duplicating all other variables and values.
+#' The timestep also increases by one. The output tibble can be up to twice the number
+#' of rows of the input tibble. Accordingly this function merges to reduce the number of rows
+#' if possible, whereby there should be a max of six (one for each grade state) rows
+#' per \code{elementid}.
+#' @seealso 
+#' @export
+#' @examples 
+#' one_year_later <- blockbust(dplyr::filter(blockbuster_pds, buildingid == 127617))
+#' 
+blockbust <- function(blockbuster_tibble) {
+  
+  #  Initiate placeholder
+  # blockbuster_tibble <- blockbuster_pds[1:10, ]  #  for testing
+  det_eriorated <- blockbuster_tibble
+  det_eriorated <- dplyr::slice(det_eriorated, -(1:n()))  #  keep attributes, drop values
+
+  for (i in seq_len(nrow(blockbuster_tibble))) {
+    #  create single row tibble for det_eriorate function
+    blockbuster_initial_state_row <- dplyr::slice(blockbuster_tibble, i)
+    #  bind rows of previously det_eriorated with this iterations det_eriorated
+    det_eriorated <- dplyr::bind_rows(det_eriorated, det_eriorate(blockbuster_initial_state_row))
+    
+  }
+  
+    output <- tibble::as_tibble(det_eriorated)
+    
+    return(output)
+  
+}
+
+#' The deterioration of more than one blockbuster rows through one time period.
+#'
+#' @param blockbuster_tibble a blockbuster dataframe or tibble. 
+#' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
+#' @return A list of n tibbles (where n is based on the \code{forecast_horizon}),
+#' with each tibble containing
+#' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
+#' combination at a given timestep while also duplicating all
+#'  other variables and values from the input tibble.
+#' After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}.
+#' @seealso 
+#' @export
+#' @examples 
+#' two_year_later <- blockbuster(dplyr::filter(blockbuster_pds, buildingid == 127617), 2)
+#' 
+blockbuster <- function(blockbuster_tibble, forecast_horizon) {
+  
+  #  Sensible forecast horizon
+  stopifnot(forecast_horizon > 0, forecast_horizon < 70)
+  
+  #  Create placeholder
+  blockbusted <- blockbuster_tibble
+  blockbusted <- dplyr::slice(blockbusted, -(1:n()))  #  keep attributes, drop values
+  #  Rep this and create a list of empty blockbuster tibbles
+  blockbusted <- rep(list(blockbusted), forecast_horizon + 1)
+  
+  #  Provide initial tibble at timestep zero
+  blockbusted[[1]] <- blockbuster_tibble
+  
+  for (i in 1:forecast_horizon) {
+    #  the input tibble is at timestep zero, not included in the output list of tibbles
+    #  Need to remove the cost variables, as it will be incorrect and misleading for non zero timestep
+    x <- dplyr::mutate(blockbust(blockbusted[[i]]),
+                       cost = 0, cost_sum = 0)
+    #  Sum unit_area over each row, keep all other variables
+    blockbusted[[i + 1]] <- tibble::as_tibble(aggregate(unit_area ~., data = x, FUN = sum))
+    
+  }
+  # Aggregate over each list to make tidy data, avoid repeated rows for elementid and grade
+  return(blockbusted)
+  # tidyr::nest(data, ..., .key = data)
+}
