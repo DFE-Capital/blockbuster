@@ -43,3 +43,22 @@ test_that("det_eriorate outputs correct grades", {
   expect_equal(as.character(tail(det_eriorate(y)$grade, 1)), "D")
   expect_equal(as.character(tail(det_eriorate(ye)$grade, 1)), "E")
 })
+
+v <- blockbuster_pds[1:5, ]
+
+test_that("blockbust() produces correct row number", {
+  expect_equal(nrow(blockbust(v)), nrow(v)*2)  #  if grade not E, then row number doubles
+  expect_equal(nrow(blockbust(blockbust(v))), nrow(v)*4)  #  through 2 timesteps of deterioration
+  expect_equal(blockbust(y), det_eriorate(y))  #  identical for one row
+})
+
+test_that("blockbuster produces correct row number by list", {
+  expect_equal(blockbuster(v, forecast_horizon = 1)[[2]], 
+               dplyr::mutate(blockbust(v), cost = 0, cost_sum = 0))  #  one year, extract second tibble from list
+  expect_equal(blockbuster(v, forecast_horizon = 2)[[3]],
+               tibble::as_tibble(aggregate(unit_area ~.,
+                                           data = dplyr::mutate(blockbust(blockbust(v)), 
+                                                                cost = 0, cost_sum = 0),
+                                           FUN = sum)))  #  demonstrate blockbuster aggregateness
+  expect_equivalent(NROW(blockbuster(y, forecast_horizon = 5)[[6]]), 3)  #  One elementid starts at grade C, so C, D, E
+})
