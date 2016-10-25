@@ -8,3 +8,4 @@ blockbuster_data
 det_data.txt
 missing_dtmc
 #blockbuster_det_data.rda
+inst/doc

@@ -1,0 +1,177 @@
+---
+title: "Blockbuster modelling: wow; what a difference!"
+author: "Matthew Gregory"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{blockbuster_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+> ""Can I have a P please, Bob?"."
+([via](http://www.bbc.co.uk/news/entertainment-arts-16447409))
+
+## Modelling  deterioration of the School Estate using Discrete-Time Markov chains
+
+A useful package of functions and sample data to forecast the future condition of School blocks (or buildings) in the UK.
+
+### Modelling overview
+
+Markov chains represent a class of stochastic processes of great interest for the wide spectrum of practical applications. In particular, discrete time [Markov chains](https://cran.r-project.org/web/packages/markovchain/vignettes/an_introduction_to_markovchain_package.pdf) (DTMC) permit to model the transition probabilities between discrete states by the aid of matrices. The states are represented by the `grade` factor which is the surveyed condition of a building element, determined by a quantity surveyor through grades (states); N, A, B, C, D, E. The transition probabilities are 6 by 6 matrices with the average deterioration rate per timestep between states provided by expert building consultant opinion (see documentation for full details).  
+
+### Business questions it can answer
+
+This package is useful for decision makers as it provides a modelling approach for forecasting the condition of an individual building component (`elementid`) through time. This modelling approach can be scaled through a decision making hierarchy, with modelling the deterioration at the level of a School block (`buildingid`), for each site (`siteid`), the School (which may be made of many blocks, `urn`), at the Local Authority (LA) level (`lano`) and at the National level given suitable input data (filter desired rows using the `dplyr` package is recommended).  
+
+The `blockbuster` function can be used on more than one row of what I call a `blockbuster_tibble` through more than one year, storing or the data of intermediary years. This flexibility allows decision makers to ask many and varied questions of the output data.  
+
+## Loading the packages
+
+Check you have these packages installed and then load them into memory using `require()`.
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+library(tidyverse)  #  Recommended for filterting rows desired for input.
+library(markovchain)  #  Recommended for markovchain S4 object handling (advanced).
+
+library(blockbuster)  #  Required.
+
+```
+
+## The initial state data
+
+Provided with this package is some simulated data with identifying features removed. We suggest loading the `tidyverse` package when handling this data. This object is a tibble called by `blockbuster_pds`.
+
+```{r}
+blockbuster_pds
+```
+
+## The transition probability data
+
+The deterioration rates can be called by using either the tibble `blockbuster_det_data` or the `markovchainList` object `blockbuster_mc_list`.
+
+## The blockbuster functions
+
+We consider the first row of this data which is a roof of excellent `grade` A condition with a `unit_area` of 308.4.
+
+```{r}
+
+x <- blockbuster_pds[1, ]
+dplyr::select(x, element, sub_element, const_type, grade, unit_area)
+
+```
+
+## Inspecting the associated deterioration rates
+
+To determine which transition matrix is associated with each row we use the `det_what_tm()` function. This produces an error if the `markovchain` object does not exist.
+
+```{r}
+mc1 <- det_what_tm(x)
+mc1
+```
+
+This is a `markovchain` object as described in the documentation of that package. It is a S4 object and we can access different components using slots and `[` sub-setting.
+
+```{r}
+mc1@transitionMatrix[, ]  #  [i, j] i for row, j column
+```
+
+## Deteriorating through time
+
+Typically the user will be interested in a subset of the data. Consult the `dplyr` vignette for handling and sub-setting your data based on desired filter conditions.  
+
+Here we demonstrate the deterioration of a single element through time. We chose a critical building feature.
+
+```{r}
+my_wall <- dplyr::filter(blockbuster_pds,
+                         buildingid == 4382, sub_element == "Walls - Structure", 
+                         const_type == "Brick / block")
+
+my_wall_next_year <- blockbuster(my_wall, 1)
+my_wall_next_year
+
+my_wall_20year <- blockbuster(my_wall, 20)
+
+```
+
+This produces a list of tibbles. Each tibble provides the condition of the input tibble at that timestep. Notice how the number of rows has increased. That's because we have a row for each `grade` state and associated `unit_area`. The first tibble in the list is for the input data or `timestep == 0`. It is prudent to check the timestep by inspecting it.
+
+```{r}
+my_wall_next_year[[2]]
+head(my_wall_next_year[[2]]$timestep, 1)  #  1 timestep later than initial
+```
+
+## Blockbusting through many rows
+
+The same principle applies as above where we pass the `blockbuster` function an input tibble object and the number of years into the future (relative to when the data was collected) we want to model to.
+
+```{r}
+y <- blockbuster_pds[1:20, ]  #  select all rows associated with decision level of interest
+my_block_10years <- blockbuster(y, 10)
+dplyr::select(my_block_10years[[11]], buildingid, elementid, grade, unit_area) %>%
+  dplyr::arrange(elementid, grade)
+```
+
+## Computation time
+
+I suggest you spend time thinking about the precise question you are asking rather than using the whole `blockbuster_pds` tibble as input due to non-trivial computation time. As a rule of thumb the amount of rows you start with will be multiplied by five (as each `elementid` deteriorates to other states), with each of these tibbles being multiplied by the `forecast_horizon`. That's quite a lot of data and may tax your computer's RAM (although the `unit_area` and `timestep` will be the only variables changing through time).  
+
+## Plotting
+
+The tibble format is compatible with the `tidyverse` particularly `reshape2`-ing and plotting using `ggplot2`. 
+
+### Critical building elements
+
+Typically we may be more interested in critical, structural building-features such as the roof or walls and whether the `unit_area` exceeds a critical threshold determined by expert opinion. For example, is our wall's total `unit_area` after 10 years comprised of over 20% grade D and E? We plot then expect the numbers.
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+
+my_wall_10 <- blockbuster(my_wall, 10)
+#  We are interested in the 10 th (+ 1) timestep
+df <- my_wall_10[[11]]
+
+#  Use gov style for plot
+devtools::install_github('mangothecat/visualTest')  #  required for govstyle
+devtools::install_github("UKGov-Data-Science/govstyle")
+
+p <- ggplot(data = df, aes(x = grade, y = unit_area)) +
+  geom_bar(stat = "identity") +
+  xlab("Condition") +
+  ylab(expression(paste(
+  "Unit area (",m^2,
+  ")", sep = "")))
+
+p +
+  govstyle::theme_gov()
+```
+
+We use `dplyr` to elucidate and determine that our wall is below our arbitrary 20% threshold, if we wanted to scale this we could create a new variable using `mutate` which is based on a logical test. The only limit is your imagination (and coding skills).
+
+```{r}
+total_wall_area <- sum(df$unit_area)
+dplyr::mutate(df, prop_area = unit_area / total_wall_area) %>%
+  dplyr::select(grade, unit_area, prop_area)
+```
+
+## Costing
+
+A caveat, `costs` have been set to zero for now until another family of functions is developed to estimate these for each timestep. These can be calculated after the fact, but will need to implemented after the deterioration step if rebuilding and maintenance are to be incorporated into the model.  
+
+```{r}
+head(my_block_10years[[11]]$cost, 1)
+head(my_block_10years[[11]]$cost_sum, 1)
+
+```
+
+## Summary
+
+* This modelling approach makes use of all the data.  
+* It uses a robust statistical modelling approach.  
+* The input structure is preserved in the output tibbles.  
+* The model can be iteratively improved as more data is collected.  
+* There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.  
+
+```{r}
+sessionInfo()
+```
+
