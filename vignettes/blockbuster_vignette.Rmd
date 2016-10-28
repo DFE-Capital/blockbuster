@@ -135,7 +135,7 @@ devtools::install_github('mangothecat/visualTest')  #  required for govstyle
 devtools::install_github("UKGov-Data-Science/govstyle")
 
 p <- ggplot(data = df, aes(x = grade, y = unit_area)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", fill = gov_cols['turquoise']) +
   xlab("Condition") +
   ylab(expression(paste(
   "Unit area (",m^2,

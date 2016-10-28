@@ -162,8 +162,10 @@ blockbust <- function(blockbuster_tibble) {
 #'  other variables and values from the input tibble.
 #' After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}.
 #' @seealso 
+#' @importFrom stats aggregate
 #' @export
 #' @examples 
+#'
 #' two_year_later <- blockbuster(dplyr::filter(blockbuster_pds, buildingid == 127617), 2)
 #' 
 blockbuster <- function(blockbuster_tibble, forecast_horizon) {
