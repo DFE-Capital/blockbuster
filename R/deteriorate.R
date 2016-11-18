@@ -57,7 +57,7 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 #' @seealso \link{/man/blockbuster_det_data.Rd}
 #' @export
 #' @examples 
-#' one_year_later <- deteriorate(blockbuster_pds[1, ])
+#' one_year_later <- det_eriorate(blockbuster_pds[1, ])
 det_eriorate <- function(blockbuster_initial_state_row) {
   
   #  Get appropriate markovchain

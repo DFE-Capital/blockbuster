@@ -8,6 +8,7 @@
 # take Deterioration Rates.xlsx provided by EC Harris
 # using the Overarching Rates sheet
 # copy and pasted and then adjusted column names and fixed NA coding
+# (it would of taken longer to code it)
 # extract for each unique element_sub_element_con_type
 # An encoding error occurred: http://stackoverflow.com/questions/24500162/display-u0096-in-a-jsp
 # I replaced the offending character with a -
@@ -18,6 +19,23 @@
 # gsub("[^[:alnum:] ]", "", "Staircases - Balustrades") == gsub("[^[:alnum:] ]", "", "Staircases – Balustrades")
 # Matchign occurs jsut on alphanumeric now
 
+
+# MISSING DATA ------------------------------------------------------------
+
+# Some det rates were not provided by EC Harris
+# We used the expert opinion of quantity surveyors in the Condition and Cost team
+# Amanda Jekin-Jones and Colin Fayers to discuss viable estimates of missing rates
+# using their expert knowledge and what EC Harris had provided for similar
+# building components. Hence filename renamed det_data_ajj.txt after edits.
+# See Trello board for details of justifications.
+# Floors and Stairs, Floors - Screed & Finish, CONCRETE / UNFINISHED SCREED / FLOOR PAINT copied from 
+# Floors and Stairs, STRUCTURE, CONCRETE middle of 45-75 is 60, so 60/4 at each grade, 1/15 rate
+# I followed AJJ advice where possible and although some det rates were deemed to not really
+# be needed asthey would be "unlikely" to occur, there were instances, so I sent these back to
+# AJJ for clarification. There is a risk here that some det rates were deleted that were rare,
+# i.e. not showing in our 10% sample but maybe in the whole data will appear and cause an error
+# later, if it's all used.
+
 # CAVEAT ------------------------------------------------------------------
 # The overarching rates are assumed to be the averages irrespective of building type
 # We added a new column for N to A, new to condition A.
@@ -26,6 +44,21 @@
 # FLOOR AND STAIRS was NA, we got this from modified EC Harris data for
 # the modal (by records) building type, post-1976.
 #
+# 2016-11-30
+# Following Colin Fayers sharing of building component life summary
+# MG used his own judgement to fill in the remaining NA by picking 
+# similar components to the missing data
+# e.g. if 50 years, it would be split as ab 1/20, bc 1/15, cd 1/10, de 1/5
+# the idea being that well maintained components stay viable for longer
+# this created new file with ajj_cf suffix
+
+# 2016-12-01
+# After this there were still 4 missing det rates that were in the PDS
+# but not in our det_rates tsv, thus we used 03_identify_missing_markovs.R
+# to find them out and then made up some rates for them in ajj_cf suffixed
+# it looks like these are relics from the characters being misread!
+# we already have the data it seems. Most recent four are added
+# to the bottom of the det_rates tsv
 
 
 # GET DATA ----------------------------------------------------------------
@@ -36,7 +69,7 @@
 
 library(tidyverse)
 
-det_data <- read_tsv(file  = "./data-raw/det_data.txt",
+det_data <- read_tsv(file  = "./data-raw/det_data_ajj_cf.txt",
                        col_names = TRUE) %>%
   mutate(concated_det = paste(element, sub_element, const_type,
                           sep = "_")) %>%
