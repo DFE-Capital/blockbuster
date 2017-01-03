@@ -1,7 +1,9 @@
 Package: blockbuster
 Title: Deterioration model of the School Estate.
 Version: 0.0.0.9000
-Authors@R: person("Matthew", "Gregory", email = "matthew.gregory@teachfirst.org.uk", role = c("aut", "cre"))
+Authors@R: c(
+    person("Matthew", "Gregory", email = "matthew.gregory@teachfirst.org.uk", role = c("aut", "cre")),
+    person("Matthew", "Upson", email = "matthew.upson@digital.cabinet-office.gov.uk", role = "ctb"))
 Description: This R package allows you to simulate the deterioration of
     School buildings through time using a Discrete Time Markov Chain. The data
     were collected during the Property Data Survey Programme (PDSP) of 2012-2014.
@@ -11,20 +13,21 @@ Description: This R package allows you to simulate the deterioration of
     Elements-Sub-element-construction-type
 Depends:
     R (>= 3.3.1)
-License: GPL-2
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr,
-    tibble,
-    tidyverse,
+    tidyverse (>= 1.0.0),
     markovchain
 URL: https://about.me/mammykins
 BugReports: https://github.com/mammykins/blockbuster/issues
-RoxygenNote: 5.0.1
-Suggests: testthat,
-    knitr,
-    rmarkdown,
-    govstyle,
-    devtools
+Suggests: 
+    testthat (>= 1.0.2),
+    knitr (>= 1.15.1),
+    rmarkdown (>= 1.2),
+    govstyle (>= 0.1.0),
+    devtools (>= 1.12.0)
 VignetteBuilder: knitr
+Remotes:
+    github::UKGov-Data-Science/govstyle
+RoxygenNote: 5.0.1

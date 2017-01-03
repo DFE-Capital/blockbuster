@@ -1,0 +1,5 @@
+element	sub_element	const_type
+Mechanical Services	Mechanical ventilation / air conditioning	No mechanical ventilation or air conditioning
+Redecorations	Internal - ceilings	Unpainted
+External Walls, Windows and Doors	Walls – Internal finishes	No Internal Wall Finish/Exposed Structure
+Redecorations	External - windows, doors, etc.	Metal - painted

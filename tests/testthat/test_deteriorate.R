@@ -17,7 +17,7 @@ z <- blockbuster_pds[40000, ]
 
 test_that("det_what_tm finds the correct markov chain", {
   expect_equal(det_what_tm(blockbuster_pds[1,]),
-               blockbuster_mc_list@markovchains[[116]])
+               blockbuster_mc_list@markovchains[[117]])
   #expect_(det_what_tm(w),  blockbuster_mc_list@markovchains[[]])
   #expect_equal(det_what_tm(x),  blockbuster_mc_list@markovchains[[]])
   expect_equal(det_what_tm(y),  blockbuster_mc_list@markovchains[[79]])

@@ -6,6 +6,9 @@ data-raw/blockbuster_data.txt
 blockbuster_data
 .xlsx
 det_data.txt
+det_data_ajj.txt
 missing_dtmc
+2016-11-30-missing_dtmc.txt
 #blockbuster_det_data.rda
 inst/doc
+building_component_life_summary.xls

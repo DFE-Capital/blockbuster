@@ -1,0 +1,18 @@
+language: r
+cache: packages
+sudo: required
+
+r_packages:
+  - knitr
+
+r_github_packages:
+  - jimhester/covr
+  - MangoTheCat/visualTest
+  - UKGov-Data-Science/govstyle@v0.1.1
+
+cache:
+  directories: $TRAVIS_BUILD_DIR/packrat/
+  packages: true
+
+after_success:
+  - Rscript -e 'covr::codecov()'

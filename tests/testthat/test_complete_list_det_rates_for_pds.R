@@ -1,6 +1,7 @@
+library(blockbuster)
+context("Determine that we have associated transition matrices for every unique building component in the PDS")
 
-# PURPOSE -----------------------------------------------------------------
-
+# INPUT to test -----------------------------------------------------------
 #  Identify all missing markovchain objects and transition matrices
 #  based on character strings of element-sub_element-constr_type
 
@@ -33,41 +34,7 @@ dtmc_missing <- pds_concat_list[is.na(is_it_missing)]
 # If all is well we should have an empty dtmc_missing
 # if so we have all the det_rates we need to match
 # the pds
+test_that("There are no missing det_rate dtmc", {
+  expect_true(purrr::is_empty(dtmc_missing))
+})
 
-testthat::expect_true(purrr::is_empty(dtmc_missing))
-stopifnot(!purrr::is_empty(dtmc_missing)) 
-
-
-# AFFECTED ROWS -----------------------------------------------------------
-affected_rows <- tibble::tibble()
-
-for (i in 1:length(dtmc_missing)) {
-  affected_rows <- dplyr::bind_rows(affected_rows, 
-  dplyr::filter(x, concated_pds == dtmc_missing[i])
-  )
-}
-
-# 12% of rows affected, need fix
-(nrow(affected_rows) / nrow(x)) * 100
-
-
-# SEPERATE and output as Excel --------------------------------------------
-#unlist(strsplit(dtmc_missing[[1]], split = "_"))[3]
-
-dtmc_needed <- tibble::tibble()
-for (i in 1:length(dtmc_missing)) {
-  
-  dtmc_needed <- dplyr::bind_rows(dtmc_needed,
-    tibble::tibble(element = unlist(strsplit(dtmc_missing[[i]], split = "_"))[1],
-                 sub_element = unlist(strsplit(dtmc_missing[[i]], split = "_"))[2],
-                 const_type = unlist(strsplit(dtmc_missing[[i]], split = "_"))[3])
-  )
-}
-
-today <- Sys.Date()  #  filename with date of check
-
-readr::write_delim(x = dtmc_needed,
-                   path = paste0("./data-raw/",
-                                 today,
-                                 "-missing_dtmc.txt"),
-                   delim = "\t")
