@@ -1,3 +1,8 @@
+
+[![Build Status](https://travis-ci.org/mammykins/blockbuster.svg?branch=master)](https://travis-ci.org/mammykins/blockbuster)
+[![codecov.io](http://codecov.io/github/mammykins/blockbuster/coverage.svg?branch=master)](http://codecov.io/github/mammykins/blockbuster?branch=master)
+[![GitHub tag](https://img.shields.io/github/tag/mammykins/blockbuster.svg)]()
+
 # blockbuster
 
 
