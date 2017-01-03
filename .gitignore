@@ -1,7 +1,12 @@
+# Rstudio files
+
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# Data files
+
 data-raw/blockbuster_data.txt
 blockbuster_data
 .xlsx
@@ -12,3 +17,7 @@ missing_dtmc
 #blockbuster_det_data.rda
 inst/doc
 building_component_life_summary.xls
+
+# Packrat files
+
+packrat/lib*/
