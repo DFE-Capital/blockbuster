@@ -128,8 +128,9 @@ det_eriorate <- function(blockbuster_initial_state_row) {
 #' @seealso 
 #' @export
 #' @examples 
+#' \dontrun{
 #' one_year_later <- blockbust(dplyr::filter(blockbuster_pds, buildingid == 127617))
-#' 
+#' }
 blockbust <- function(blockbuster_tibble) {
   
   #  Initiate placeholder
