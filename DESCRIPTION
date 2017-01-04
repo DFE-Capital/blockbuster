@@ -18,6 +18,7 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     tidyverse (>= 1.0.0),
+    dplyr,
     markovchain
 URL: https://about.me/mammykins
 BugReports: https://github.com/mammykins/blockbuster/issues
