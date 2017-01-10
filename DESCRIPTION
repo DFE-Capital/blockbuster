@@ -1,6 +1,6 @@
 Package: blockbuster
 Title: Deterioration model of the School Estate
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: c(
     person("Matthew", "Gregory", email = "matthew.gregory@teachfirst.org.uk", role = c("aut", "cre")),
     person("Matthew", "Upson", email = "matthew.upson@digital.cabinet-office.gov.uk", role = "ctb"))
@@ -21,7 +21,7 @@ Imports:
     tibble,
     dplyr,
     markovchain
-URL: https://about.me/mammykins
+URL: https://github.com/mammykins/blockbuster
 BugReports: https://github.com/mammykins/blockbuster/issues
 Suggests: 
     testthat (>= 1.0.2),
