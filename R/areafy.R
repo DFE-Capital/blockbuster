@@ -84,6 +84,6 @@ areafy <- function(blockbuster_initial_state) {
   areafyed <- dplyr::mutate(areafyed,
                             unit_area = unit_area*composition)
   #  Explicitly return as_tibble
-  return(as_tibble(areafyed))
+  return(tibble::as_tibble(areafyed))
 }
 
