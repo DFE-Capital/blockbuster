@@ -3,3 +3,4 @@
 ^data-raw$
 ^packrat/
 ^\.Rprofile$
+^\.travis\.yml$

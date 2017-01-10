@@ -21,7 +21,7 @@
 #' consultant EC Harris and are necessary for predicting the
 #' deterioration of each element by sub-element
 #' by construction type combination through time as in the
-#'  \code{deteriorate} function in this package.
+#'  \code{det_eriorate} function in this package.
 #'
 #' @format A tibble with 147 rows and 9 variables:
 #' \describe{
@@ -42,7 +42,7 @@
 #' consultant EC Harris and are necessary for predicting the
 #' deterioration of each element by sub-element
 #' by construction type combination through time as in the
-#'  \code{deteriorate} function in this package. Similar to
+#'  \code{det_eriorate} function in this package. Similar to
 #'  the \code{blockbuster_det_data} but as a S4 rather than S3.
 #'  To access slots of a S4 object use "@" or \code{slot}() 
 #'

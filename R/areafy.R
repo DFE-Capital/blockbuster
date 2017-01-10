@@ -18,7 +18,7 @@
 #' As most methods are to use the gifa, we do this first and then specify the rarer \code{unit_area}
 #' calculations or estimation methods. A window or door is assumed to have an area of one 
 #' square metre.
-#' @seealso \link{/data-raw/blockbuster_unit_quantity_methods.csv}
+#' @seealso \link{}
 #' @export
 #' @examples 
 #' pds_data <- areafy(blockbuster_pds)
@@ -44,7 +44,9 @@ areafy <- function(blockbuster_initial_state) {
                           )
     ) #  Keep it readable, that's using element level, some we need sub-element detail for method
   areafyed <- dplyr::mutate(areafyed,
-                     unit_area = dplyr::if_else(sub_element == "Suspended floors – Structure", true = gifa - ground_gifa,
+                     unit_area = dplyr::if_else(iconv(sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
+                                                  paste0("Suspended floors ", "<96>", " Structure"),  #  Problem with the weird hyphen
+                                                true = gifa - ground_gifa,
                                false = dplyr::if_else(sub_element == "Windows and doors", true = windows_doors,
                                                false = dplyr::if_else(sub_element == "Lifts", true = number_lifts,
                                                                false = dplyr::if_else(sub_element == "Roads and car parks" |
@@ -69,7 +71,9 @@ areafy <- function(blockbuster_initial_state) {
     )
     )  #  Here we introduce fixes for some errors in the original methods of unit_area estimation
   areafyed <- dplyr::mutate(areafyed,
-                     unit_area = dplyr::if_else(unit_area == 0 & sub_element == "Suspended floors – Structure",
+                     unit_area = dplyr::if_else(unit_area == 0 &
+                                                  iconv(sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
+                                                  paste0("Suspended floors ", "<96>", " Structure"),  #  Problem with the weird hyphen
                                true = ground_gifa,
                                false = unit_area
       
