@@ -21,9 +21,9 @@ The timestep needs to increase by one.
 The deterioration of one blockbuster row through one time period.
 }
 \examples{
-one_year_later <- deteriorate(blockbuster_pds[1, ])
+one_year_later <- det_eriorate(blockbuster_pds[1, ])
 }
 \seealso{
-\link{/man/blockbuster_det_data.Rd}
+\link{}
 }
 

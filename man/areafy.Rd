@@ -25,6 +25,6 @@ Estimate the unit_area for an observation for a blockbuster tibble.
 pds_data <- areafy(blockbuster_pds)
 }
 \seealso{
-\link{/data-raw/blockbuster_unit_quantity_methods.csv}
+\link{}
 }
 

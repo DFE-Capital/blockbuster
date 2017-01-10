@@ -20,6 +20,6 @@ Select the correct markovchain object for deterioration of a row.
 dtmc_a <- det_what_tm(blockbuster_pds[1, ])
 }
 \seealso{
-\link{/man/blockbuster_det_data.Rd}
+\link{}
 }
 

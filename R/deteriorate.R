@@ -65,7 +65,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   
   #  Use switch to select appropriate transition rate for 
   #  same grade, from x to x
-   mc_stay_same <- switch(as.character(blockbuster_initial_state_row$grade), 
+   mc_stay_same <- switch(EXPR = as.character(blockbuster_initial_state_row$grade), 
                         "N" = mc@transitionMatrix[1, 1],
                         "A" = mc@transitionMatrix[2, 2],
                         "B" = mc@transitionMatrix[3, 3],
@@ -83,7 +83,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   
   #  Use switch to select appropriate transition rate for 
   #  worse grade, from x to y
-  mc_get_worse <- switch(as.character(blockbuster_initial_state_row$grade), 
+  mc_get_worse <- switch(EXPR = as.character(blockbuster_initial_state_row$grade), 
                         "N" = mc@transitionMatrix[1, 2],
                         "A" = mc@transitionMatrix[2, 3],
                         "B" = mc@transitionMatrix[3, 4],
@@ -172,7 +172,7 @@ blockbust <- function(blockbuster_tibble) {
 blockbuster <- function(blockbuster_tibble, forecast_horizon) {
   
   #  Sensible forecast horizon
-  stopifnot(forecast_horizon > 0, forecast_horizon < 70)
+  stopifnot(forecast_horizon > 0, forecast_horizon < 51)
   
   #  Create placeholder
   blockbusted <- blockbuster_tibble
