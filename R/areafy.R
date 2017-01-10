@@ -45,7 +45,7 @@ areafy <- function(blockbuster_initial_state) {
     ) #  Keep it readable, that's using element level, some we need sub-element detail for method
   areafyed <- dplyr::mutate(areafyed,
                      unit_area = dplyr::if_else(iconv(sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
-                                                  paste0("Suspended floors ", "<96>", " Structure"),
+                                                  paste0("Suspended floors ", "<96>", " Structure"),  #  Problem with the weird hyphen
                                                 true = gifa - ground_gifa,
                                false = dplyr::if_else(sub_element == "Windows and doors", true = windows_doors,
                                                false = dplyr::if_else(sub_element == "Lifts", true = number_lifts,
@@ -73,7 +73,7 @@ areafy <- function(blockbuster_initial_state) {
   areafyed <- dplyr::mutate(areafyed,
                      unit_area = dplyr::if_else(unit_area == 0 &
                                                   iconv(sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
-                                                  paste0("Suspended floors ", "<96>", " Structure"),
+                                                  paste0("Suspended floors ", "<96>", " Structure"),  #  Problem with the weird hyphen
                                true = ground_gifa,
                                false = unit_area
       
@@ -84,6 +84,6 @@ areafy <- function(blockbuster_initial_state) {
   areafyed <- dplyr::mutate(areafyed,
                             unit_area = unit_area*composition)
   #  Explicitly return as_tibble
-  return(tibble::as_tibble(areafyed))
+  return(as_tibble(areafyed))
 }
 
