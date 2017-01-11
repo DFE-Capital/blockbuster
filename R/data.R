@@ -6,9 +6,32 @@
 #'
 #' @format A tibble with 254,878 rows and 30 variables:
 #' \describe{
-#'   \item{businessunitid}{unique identifier code of the School which can exist on more than one site}
+#'   \item{lano}{unique identifier code of the Local Authority in which the School is located}
+#'   \item{businessunitid}{unique identifier code of the School which can exist on more than one site, removed for annonynimity}
+#'   \item{urn}{Unique Reference Number, removed for annonynimity}
+#'   \item{siteid}{A School can be located on more than one site, however one is the most common. A unique id number.}
+#'   \item{elementid}{Unclear, probably a unique id for each building component in the School.}
+#'   \item{element}{Top of the building component description hierarchy.}
+#'   \item{sub_element}{Middle of the building component description hierarchy.}
+#'   \item{const_type}{Bottom of the building component description hierarchy.}
+#'   \item{const_type_accessible}{Could the cons_type be assessed? Sometimes building components might be hidden or difficult.}
+#'   \item{grade}{Semi-subjective condition grade judged by visiting quantity surveyor.}
+#'   \item{cost}{The cost to make good in pounds, to bring the offending building component, considering its unit_area back to grade A.}
 #'   \item{composition}{the proportion of that elementid of a given grade}
-#'   \item{grade}{the condition of that element ranked }
+#'   \item{storeys}{Number of floors in the associated block.}
+#'   \item{gifa}{Gross Internal Floor Area metres squared in the associated block.}
+#'   \item{ground_gifa}{Gross Internal Ground Floor Area metres squared in the associated block.}
+#'   \item{block_perimeter}{Metres squared.}
+#'   \item{height}{Height of block, metres squared.}
+#'   \item{windows_doors}{Count of windows and doors.}
+#'   \item{number_lifts}{Count per associated block.}
+#'   \item{site_area_exc_field}{Site area minus the playing fields in metres squared.}
+#'   \item{boundary_length}{Perimeter of site in metres squared presumably.}
+#'   \item{field_area}{Playing fields areas metres squared.}
+#'   \item{swimming_pool}{Swimming pool? Caveat, no definition or minimum size to qualify.}
+#'   \item{timestep}{What year relative to the survey date are we in, timestep zero is at 2012-2014.}
+#'   \item{unit_area}{An estimation / quantification of how much of a building component there is. See \code{\link{areafy}} }
+#'   \item{cost_sum}{An aggregate of the costs by buildingid.}
 #'   ...
 #' }
 #' @source \url{https://www.gov.uk/government/organisations/education-funding-agency}

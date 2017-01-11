@@ -40,19 +40,32 @@ library(blockbuster)  #  Required.
 
 ## The initial state data
 
-Provided with this package is some simulated data with identifying features removed. We suggest loading the `tidyverse` package when handling this data. This object is a tibble called by `blockbuster_pds`.
+Provided with this package is some sampled data with identifying features removed. We suggest loading the `tidyverse` package when handling this data. This object is a tibble called by `blockbuster_pds`. For creating a subset of this data to make it manageable for simulation, use the [`dplyr` package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html).
 
 ```{r}
-blockbuster_pds
+dplyr::glimpse(blockbuster_pds)
 ```
 
 ## The transition probability data
 
-The deterioration rates can be called by using either the tibble `blockbuster_det_data` or the `markovchainList` object `blockbuster_mc_list`.
+The deterioration rates can be called by using either the tibble `blockbuster_det_data` or the `markovchainList` object `blockbuster_mc_list`. For example let's inspect the first example of each.
+
+```{r}
+blockbuster_det_data[1, ]
+```
+
+This identifies the building component through the `element`, `sub_elment` and `const_type`. The "two-letter" variables describe the transition rate or probability from the first letter condition grade to the second letter condition grade. For example, for this building component (here `concated_det`), the `cd` describes the proportion of the `unit_area` at `grade == C` that will transition to `grade == D` through one timestep or year.  
+
+```{r}
+blockbuster_mc_list@markovchains[[1]]
+# isS4(blockbuster_mc_list@markovchains[[1]])  #  TRUE
+```
+
+`blockbuster_mc_list` is a S4 object so the data needs to be accessed through its slots. They hold the same data in different ways. The S4 method may be useful in the future when incorporating some functions from the `markovchain` package.  
 
 ## The blockbuster functions
 
-We consider the first row of this data which is a roof of excellent `grade` A condition with a `unit_area` of 308.4.
+We consider the first row of this sampled data which is a roof of excellent `grade` A condition with a `unit_area` of 308.4.
 
 ```{r}
 
@@ -63,7 +76,7 @@ dplyr::select(x, element, sub_element, const_type, grade, unit_area)
 
 ## Inspecting the associated deterioration rates
 
-To determine which transition matrix is associated with each row we use the `det_what_tm()` function. This produces an error if the `markovchain` object does not exist.
+To determine which transition matrix is associated with each row we use the `det_what_tm()` function. This produces an error if the `markovchain` object does not exist. This works by concatenating the `element`, `sub_elment` and `const_type` and matching with the `concated_det` we saw earlier.  
 
 ```{r}
 mc1 <- det_what_tm(x)
@@ -80,7 +93,7 @@ mc1@transitionMatrix[, ]  #  [i, j] i for row, j column
 
 Typically the user will be interested in a subset of the data. Consult the `dplyr` vignette for handling and sub-setting your data based on desired filter conditions.  
 
-Here we demonstrate the deterioration of a single element through time. We chose a critical building feature.
+Here we demonstrate the deterioration of a single element through time. We chose a critical building feature of one particular block or building we are interested in.
 
 ```{r}
 my_wall <- dplyr::filter(blockbuster_pds,
@@ -106,7 +119,7 @@ head(my_wall_next_year[[2]]$timestep, 1)  #  1 timestep later than initial
 The same principle applies as above where we pass the `blockbuster` function an input tibble object and the number of years into the future (relative to when the data was collected) we want to model to.
 
 ```{r}
-y <- blockbuster_pds[1:20, ]  #  select all rows associated with decision level of interest
+y <- blockbuster_pds[1:20, ]  #  select all rows associated with decision level of interest, perhaps one block or one LA?
 my_block_10years <- blockbuster(y, 10)
 dplyr::select(my_block_10years[[11]], buildingid, elementid, grade, unit_area) %>%
   dplyr::arrange(elementid, grade)
@@ -130,9 +143,9 @@ my_wall_10 <- blockbuster(my_wall, 10)
 #  We are interested in the 10 th (+ 1) timestep
 df <- my_wall_10[[11]]
 
-#  Use gov style for plot
-devtools::install_github('mangothecat/visualTest')  #  required for govstyle
-devtools::install_github("UKGov-Data-Science/govstyle")
+#  Use gov style for plot, install these if you don't have them
+# devtools::install_github('mangothecat/visualTest')  #  required for govstyle
+# devtools::install_github("UKGov-Data-Science/govstyle")
 
 p <- ggplot(data = df, aes(x = grade, y = unit_area)) +
   geom_bar(stat = "identity", fill = govstyle::gov_cols['turquoise']) +

@@ -8,7 +8,8 @@ det_eriorate(blockbuster_initial_state_row)
 }
 \arguments{
 \item{blockbuster_initial_state_row}{a blockbuster dataframe or tibble single row. 
-Can only accept one row at a time due to how \code{grep} works.}
+Can only accept one row at a time due to how \code{grep} works
+ in \link{/man/det_what_tm.Rd}.}
 }
 \value{
 A one (if row is condition E) or two row tibble containing
@@ -22,3 +23,7 @@ The deterioration of one blockbuster row through one time period.
 \examples{
 one_year_later <- det_eriorate(blockbuster_pds[1, ])
 }
+\seealso{
+\link{/man/blockbuster_det_data.Rd}
+}
+
