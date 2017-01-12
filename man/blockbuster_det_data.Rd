@@ -4,7 +4,15 @@
 \name{blockbuster_det_data}
 \alias{blockbuster_det_data}
 \title{Deterioration rates of all blockbuster element-sub-element-construction types.}
-\format{A tibble with 147 rows and 9 variables:}
+\format{A tibble with 147 rows and 9 variables:
+\describe{
+  \item{element}{Building taxonomic classification}
+  \item{sub_element}{}
+  \item{const_type}{Construction type}
+  \item{concated_det}{A pasting together of the element sub-element and const_type.}
+  \item{transition rates}{From a to b, b to c, c to d and d to e.}
+  ...
+}}
 \usage{
 blockbuster_det_data
 }
@@ -16,33 +24,5 @@ deterioration of each element by sub-element
 by construction type combination through time as in the
  \code{det_eriorate} function in this package.
 }
-\keyword{...}
-\keyword{\describe{}
-\keyword{\item{concated_det}{A}
-\keyword{\item{const_type}{Construction}
-\keyword{\item{element}{Building}
-\keyword{\item{sub_element}{}}
-\keyword{\item{transition}
-\keyword{a}
-\keyword{and}
-\keyword{b}
-\keyword{b,}
-\keyword{c}
-\keyword{c,}
-\keyword{classification}}
-\keyword{const_type.}}
-\keyword{d}
-\keyword{data}
-\keyword{e.}}
-\keyword{element}
-\keyword{of}
-\keyword{pasting}
-\keyword{rates}{From}
-\keyword{sub-element}
-\keyword{taxonomic}
-\keyword{the}
-\keyword{to}
-\keyword{together}
-\keyword{type}}
-\keyword{}}
+\keyword{datasets}
 

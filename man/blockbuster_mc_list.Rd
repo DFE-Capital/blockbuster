@@ -4,7 +4,12 @@
 \name{blockbuster_mc_list}
 \alias{blockbuster_mc_list}
 \title{A markovList of markovchain objects containing the Deterioration rates.}
-\format{A S4 markovList of 147 markovchain S4 objects:}
+\format{A S4 markovList of 147 markovchain S4 objects:
+\describe{
+  \item{markovchains}{A list of 6 by 6 markovchain transition matrices}
+  \item{name}{Name of the entire list.}
+  ...
+}}
 \usage{
 blockbuster_mc_list
 }
@@ -19,20 +24,5 @@ by construction type combination through time as in the
  the \code{blockbuster_det_data} but as a S4 rather than S3.
  To access slots of a S4 object use "@" or \code{slot}()
 }
-\keyword{...}
-\keyword{6}
-\keyword{\describe{}
-\keyword{\item{markovchains}{A}
-\keyword{\item{name}{Name}
-\keyword{by}
-\keyword{data}
-\keyword{entire}
-\keyword{list}
-\keyword{list.}}
-\keyword{markovchain}
-\keyword{matrices}}
-\keyword{of}
-\keyword{the}
-\keyword{transition}
-\keyword{}}
+\keyword{datasets}
 

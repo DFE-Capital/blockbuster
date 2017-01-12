@@ -5,7 +5,6 @@
 #' the \code{areafy} function in this package. School identifying features have been removed.
 #'
 #' @format A tibble with 254,878 rows and 30 variables:
-#' @keywords data
 #' \describe{
 #'   \item{lano}{unique identifier code of the Local Authority in which the School is located}
 #'   \item{businessunitid}{unique identifier code of the School which can exist on more than one site, removed for annonynimity}
@@ -48,7 +47,6 @@
 #'  \code{det_eriorate} function in this package.
 #'
 #' @format A tibble with 147 rows and 9 variables:
-#' @keywords data
 #' \describe{
 #'   \item{element}{Building taxonomic classification}
 #'   \item{sub_element}{}
@@ -72,7 +70,6 @@
 #'  To access slots of a S4 object use "@" or \code{slot}() 
 #'
 #' @format A S4 markovList of 147 markovchain S4 objects:
-#' @keywords data
 #' \describe{
 #'   \item{markovchains}{A list of 6 by 6 markovchain transition matrices}
 #'   \item{name}{Name of the entire list.}

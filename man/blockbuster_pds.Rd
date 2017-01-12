@@ -4,7 +4,36 @@
 \name{blockbuster_pds}
 \alias{blockbuster_pds}
 \title{A random ten percent sample of the condition of the School Estate.}
-\format{A tibble with 254,878 rows and 30 variables:}
+\format{A tibble with 254,878 rows and 30 variables:
+\describe{
+  \item{lano}{unique identifier code of the Local Authority in which the School is located}
+  \item{businessunitid}{unique identifier code of the School which can exist on more than one site, removed for annonynimity}
+  \item{urn}{Unique Reference Number, removed for annonynimity}
+  \item{siteid}{A School can be located on more than one site, however one is the most common. A unique id number.}
+  \item{elementid}{Unclear, probably a unique id for each building component in the School.}
+  \item{element}{Top of the building component description hierarchy.}
+  \item{sub_element}{Middle of the building component description hierarchy.}
+  \item{const_type}{Bottom of the building component description hierarchy.}
+  \item{const_type_accessible}{Could the cons_type be assessed? Sometimes building components might be hidden or difficult.}
+  \item{grade}{Semi-subjective condition grade judged by visiting quantity surveyor.}
+  \item{cost}{The cost to make good in pounds, to bring the offending building component, considering its unit_area back to grade A.}
+  \item{composition}{the proportion of that elementid of a given grade}
+  \item{storeys}{Number of floors in the associated block.}
+  \item{gifa}{Gross Internal Floor Area metres squared in the associated block.}
+  \item{ground_gifa}{Gross Internal Ground Floor Area metres squared in the associated block.}
+  \item{block_perimeter}{Metres squared.}
+  \item{height}{Height of block, metres squared.}
+  \item{windows_doors}{Count of windows and doors.}
+  \item{number_lifts}{Count per associated block.}
+  \item{site_area_exc_field}{Site area minus the playing fields in metres squared.}
+  \item{boundary_length}{Perimeter of site in metres squared presumably.}
+  \item{field_area}{Playing fields areas metres squared.}
+  \item{swimming_pool}{Swimming pool? Caveat, no definition or minimum size to qualify.}
+  \item{timestep}{What year relative to the survey date are we in, timestep zero is at 2012-2014.}
+  \item{unit_area}{An estimation / quantification of how much of a building component there is. See \code{\link{areafy}} }
+  \item{cost_sum}{An aggregate of the costs by buildingid.}
+  ...
+}}
 \source{
 \url{https://www.gov.uk/government/organisations/education-funding-agency}
 }
@@ -16,159 +45,5 @@ A dataset containing the condition grade and other attributes of almost 255,000
 building elements of the English School Estate. The unit_area was estimated using
 the \code{areafy} function in this package. School identifying features have been removed.
 }
-\keyword{...}
-\keyword{/}
-\keyword{2012-2014.}}
-\keyword{A}
-\keyword{A.}}
-\keyword{Area}
-\keyword{Authority}
-\keyword{Caveat,}
-\keyword{Floor}
-\keyword{Ground}
-\keyword{Internal}
-\keyword{Local}
-\keyword{Number,}
-\keyword{Reference}
-\keyword{School}
-\keyword{School.}}
-\keyword{See}
-\keyword{Sometimes}
-\keyword{\code{\link{areafy}}}
-\keyword{\describe{}
-\keyword{\item{block_perimeter}{Metres}
-\keyword{\item{boundary_length}{Perimeter}
-\keyword{\item{businessunitid}{unique}
-\keyword{\item{composition}{the}
-\keyword{\item{const_type_accessible}{Could}
-\keyword{\item{const_type}{Bottom}
-\keyword{\item{cost_sum}{An}
-\keyword{\item{cost}{The}
-\keyword{\item{elementid}{Unclear,}
-\keyword{\item{element}{Top}
-\keyword{\item{field_area}{Playing}
-\keyword{\item{gifa}{Gross}
-\keyword{\item{grade}{Semi-subjective}
-\keyword{\item{ground_gifa}{Gross}
-\keyword{\item{height}{Height}
-\keyword{\item{lano}{unique}
-\keyword{\item{number_lifts}{Count}
-\keyword{\item{site_area_exc_field}{Site}
-\keyword{\item{siteid}{A}
-\keyword{\item{storeys}{Number}
-\keyword{\item{sub_element}{Middle}
-\keyword{\item{swimming_pool}{Swimming}
-\keyword{\item{timestep}{What}
-\keyword{\item{unit_area}{An}
-\keyword{\item{urn}{Unique}
-\keyword{\item{windows_doors}{Count}
-\keyword{a}
-\keyword{aggregate}
-\keyword{and}
-\keyword{annonynimity}}
-\keyword{are}
-\keyword{area}
-\keyword{areas}
-\keyword{assessed?}
-\keyword{associated}
-\keyword{at}
-\keyword{back}
-\keyword{be}
-\keyword{block,}
-\keyword{block.}}
-\keyword{bring}
-\keyword{building}
-\keyword{buildingid.}}
-\keyword{by}
-\keyword{can}
-\keyword{code}
-\keyword{common.}
-\keyword{component}
-\keyword{component,}
-\keyword{components}
-\keyword{condition}
-\keyword{cons_type}
-\keyword{considering}
-\keyword{cost}
-\keyword{costs}
-\keyword{data}
-\keyword{date}
-\keyword{definition}
-\keyword{description}
-\keyword{difficult.}}
-\keyword{doors.}}
-\keyword{each}
-\keyword{elementid}
-\keyword{estimation}
-\keyword{exist}
-\keyword{fields}
-\keyword{floors}
-\keyword{for}
-\keyword{given}
-\keyword{good}
-\keyword{grade}
-\keyword{grade}}
-\keyword{hidden}
-\keyword{hierarchy.}}
-\keyword{how}
-\keyword{however}
-\keyword{id}
-\keyword{identifier}
-\keyword{in}
-\keyword{in,}
-\keyword{is}
-\keyword{is.}
-\keyword{its}
-\keyword{judged}
-\keyword{located}
-\keyword{located}}
-\keyword{make}
-\keyword{metres}
-\keyword{might}
-\keyword{minimum}
-\keyword{minus}
-\keyword{more}
-\keyword{most}
-\keyword{much}
-\keyword{no}
-\keyword{number.}}
-\keyword{of}
-\keyword{offending}
-\keyword{on}
-\keyword{one}
-\keyword{or}
-\keyword{per}
-\keyword{playing}
-\keyword{pool?}
-\keyword{pounds,}
-\keyword{presumably.}}
-\keyword{probably}
-\keyword{proportion}
-\keyword{qualify.}}
-\keyword{quantification}
-\keyword{quantity}
-\keyword{relative}
-\keyword{removed}
-\keyword{site}
-\keyword{site,}
-\keyword{size}
-\keyword{squared}
-\keyword{squared.}}
-\keyword{survey}
-\keyword{surveyor.}}
-\keyword{than}
-\keyword{that}
-\keyword{the}
-\keyword{there}
-\keyword{timestep}
-\keyword{to}
-\keyword{unique}
-\keyword{unit_area}
-\keyword{visiting}
-\keyword{we}
-\keyword{which}
-\keyword{windows}
-\keyword{year}
-\keyword{zero}
-\keyword{}}
+\keyword{datasets}
 
