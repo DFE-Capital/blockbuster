@@ -23,6 +23,7 @@ After each timestep is simulated the rows are aggregated by \code{elementid} and
 The deterioration of more than one blockbuster rows through one time period.
 }
 \examples{
+
 two_year_later <- blockbuster(dplyr::filter(blockbuster_pds, buildingid == 127617), 2)
 
 }

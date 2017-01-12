@@ -22,7 +22,7 @@ by construction type combinations. These rates were provided by the
 consultant EC Harris and are necessary for predicting the
 deterioration of each element by sub-element
 by construction type combination through time as in the
- \code{deteriorate} function in this package.
+ \code{det_eriorate} function in this package.
 }
 \keyword{datasets}
 

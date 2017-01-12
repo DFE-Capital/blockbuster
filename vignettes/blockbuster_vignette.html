@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Matthew Gregory" />
+
+<meta name="date" content="2017-01-11" />
+
+<title>Blockbuster modelling: wow; what a difference!</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Blockbuster modelling: wow; what a difference!</h1>
+<h4 class="author"><em>Matthew Gregory</em></h4>
+<h4 class="date"><em>2017-01-11</em></h4>
+
+
+
+<blockquote>
+<p>“”Can I have a P please, Bob?“.” (<a href="http://www.bbc.co.uk/news/entertainment-arts-16447409">via</a>)</p>
+</blockquote>
+<div id="modelling-deterioration-of-the-school-estate-using-discrete-time-markov-chains" class="section level2">
+<h2>Modelling deterioration of the School Estate using Discrete-Time Markov chains</h2>
+<p>A useful package of functions and sample data to forecast the future condition of School blocks (or buildings) in the UK.</p>
+<div id="modelling-overview" class="section level3">
+<h3>Modelling overview</h3>
+<p>Markov chains represent a class of stochastic processes of great interest for the wide spectrum of practical applications. In particular, discrete time <a href="https://cran.r-project.org/web/packages/markovchain/vignettes/an_introduction_to_markovchain_package.pdf">Markov chains</a> (DTMC) permit to model the transition probabilities between discrete states by the aid of matrices. The states are represented by the <code>grade</code> factor which is the surveyed condition of a building element, determined by a quantity surveyor through grades (states); N, A, B, C, D, E. The transition probabilities are 6 by 6 matrices with the average deterioration rate per timestep between states provided by expert building consultant opinion (see documentation for full details).</p>
+</div>
+<div id="business-questions-it-can-answer" class="section level3">
+<h3>Business questions it can answer</h3>
+<p>This package is useful for decision makers as it provides a modelling approach for forecasting the condition of an individual building component (<code>elementid</code>) through time. This modelling approach can be scaled through a decision making hierarchy, with modelling the deterioration at the level of a School block (<code>buildingid</code>), for each site (<code>siteid</code>), the School (which may be made of many blocks, <code>urn</code>), at the Local Authority (LA) level (<code>lano</code>) and at the National level given suitable input data (filter desired rows using the <code>dplyr</code> package is recommended).</p>
+<p>The <code>blockbuster</code> function can be used on more than one row of what I call a <code>blockbuster_tibble</code> through more than one year, storing or the data of intermediary years. This flexibility allows decision makers to ask many and varied questions of the output data.</p>
+</div>
+</div>
+<div id="loading-the-packages" class="section level2">
+<h2>Loading the packages</h2>
+<p>Check you have these packages installed and then load them into memory using <code>require()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)  <span class="co">#  Recommended for filterting rows desired for input.</span>
+<span class="kw">library</span>(markovchain)  <span class="co">#  Recommended for markovchain S4 object handling (advanced).</span>
+
+<span class="kw">library</span>(blockbuster)  <span class="co">#  Required.</span></code></pre></div>
+</div>
+<div id="the-initial-state-data" class="section level2">
+<h2>The initial state data</h2>
+<p>Provided with this package is some sampled data with identifying features removed. We suggest loading the <code>tidyverse</code> package when handling this data. This object is a tibble called by <code>blockbuster_pds</code>. For creating a subset of this data to make it manageable for simulation, use the <a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html"><code>dplyr</code> package</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dplyr::<span class="kw">glimpse</span>(blockbuster_pds)</code></pre></div>
+<pre><code>## Observations: 254,878
+## Variables: 25
+## $ lano                  &lt;int&gt; 331, 331, 331, 331, 331, 331, 331, 331, ...
+## $ siteid                &lt;int&gt; 1266, 1266, 1266, 1266, 1266, 1266, 1266...
+## $ buildingid            &lt;int&gt; 4382, 4382, 4382, 4382, 4382, 4382, 4382...
+## $ elementid             &lt;int&gt; 1700, 1701, 1706, 1972, 1719, 1714, 1716...
+## $ element               &lt;fctr&gt; Roofs, Roofs, Roofs, Roofs, Roofs, Roof...
+## $ sub_element           &lt;fctr&gt; Structure, Structure, Coverings and ins...
+## $ const_type            &lt;fctr&gt; Flat roof  structure and deck - General...
+## $ const_type_accessible &lt;fctr&gt; No, No, Yes, Yes, Yes, Yes, Yes, Yes, Y...
+## $ grade                 &lt;fctr&gt; A, A, B, B, A, C, A, B, B, A, B, A, A, ...
+## $ cost                  &lt;dbl&gt; 0.00, 0.00, 3910.23, 10335.08, 0.00, 672...
+## $ composition           &lt;dbl&gt; 0.30, 0.70, 0.30, 0.70, 0.35, 0.30, 0.35...
+## $ storeys               &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3...
+## $ gifa                  &lt;dbl&gt; 1916, 1916, 1916, 1916, 1916, 1916, 1916...
+## $ ground_gifa           &lt;dbl&gt; 1028, 1028, 1028, 1028, 1028, 1028, 1028...
+## $ block_perimeter       &lt;dbl&gt; 167, 167, 167, 167, 167, 167, 167, 167, ...
+## $ height                &lt;dbl&gt; 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8...
+## $ windows_doors         &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, ...
+## $ number_lifts          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ site_area_exc_field   &lt;dbl&gt; 2100, 2100, 2100, 2100, 2100, 2100, 2100...
+## $ boundary_length       &lt;dbl&gt; 250, 250, 250, 250, 250, 250, 250, 250, ...
+## $ field_area            &lt;dbl&gt; 1000, 1000, 1000, 1000, 1000, 1000, 1000...
+## $ swimming_pool         &lt;fctr&gt; No, No, No, No, No, No, No, No, No, No,...
+## $ timestep              &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ unit_area             &lt;dbl&gt; 308.4, 719.6, 308.4, 719.6, 359.8, 308.4...
+## $ cost_sum              &lt;dbl&gt; 133987, 133987, 133987, 133987, 133987, ...</code></pre>
+</div>
+<div id="the-transition-probability-data" class="section level2">
+<h2>The transition probability data</h2>
+<p>The deterioration rates can be called by using either the tibble <code>blockbuster_det_data</code> or the <code>markovchainList</code> object <code>blockbuster_mc_list</code>. For example let’s inspect the first example of each.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">blockbuster_det_data[<span class="dv">1</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 1 × 9
+##   element sub_element const_type    na      ab      bc      cd      de
+##     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1   Roofs       ROOFS      ROOFS   0.5 0.03862 0.06437 0.15015 0.25342
+## # ... with 1 more variables: concated_det &lt;chr&gt;</code></pre>
+<p>This identifies the building component through the <code>element</code>, <code>sub_elment</code> and <code>const_type</code>. The “two-letter” variables describe the transition rate or probability from the first letter condition grade to the second letter condition grade. For example, for this building component (here <code>concated_det</code>), the <code>cd</code> describes the proportion of the <code>unit_area</code> at <code>grade == C</code> that will transition to <code>grade == D</code> through one timestep or year.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">blockbuster_mc_list@markovchains[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>## Roofs_ROOFS_ROOFS 
+##  A  6 - dimensional discrete Markov Chain defined by the following states: 
+##  n, a, b, c, d, e 
+##  The transition matrix  (by rows)  is defined as follows: 
+##     n       a       b       c       d       e
+## n 0.5 0.50000 0.00000 0.00000 0.00000 0.00000
+## a 0.0 0.96138 0.03862 0.00000 0.00000 0.00000
+## b 0.0 0.00000 0.93563 0.06437 0.00000 0.00000
+## c 0.0 0.00000 0.00000 0.84985 0.15015 0.00000
+## d 0.0 0.00000 0.00000 0.00000 0.74658 0.25342
+## e 0.0 0.00000 0.00000 0.00000 0.00000 1.00000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># isS4(blockbuster_mc_list@markovchains[[1]])  #  TRUE</span></code></pre></div>
+<p><code>blockbuster_mc_list</code> is a S4 object so the data needs to be accessed through its slots. They hold the same data in different ways. The S4 method may be useful in the future when incorporating some functions from the <code>markovchain</code> package.</p>
+</div>
+<div id="the-blockbuster-functions" class="section level2">
+<h2>The blockbuster functions</h2>
+<p>We consider the first row of this sampled data which is a roof of excellent <code>grade</code> A condition with a <code>unit_area</code> of 308.4.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>blockbuster_pds[<span class="dv">1</span>, ]
+dplyr::<span class="kw">select</span>(x, element, sub_element, const_type, grade, unit_area)</code></pre></div>
+<pre><code>## # A tibble: 1 × 5
+##   element sub_element                                const_type  grade
+##    &lt;fctr&gt;      &lt;fctr&gt;                                    &lt;fctr&gt; &lt;fctr&gt;
+## 1   Roofs   Structure Flat roof  structure and deck - Generally      A
+## # ... with 1 more variables: unit_area &lt;dbl&gt;</code></pre>
+</div>
+<div id="inspecting-the-associated-deterioration-rates" class="section level2">
+<h2>Inspecting the associated deterioration rates</h2>
+<p>To determine which transition matrix is associated with each row we use the <code>det_what_tm()</code> function. This produces an error if the <code>markovchain</code> object does not exist. This works by concatenating the <code>element</code>, <code>sub_elment</code> and <code>const_type</code> and matching with the <code>concated_det</code> we saw earlier.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mc1 &lt;-<span class="st"> </span><span class="kw">det_what_tm</span>(x)
+mc1</code></pre></div>
+<pre><code>## Roofs_STRUCTURE_Flat roof  structure and deck - Generally 
+##  A  6 - dimensional discrete Markov Chain defined by the following states: 
+##  n, a, b, c, d, e 
+##  The transition matrix  (by rows)  is defined as follows: 
+##     n     a       b       c       d       e
+## n 0.5 0.500 0.00000 0.00000 0.00000 0.00000
+## a 0.0 0.953 0.04700 0.00000 0.00000 0.00000
+## b 0.0 0.000 0.92166 0.07834 0.00000 0.00000
+## c 0.0 0.000 0.00000 0.81199 0.18801 0.00000
+## d 0.0 0.000 0.00000 0.00000 0.68664 0.31336
+## e 0.0 0.000 0.00000 0.00000 0.00000 1.00000</code></pre>
+<p>This is a <code>markovchain</code> object as described in the documentation of that package. It is a S4 object and we can access different components using slots and <code>[</code> sub-setting.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mc1@transitionMatrix[, ]  <span class="co">#  [i, j] i for row, j column</span></code></pre></div>
+<pre><code>##     n     a       b       c       d       e
+## n 0.5 0.500 0.00000 0.00000 0.00000 0.00000
+## a 0.0 0.953 0.04700 0.00000 0.00000 0.00000
+## b 0.0 0.000 0.92166 0.07834 0.00000 0.00000
+## c 0.0 0.000 0.00000 0.81199 0.18801 0.00000
+## d 0.0 0.000 0.00000 0.00000 0.68664 0.31336
+## e 0.0 0.000 0.00000 0.00000 0.00000 1.00000</code></pre>
+</div>
+<div id="deteriorating-through-time" class="section level2">
+<h2>Deteriorating through time</h2>
+<p>Typically the user will be interested in a subset of the data. Consult the <code>dplyr</code> vignette for handling and sub-setting your data based on desired filter conditions.</p>
+<p>Here we demonstrate the deterioration of a single element through time. We chose a critical building feature of one particular block or building we are interested in.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wall &lt;-<span class="st"> </span>dplyr::<span class="kw">filter</span>(blockbuster_pds,
+                         buildingid ==<span class="st"> </span><span class="dv">4382</span>, sub_element ==<span class="st"> &quot;Walls - Structure&quot;</span>, 
+                         const_type ==<span class="st"> &quot;Brick / block&quot;</span>)
+
+my_wall_next_year &lt;-<span class="st"> </span><span class="kw">blockbuster</span>(my_wall, <span class="dv">1</span>)
+my_wall_next_year</code></pre></div>
+<pre><code>## [[1]]
+## # A tibble: 1 × 25
+##    lano siteid buildingid elementid                           element
+##   &lt;int&gt;  &lt;int&gt;      &lt;int&gt;     &lt;int&gt;                            &lt;fctr&gt;
+## 1   331   1266       4382      1828 External Walls, Windows and Doors
+## # ... with 20 more variables: sub_element &lt;fctr&gt;, const_type &lt;fctr&gt;,
+## #   const_type_accessible &lt;fctr&gt;, grade &lt;fctr&gt;, cost &lt;dbl&gt;,
+## #   composition &lt;dbl&gt;, storeys &lt;dbl&gt;, gifa &lt;dbl&gt;, ground_gifa &lt;dbl&gt;,
+## #   block_perimeter &lt;dbl&gt;, height &lt;dbl&gt;, windows_doors &lt;dbl&gt;,
+## #   number_lifts &lt;dbl&gt;, site_area_exc_field &lt;dbl&gt;, boundary_length &lt;dbl&gt;,
+## #   field_area &lt;dbl&gt;, swimming_pool &lt;fctr&gt;, timestep &lt;int&gt;,
+## #   unit_area &lt;dbl&gt;, cost_sum &lt;dbl&gt;
+## 
+## [[2]]
+## # A tibble: 2 × 25
+##    lano siteid buildingid elementid                           element
+##   &lt;int&gt;  &lt;int&gt;      &lt;int&gt;     &lt;int&gt;                            &lt;fctr&gt;
+## 1   331   1266       4382      1828 External Walls, Windows and Doors
+## 2   331   1266       4382      1828 External Walls, Windows and Doors
+## # ... with 20 more variables: sub_element &lt;fctr&gt;, const_type &lt;fctr&gt;,
+## #   const_type_accessible &lt;fctr&gt;, grade &lt;fctr&gt;, cost &lt;dbl&gt;,
+## #   composition &lt;dbl&gt;, storeys &lt;dbl&gt;, gifa &lt;dbl&gt;, ground_gifa &lt;dbl&gt;,
+## #   block_perimeter &lt;dbl&gt;, height &lt;dbl&gt;, windows_doors &lt;dbl&gt;,
+## #   number_lifts &lt;dbl&gt;, site_area_exc_field &lt;dbl&gt;, boundary_length &lt;dbl&gt;,
+## #   field_area &lt;dbl&gt;, swimming_pool &lt;fctr&gt;, timestep &lt;dbl&gt;,
+## #   cost_sum &lt;dbl&gt;, unit_area &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wall_20year &lt;-<span class="st"> </span><span class="kw">blockbuster</span>(my_wall, <span class="dv">20</span>)</code></pre></div>
+<p>This produces a list of tibbles. Each tibble provides the condition of the input tibble at that timestep. Notice how the number of rows has increased. That’s because we have a row for each <code>grade</code> state and associated <code>unit_area</code>. The first tibble in the list is for the input data or <code>timestep == 0</code>. It is prudent to check the timestep by inspecting it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wall_next_year[[<span class="dv">2</span>]]</code></pre></div>
+<pre><code>## # A tibble: 2 × 25
+##    lano siteid buildingid elementid                           element
+##   &lt;int&gt;  &lt;int&gt;      &lt;int&gt;     &lt;int&gt;                            &lt;fctr&gt;
+## 1   331   1266       4382      1828 External Walls, Windows and Doors
+## 2   331   1266       4382      1828 External Walls, Windows and Doors
+## # ... with 20 more variables: sub_element &lt;fctr&gt;, const_type &lt;fctr&gt;,
+## #   const_type_accessible &lt;fctr&gt;, grade &lt;fctr&gt;, cost &lt;dbl&gt;,
+## #   composition &lt;dbl&gt;, storeys &lt;dbl&gt;, gifa &lt;dbl&gt;, ground_gifa &lt;dbl&gt;,
+## #   block_perimeter &lt;dbl&gt;, height &lt;dbl&gt;, windows_doors &lt;dbl&gt;,
+## #   number_lifts &lt;dbl&gt;, site_area_exc_field &lt;dbl&gt;, boundary_length &lt;dbl&gt;,
+## #   field_area &lt;dbl&gt;, swimming_pool &lt;fctr&gt;, timestep &lt;dbl&gt;,
+## #   cost_sum &lt;dbl&gt;, unit_area &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(my_wall_next_year[[<span class="dv">2</span>]]$timestep, <span class="dv">1</span>)  <span class="co">#  1 timestep later than initial</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="blockbusting-through-many-rows" class="section level2">
+<h2>Blockbusting through many rows</h2>
+<p>The same principle applies as above where we pass the <code>blockbuster</code> function an input tibble object and the number of years into the future (relative to when the data was collected) we want to model to.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span>blockbuster_pds[<span class="dv">1</span>:<span class="dv">20</span>, ]  <span class="co">#  select all rows associated with decision level of interest, perhaps one block or one LA?</span>
+my_block_10years &lt;-<span class="st"> </span><span class="kw">blockbuster</span>(y, <span class="dv">10</span>)
+dplyr::<span class="kw">select</span>(my_block_10years[[<span class="dv">11</span>]], buildingid, elementid, grade, unit_area) %&gt;%
+<span class="st">  </span>dplyr::<span class="kw">arrange</span>(elementid, grade)</code></pre></div>
+<pre><code>## # A tibble: 89 × 4
+##    buildingid elementid  grade   unit_area
+##         &lt;int&gt;     &lt;int&gt; &lt;fctr&gt;       &lt;dbl&gt;
+## 1        4382      1700      A 190.5651038
+## 2        4382      1700      B  81.2268898
+## 3        4382      1700      C  21.7992880
+## 4        4382      1700      D   8.2638365
+## 5        4382      1700      E   6.5448820
+## 6        4382      1701      A 584.9129266
+## 7        4382      1701      B 115.0598531
+## 8        4382      1701      C  15.7167642
+## 9        4382      1701      D   3.0563950
+## 10       4382      1701      E   0.8540611
+## # ... with 79 more rows</code></pre>
+</div>
+<div id="computation-time" class="section level2">
+<h2>Computation time</h2>
+<p>I suggest you spend time thinking about the precise question you are asking rather than using the whole <code>blockbuster_pds</code> tibble as input due to non-trivial computation time. As a rule of thumb the amount of rows you start with will be multiplied by five (as each <code>elementid</code> deteriorates to other states), with each of these tibbles being multiplied by the <code>forecast_horizon</code>. That’s quite a lot of data and may tax your computer’s RAM (although the <code>unit_area</code> and <code>timestep</code> will be the only variables changing through time).</p>
+</div>
+<div id="plotting" class="section level2">
+<h2>Plotting</h2>
+<p>The tibble format is compatible with the <code>tidyverse</code> particularly <code>reshape2</code>-ing and plotting using <code>ggplot2</code>.</p>
+<div id="critical-building-elements" class="section level3">
+<h3>Critical building elements</h3>
+<p>Typically we may be more interested in critical, structural building-features such as the roof or walls and whether the <code>unit_area</code> exceeds a critical threshold determined by expert opinion. For example, is our wall’s total <code>unit_area</code> after 10 years comprised of over 20% grade D and E? We plot then expect the numbers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wall_10 &lt;-<span class="st"> </span><span class="kw">blockbuster</span>(my_wall, <span class="dv">10</span>)
+<span class="co">#  We are interested in the 10 th (+ 1) timestep</span>
+df &lt;-<span class="st"> </span>my_wall_10[[<span class="dv">11</span>]]
+
+<span class="co">#  Use gov style for plot, install these if you don't have them</span>
+<span class="co"># devtools::install_github('mangothecat/visualTest')  #  required for govstyle</span>
+<span class="co"># devtools::install_github(&quot;UKGov-Data-Science/govstyle&quot;)</span>
+
+p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> df, <span class="kw">aes</span>(<span class="dt">x =</span> grade, <span class="dt">y =</span> unit_area)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> govstyle::gov_cols[<span class="st">'turquoise'</span>]) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Condition&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(
+  <span class="st">&quot;Unit area (&quot;</span>,m^<span class="dv">2</span>,
+  <span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)))
+
+p +
+<span class="st">  </span>govstyle::<span class="kw">theme_gov</span>()</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>We use <code>dplyr</code> to elucidate and determine that our wall is below our arbitrary 20% threshold, if we wanted to scale this we could create a new variable using <code>mutate</code> which is based on a logical test. The only limit is your imagination (and coding skills).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">total_wall_area &lt;-<span class="st"> </span><span class="kw">sum</span>(df$unit_area)
+dplyr::<span class="kw">mutate</span>(df, <span class="dt">prop_area =</span> unit_area /<span class="st"> </span>total_wall_area) %&gt;%
+<span class="st">  </span>dplyr::<span class="kw">select</span>(grade, unit_area, prop_area)</code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##    grade unit_area  prop_area
+##   &lt;fctr&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+## 1      B 883.40640 0.66621900
+## 2      C 283.94409 0.21413581
+## 3      D 101.28156 0.07638127
+## 4      E  57.36795 0.04326392</code></pre>
+</div>
+</div>
+<div id="costing" class="section level2">
+<h2>Costing</h2>
+<p>A caveat, <code>costs</code> have been set to zero for now until another family of functions is developed to estimate these for each timestep. These can be calculated after the fact, but will need to implemented after the deterioration step if rebuilding and maintenance are to be incorporated into the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(my_block_10years[[<span class="dv">11</span>]]$cost, <span class="dv">1</span>)</code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(my_block_10years[[<span class="dv">11</span>]]$cost_sum, <span class="dv">1</span>)</code></pre></div>
+<pre><code>## [1] 0</code></pre>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<ul>
+<li>This modelling approach makes use of all the data.<br />
+</li>
+<li>It uses a robust statistical modelling approach.<br />
+</li>
+<li>The input structure is preserved in the output tibbles.<br />
+</li>
+<li>The model can be iteratively improved as more data is collected.<br />
+</li>
+<li>There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.3.2 (2016-10-31)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 14393)
+## 
+## locale:
+## [1] LC_COLLATE=C                           
+## [2] LC_CTYPE=English_United Kingdom.1252   
+## [3] LC_MONETARY=English_United Kingdom.1252
+## [4] LC_NUMERIC=C                           
+## [5] LC_TIME=English_United Kingdom.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] markovchain_0.6.5.1    dplyr_0.5.0            purrr_0.2.2           
+## [4] readr_1.0.0            tidyr_0.6.0            tibble_1.2            
+## [7] ggplot2_2.1.0          tidyverse_1.0.0        blockbuster_0.0.0.9001
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.7         plyr_1.8.4          tools_3.3.2        
+##  [4] testthat_1.0.2      digest_0.6.10       memoise_1.0.0      
+##  [7] evaluate_0.10       gtable_0.2.0        lattice_0.20-34    
+## [10] Matrix_1.2-7.1      igraph_1.0.1        DBI_0.5-1          
+## [13] yaml_2.1.14         parallel_3.3.2      expm_0.999-0       
+## [16] withr_1.0.2         stringr_1.1.0       roxygen2_5.0.1     
+## [19] knitr_1.15.1        devtools_1.12.0     stats4_3.3.2       
+## [22] grid_3.3.2          R6_2.2.0            rmarkdown_1.1      
+## [25] matlab_1.0.2        magrittr_1.5        scales_0.4.0       
+## [28] htmltools_0.3.5     assertthat_0.1      govstyle_0.1.0     
+## [31] colorspace_1.2-7    labeling_0.3        stringi_1.1.2      
+## [34] lazyeval_0.2.0      RcppParallel_4.3.20 munsell_0.4.3      
+## [37] crayon_1.3.2</code></pre>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
