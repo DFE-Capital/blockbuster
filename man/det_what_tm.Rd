@@ -11,7 +11,7 @@ det_what_tm(blockbuster_initial_state_row)
 }
 \value{
 a markovchain object containing the appropriate transition matrix
-for the input blockbuster row. Can only except one row at a time due to how grep works.
+for the input blockbuster tibble row. Can only accept one row at a time due to how grep works.
 }
 \description{
 Select the correct markovchain object for deterioration of a row.

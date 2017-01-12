@@ -9,7 +9,7 @@
 #'
 #' @param blockbuster_initial_state_row a blockbuster dataframe or tibble single row.
 #' @return a markovchain object containing the appropriate transition matrix
-#' for the input blockbuster row. Can only except one row at a time due to how grep works.
+#' for the input blockbuster tibble row. Can only accept one row at a time due to how grep works.
 #' @seealso \code{\link{blockbuster_det_data}}
 #' @export
 #' @examples 
@@ -52,8 +52,10 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 #'  in \code{\link{det_what_tm}}.
 #' @return A one (if row is condition E) or two row tibble containing
 #' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
-#' combination after one time period. Duplicating all other variables and values.
-#' The timestep needs to increase by one.
+#' combination after one time period. This is handled within the function
+#' by creating two intermediary objects; same grade and different grade.
+#'  The ouput duplicates all other variables and values.
+#' The timestep also needs to increase by one given deterioration has occurred.
 #' @seealso \code{\link{blockbuster_det_data}}
 #' @export
 #' @examples 
@@ -124,7 +126,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
 #' The timestep also increases by one. The output tibble can be up to twice the number
 #' of rows of the input tibble. Accordingly this function merges to reduce the number of rows
 #' if possible, whereby there should be a max of six (one for each grade state) rows
-#' per \code{elementid}.
+#' per \code{elementid}. This function is built using a for loop and the \code{\link{det_eriorate}} function.
 #' @export
 #' @examples 
 #' \dontrun{
