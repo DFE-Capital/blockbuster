@@ -14,8 +14,10 @@ Can only accept one row at a time due to how \code{grep} works
 \value{
 A one (if row is condition E) or two row tibble containing
 the \code{unit_area} and condition of the \code{element sub_element constr_type} 
-combination after one time period. Duplicating all other variables and values.
-The timestep needs to increase by one.
+combination after one time period. This is handled within the function
+by creating two intermediary objects; same grade and different grade.
+ The ouput duplicates all other variables and values.
+The timestep also needs to increase by one given deterioration has occurred.
 }
 \description{
 The deterioration of one blockbuster row through one time period.

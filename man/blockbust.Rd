@@ -16,7 +16,7 @@ combination after one time period. Duplicating all other variables and values.
 The timestep also increases by one. The output tibble can be up to twice the number
 of rows of the input tibble. Accordingly this function merges to reduce the number of rows
 if possible, whereby there should be a max of six (one for each grade state) rows
-per \code{elementid}.
+per \code{elementid}. This function is built using a for loop and the \code{\link{det_eriorate}} function.
 }
 \description{
 The deterioration of more than one blockbuster rows through one time period.
