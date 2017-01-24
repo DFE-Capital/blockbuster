@@ -1,7 +1,7 @@
 #' A random ten percent sample of the condition of the School Estate.
 #'
 #' A dataset containing the condition grade and other attributes of almost 255,000
-#' building elements of the English School Estate. The unit_area was estimated using
+#' building components of the English School Estate. The unit_area was estimated using
 #' the \code{areafy} function in this package. School identifying features have been removed.
 #'
 #' @format A tibble with 254,878 rows and 30 variables:
