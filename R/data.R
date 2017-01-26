@@ -76,3 +76,22 @@
 #'   ...
 #' }
 "blockbuster_mc_list"
+
+#' A dataframe of repair costs at 2016 prices.
+#'
+#' A dataframe containing all repair costs per unit area by grade for each building component. 
+#' This is used in the blockbuster function to multiply the building components and its unit_area by
+#' the appropriate constant to estimate the expected repair costs to get the building component from
+#' grade D, C or B to grade A.
+#'
+#' @format A dataframe of 556 rows and 6 variables to be used for cost estimation in blockbuster. 
+#' \describe{
+#'   \item{element}{The top level of the quantity surveyors' building component hierarchy.}
+#'   \item{sub_element}{The mid level of the quantity surveyors' building component hierarchy.}
+#'   \item{const_type}{The lowest level of the quantity surveyors' building component hierarchy.}
+#'   \item{variable}{The condition grade of the building component}
+#'   \item{repair_costs}{Cost in pounds per unit_area of the building component repaired to condition A.}
+#'   \item{concated_building_component_grade}{To save computation time we pre concatenate these for lookup.}
+#'   ...
+#' }
+"blockbuster_pds_repair_costs"

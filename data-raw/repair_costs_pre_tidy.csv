@@ -1,4 +1,4 @@
-element,sub_element,const_type,da,ca,ba,aa
+element,sub_element,const_type,D,C,B,A
 1 Roofs,1.1 Structure,1.1.1 Flat roof structure and deck - Generally,153.7182546,38.42956365,7.68591273,0
 1 Roofs,1.1 Structure,1.1.2 Pitched roof structure - Generally,281.7999548,49.31499209,14.08999774,0
 1 Roofs,1.2 Coverings and insulation,1.2.1 Flat roof - Flexible sheet; single ply or built up,141.1645476,42.34936428,14.11645476,0
@@ -40,9 +40,9 @@ element,sub_element,const_type,da,ca,ba,aa
 2 Floors and stairs,2.5 Staircases - Balustrades,2.5.1 Timber,24.31964883,6.079912207,1.215982441,0
 2 Floors and stairs,2.5 Staircases - Balustrades,2.5.2 Metal; painted,29.66158856,7.415397139,1.483079428,0
 2 Floors and stairs,2.5 Staircases - Balustrades,2.5.3 Metal; powder coated / self finished,35.44051501,8.860128753,1.772025751,0
-2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.1 Timber,0,0,0,0
-2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.2 Vinyl / rubber / cork / carpet in tiles / sheet,9.777206331,1.832653483,0.458163371,0
-2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.3 Ceramic tiles / terrazzo,26.93822488,8.022839024,1.85142439,0
+2 Floors and stairs,2.6 Staircases - Treads & risers,2.6.1 Timber,0,0,0,0
+2 Floors and stairs,2.6 Staircases - Treads & risers,2.6.2 Vinyl / rubber / cork / carpet in tiles / sheet,9.777206331,1.832653483,0.458163371,0
+2 Floors and stairs,2.6 Staircases - Treads & risers,2.6.3 Ceramic tiles / terrazzo,26.93822488,8.022839024,1.85142439,0
 3 Ceilings,3.1 Generally,3.1.1 Fair faced concrete,49.25130202,17.23795571,4.925130202,0
 4 Ceilings,3.1 Generally,3.1.2 Plaster / render / plasterboard lining / timber lining,51.65249947,15.49574984,5.165249947,0
 5 Ceilings,3.1 Generally,3.1.3 No ceiling / exposed structure,0,0,0,0
@@ -71,11 +71,11 @@ element,sub_element,const_type,da,ca,ba,aa
 "21 External walls, windows and doors",4.2 Walls - external finishes,4.2.10 Flat metal sheet / panels,440.568453,132.1705359,44.0568453,0
 "22 External walls, windows and doors",4.2 Walls - external finishes,4.2.11 Flat fibreglass / GRP / plastic / composite in sheet / panels,168.681334,42.17033349,16.8681334,0
 "23 External walls, windows and doors",4.2 Walls - external finishes,4.2.12 Ceramic tiles,142.2272874,35.55682185,7.11136437,0
-"24 External walls, windows and doors",4.3 Walls – internal finishes,4.3.1 Concrete / brick / block / stone,0,0,0,0
-"25 External walls, windows and doors",4.3 Walls – internal finishes,4.3.2 Plaster / render / plasterboard lining,48.44458588,14.53337576,4.844458588,0
-"26 External walls, windows and doors",4.3 Walls – internal finishes,4.3.3 Fibreboard / acoustic lining,42.05179713,12.61553914,4.205179713,0
-"27 External walls, windows and doors",4.3 Walls – internal finishes,4.3.4 Timber lining,69.48683429,20.84605029,6.948683429,0
-"28 External walls, windows and doors",4.3 Walls – internal finishes,4.3.5 Ceramic tiles,105.7704067,31.731122,10.57704067,0
+"24 External walls, windows and doors",4.3 Walls - internal finishes,4.3.1 Concrete / brick / block / stone,0,0,0,0
+"25 External walls, windows and doors",4.3 Walls - internal finishes,4.3.2 Plaster / render / plasterboard lining,48.44458588,14.53337576,4.844458588,0
+"26 External walls, windows and doors",4.3 Walls - internal finishes,4.3.3 Fibreboard / acoustic lining,42.05179713,12.61553914,4.205179713,0
+"27 External walls, windows and doors",4.3 Walls - internal finishes,4.3.4 Timber lining,69.48683429,20.84605029,6.948683429,0
+"28 External walls, windows and doors",4.3 Walls - internal finishes,4.3.5 Ceramic tiles,105.7704067,31.731122,10.57704067,0
 "29 External walls, windows and doors",4.4 Windows and doors,4.4.1 Timber,547.8654149,164.3596245,54.78654149,0
 "30 External walls, windows and doors",4.4 Windows and doors,4.4.2 Metal,735.7005903,220.7101771,73.57005903,0
 "31 External walls, windows and doors",4.4 Windows and doors,4.4.3 Plastic,596.736583,179.0209749,59.6736583,0
@@ -138,3 +138,36 @@ element,sub_element,const_type,da,ca,ba,aa
 12 Playing Fields / equipment,12.1 Generally,12.1.1 Tarmac,69.43243697,17.35810924,3.471621848,0
 13 Playing Fields / equipment,12.1 Generally,"12.1.2 All Weather, artificial and specialist",180.6220981,36.12441961,9.031104903,0
 14 Playing Fields / equipment,12.1 Generally,12.1.3 Grass,11.04035815,2.760089537,0.552017907,0
+Roofs,Structure,Flat roof  structure and deck - Generally,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Vinyl / rubber / cork in tiles / sheet,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Carpet,0,0,0,0
+Floors and Stairs,Staircases - Treads and risers,Vinyl / rubber / cork / carpet in tiles / sheet,0,0,0,0
+Ceilings,Generally,Plaster / render / plasterboard/ timber lining,0,0,0,0
+"External Walls, Windows and Doors",Walls - External finishes,No Wall Finish/ Exposed Structure,0,0,0,0
+Mechanical Services,"Heating distribution, emitters and controls",Generally,0,0,0,0
+Mechanical Services,Hot and cold water system,Generally including heat source/calorifiers for heating the water,0,0,0,0
+Mechanical Services,Mechanical ventilation / air conditioning,Mechanical ventilation,0,0,0,0
+Redecorations,"External - windows, doors, etc.",Metal / Plastic - unpainted,0,0,0,0
+Internal Walls and Doors,Walls and partitions finishes,No Internal Wall Finish/Exposed Structure,0,0,0,0
+Ceilings,Generally,No Ceiling/ Exposed Structure,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Concrete / unfinished screed / floor paint,0,0,0,0
+"External Walls, Windows and Doors",Walls - Internal finishes,No Internal Wall Finish/Exposed Structure,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Hardwood strip / wood block / sprung flooring,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Ceramic tiles / terrazzo,0,0,0,0
+Floors and Stairs,Staircases - Balustrades,Metal; powder coated / self finsihed,0,0,0,0
+Floors and Stairs,Staircases - Treads and risers,Ceramic tiles / terrazzo,0,0,0,0
+Electrical Services,Lifts,Generally,0,0,0,0
+Floors and Stairs,Staircases - Treads and risers,Timber,0,0,0,0
+Redecorations,"External - windows, doors, etc.",Metal - painted,0,0,0,0
+Ceilings,Generally,Fair face concrete,0,0,0,0
+External Areas,"Paths, pedestrian paved areas, play areas",Slabs / blocks,0,0,0,0
+External Areas,Boundary walls and fences,Chain link,0,0,0,0
+Playing Fields,Generally,Tarmac,0,0,0,0
+"External Walls, Windows and Doors",Walls - External finishes,Flat ffibreglass / GRP / plastic / composite in sheet / panels,0,0,0,0
+"External Walls, Windows and Doors",Walls - External finishes,Profiled ffibreglass / GRP / plastic / composite / metal sheet,0,0,0,0
+Playing Fields,Generally,Grass,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Softwood boarding,0,0,0,0
+Playing Fields,Generally,"All-weather, artificial and specialist",0,0,0,0
+External Areas,"Paths, pedestrian paved areas, play areas",In-situ concrete,0,0,0,0
+External Areas,Roads and car parks,Slab/block paving,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Raised access floor,0,0,0,0
