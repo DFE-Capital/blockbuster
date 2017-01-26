@@ -9,10 +9,14 @@
 library(tidyverse)
 library(reshape2)
 
-costs_pre_tidy <- readr::read_csv("data-raw/repair_costs_pre_tidy.csv")
+# costs_pre_tidy <- readr::read_csv("data-raw/repair_costs_pre_tidy.csv")  #  this is redundant as we had missing building components
+costs_pre_tidy <- readr::read_csv("data-raw/repair_costs_pre_tidy_with_missing_appended.csv")  #  see costs tests for how we worked out what was missing
+
+
 
 # The element, sub-element and const_type have numbers prefixed, let's remove those
 # and the decimal place adn then trim the white space before converting into long format
+# We also reshape
 costs_tidy <- dplyr::mutate(costs_pre_tidy, 
                             element = gsub("\\b\\d+\\b", "", element),
                             sub_element = gsub("\\b\\d+\\b", "", sub_element),
@@ -35,7 +39,7 @@ costs_tidy <- dplyr::mutate(costs_pre_tidy,
                                                    const_type, variable,
                                                               sep = "_"))
 
-write_excel_csv(costs_tidy, path = "data-raw/repair_costs_tidy.csv")
+write_excel_csv(costs_tidy, path = "./data-raw/repair_costs_tidy.csv")
 
 blockbuster_pds_repair_costs <- tibble::as_tibble(costs_tidy)
 

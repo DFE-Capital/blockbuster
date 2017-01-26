@@ -138,3 +138,24 @@ element,sub_element,const_type,D,C,B,A
 12 Playing Fields / equipment,12.1 Generally,12.1.1 Tarmac,69.43243697,17.35810924,3.471621848,0
 13 Playing Fields / equipment,12.1 Generally,"12.1.2 All Weather, artificial and specialist",180.6220981,36.12441961,9.031104903,0
 14 Playing Fields / equipment,12.1 Generally,12.1.3 Grass,11.04035815,2.760089537,0.552017907,0
+Floors and Stairs,Staircases - Treads and risers,Vinyl / rubber / cork / carpet in tiles / sheet,NA,NA,NA,NA
+Ceilings,Generally,Plaster / render / plasterboard/ timber lining,NA,NA,NA,NA
+Mechanical Services,"Heating distribution, emitters and controls",Generally,NA,NA,NA,NA
+Mechanical Services,Hot and cold water system,Generally including heat source/calorifiers for heating the water,NA,NA,NA,NA
+Mechanical Services,Mechanical ventilation / air conditioning,Mechanical ventilation,NA,NA,NA,NA
+Internal Walls and Doors,Walls and partitions finishes,No Internal Wall Finish/Exposed Structure,NA,NA,NA,NA
+"External Walls, Windows and Doors",Walls - Internal finishes,No Internal Wall Finish/Exposed Structure,NA,NA,NA,NA
+Floors and Stairs,Floors -  Screed & finish,Hardwood strip / wood block / sprung flooring,NA,NA,NA,NA
+Floors and Stairs,Staircases - Balustrades,Metal; powder coated / self finsihed,NA,NA,NA,NA
+Floors and Stairs,Staircases - Treads and risers,Ceramic tiles / terrazzo,NA,NA,NA,NA
+Electrical Services,Lifts,Generally,NA,NA,NA,NA
+Floors and Stairs,Staircases - Treads and risers,Timber,NA,NA,NA,NA
+Ceilings,Generally,Fair face concrete,NA,NA,NA,NA
+External Areas,"Paths, pedestrian paved areas, play areas",Slabs / blocks,NA,NA,NA,NA
+Playing Fields,Generally,Tarmac,NA,NA,NA,NA
+"External Walls, Windows and Doors",Walls - External finishes,Flat ffibreglass / GRP / plastic / composite in sheet / panels,NA,NA,NA,NA
+"External Walls, Windows and Doors",Walls - External finishes,Profiled ffibreglass / GRP / plastic / composite / metal sheet,NA,NA,NA,NA
+Playing Fields,Generally,Grass,NA,NA,NA,NA
+Playing Fields,Generally,"All-weather, artificial and specialist",NA,NA,NA,NA
+External Areas,"Paths, pedestrian paved areas, play areas",In-situ concrete,NA,NA,NA,NA
+External Areas,Roads and car parks,Slab/block paving,NA,NA,NA,NA
