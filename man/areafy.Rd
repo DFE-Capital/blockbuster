@@ -13,8 +13,10 @@ areafy(blockbuster_initial_state)
 a blockbuster tibble with the unit_area estimated for each row.
 This should be used to provide the initial estimates of the unit_area
 of each element-sub-element construction type in the dataframe.
-It will also be called after deterioration and different grades of the elementid appear.
-As most methods are to use the gifa, we do this first and then specify the rarer \code{unit_area}
+It will not need to be called after deterioration and different grades of the elementid appear,
+as the unit_area will be calculated by the transition from the superior grade condition.
+As most unit area calculation methods are to use the gifa,
+ we do this first and then specify the rarer \code{unit_area}
 calculations or estimation methods. A window or door is assumed to have an area of one 
 square metre.
 }
@@ -22,5 +24,10 @@ square metre.
 Estimate the unit_area for an observation for a blockbuster tibble.
 }
 \examples{
-pds_data <- areafy(blockbuster_pds)
+pds_data <- areafy(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
+pds_data == blockbuster_pds[1, ]$unit_area  #  The unit_area column was added to the blockbuster_pds using this function at time zero.
 }
+\seealso{
+
+}
+

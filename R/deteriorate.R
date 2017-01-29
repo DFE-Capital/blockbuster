@@ -9,8 +9,8 @@
 #'
 #' @param blockbuster_initial_state_row a blockbuster dataframe or tibble single row.
 #' @return a markovchain object containing the appropriate transition matrix
-#' for the input blockbuster row. Can only except one row at a time due to how grep works.
-#' @seealso \link{/man/blockbuster_det_data.Rd}
+#' for the input blockbuster tibble row. Can only accept one row at a time due to how grep works.
+#' @seealso \code{\link{blockbuster_det_data}}
 #' @export
 #' @examples 
 #' dtmc_a <- det_what_tm(blockbuster_pds[1, ])
@@ -49,12 +49,14 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 #'
 #' @param blockbuster_initial_state_row a blockbuster dataframe or tibble single row. 
 #' Can only accept one row at a time due to how \code{grep} works
-#'  in \link{/man/det_what_tm.Rd}.
+#'  in \code{\link{det_what_tm}}.
 #' @return A one (if row is condition E) or two row tibble containing
 #' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
-#' combination after one time period. Duplicating all other variables and values.
-#' The timestep needs to increase by one.
-#' @seealso \link{/man/blockbuster_det_data.Rd}
+#' combination after one time period. This is handled within the function
+#' by creating two intermediary objects; same grade and different grade.
+#'  The ouput duplicates all other variables and values.
+#' The timestep also needs to increase by one given deterioration has occurred.
+#' @seealso \code{\link{blockbuster_det_data}}
 #' @export
 #' @examples 
 #' one_year_later <- det_eriorate(blockbuster_pds[1, ])
@@ -124,8 +126,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
 #' The timestep also increases by one. The output tibble can be up to twice the number
 #' of rows of the input tibble. Accordingly this function merges to reduce the number of rows
 #' if possible, whereby there should be a max of six (one for each grade state) rows
-#' per \code{elementid}.
-#' @seealso 
+#' per \code{elementid}. This function is built using a for loop and the \code{\link{det_eriorate}} function.
 #' @export
 #' @examples 
 #' \dontrun{
@@ -162,7 +163,6 @@ blockbust <- function(blockbuster_tibble) {
 #' combination at a given timestep while also duplicating all
 #'  other variables and values from the input tibble.
 #' After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}.
-#' @seealso 
 #' @importFrom stats aggregate
 #' @export
 #' @examples 
@@ -189,7 +189,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon) {
     x <- dplyr::mutate(blockbust(blockbusted[[i]]),
                        cost = 0, cost_sum = 0)
     #  Sum unit_area over each row, keep all other variables
-    blockbusted[[i + 1]] <- tibble::as_tibble(aggregate(unit_area ~., data = x, FUN = sum))
+    blockbusted[[i + 1]] <- tibble::as_tibble(stats::aggregate(unit_area ~., data = x, FUN = sum))
     
   }
   # Aggregate over each list to make tidy data, avoid repeated rows for elementid and grade
