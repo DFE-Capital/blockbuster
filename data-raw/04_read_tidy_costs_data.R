@@ -37,7 +37,19 @@ costs_tidy <- dplyr::mutate(costs_pre_tidy,
                                                    sep = "_"),
          concated_building_component_grade = paste(element, sub_element,
                                                    const_type, variable,
-                                                              sep = "_"))
+                                                              sep = "_")
+         
+         )
+#  We help out blockbuster with some pre-processing here
+#  Blockbuster will need to look-up building component and grade, let
+costs_tidy <- costs_tidy %>%
+  mutate(concated_building_component_grade_clean = iconv(concated_building_component_grade,
+                                                         from = "UTF-8", to = "ASCII", sub = "byte") %>%
+           stringr::str_replace_all("<e2><80><93>", "-") %>%  #  replace weird hyphen, here for consistency but only in the PDS data
+           stringr::str_replace_all("[[:number:]]", "") %>%
+           stringr::str_replace_all("[^[:alnum:]]", "") %>%  #  http://stackoverflow.com/questions/10294284/remove-all-special-characters-from-a-string-in-r
+           stringr::str_replace_all(" ", "") %>%
+           stringr::str_to_lower())
 
 write_excel_csv(costs_tidy, path = "./data-raw/repair_costs_tidy.csv")
 

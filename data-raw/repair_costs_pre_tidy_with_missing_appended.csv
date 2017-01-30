@@ -138,24 +138,24 @@ element,sub_element,const_type,D,C,B,A
 12 Playing Fields / equipment,12.1 Generally,12.1.1 Tarmac,69.43243697,17.35810924,3.471621848,0
 13 Playing Fields / equipment,12.1 Generally,"12.1.2 All Weather, artificial and specialist",180.6220981,36.12441961,9.031104903,0
 14 Playing Fields / equipment,12.1 Generally,12.1.3 Grass,11.04035815,2.760089537,0.552017907,0
-Floors and Stairs,Staircases - Treads and risers,Vinyl / rubber / cork / carpet in tiles / sheet,NA,NA,NA,NA
-Ceilings,Generally,Plaster / render / plasterboard/ timber lining,NA,NA,NA,NA
-Mechanical Services,"Heating distribution, emitters and controls",Generally,NA,NA,NA,NA
-Mechanical Services,Hot and cold water system,Generally including heat source/calorifiers for heating the water,NA,NA,NA,NA
-Mechanical Services,Mechanical ventilation / air conditioning,Mechanical ventilation,NA,NA,NA,NA
-Internal Walls and Doors,Walls and partitions finishes,No Internal Wall Finish/Exposed Structure,NA,NA,NA,NA
-"External Walls, Windows and Doors",Walls - Internal finishes,No Internal Wall Finish/Exposed Structure,NA,NA,NA,NA
-Floors and Stairs,Floors -  Screed & finish,Hardwood strip / wood block / sprung flooring,NA,NA,NA,NA
-Floors and Stairs,Staircases - Balustrades,Metal; powder coated / self finsihed,NA,NA,NA,NA
-Floors and Stairs,Staircases - Treads and risers,Ceramic tiles / terrazzo,NA,NA,NA,NA
-Electrical Services,Lifts,Generally,NA,NA,NA,NA
-Floors and Stairs,Staircases - Treads and risers,Timber,NA,NA,NA,NA
-Ceilings,Generally,Fair face concrete,NA,NA,NA,NA
-External Areas,"Paths, pedestrian paved areas, play areas",Slabs / blocks,NA,NA,NA,NA
-Playing Fields,Generally,Tarmac,NA,NA,NA,NA
-"External Walls, Windows and Doors",Walls - External finishes,Flat ffibreglass / GRP / plastic / composite in sheet / panels,NA,NA,NA,NA
-"External Walls, Windows and Doors",Walls - External finishes,Profiled ffibreglass / GRP / plastic / composite / metal sheet,NA,NA,NA,NA
-Playing Fields,Generally,Grass,NA,NA,NA,NA
-Playing Fields,Generally,"All-weather, artificial and specialist",NA,NA,NA,NA
-External Areas,"Paths, pedestrian paved areas, play areas",In-situ concrete,NA,NA,NA,NA
-External Areas,Roads and car parks,Slab/block paving,NA,NA,NA,NA
+Floors and Stairs,Staircases - Treads and risers,Vinyl / rubber / cork / carpet in tiles / sheet,9.777206331,1.832653483,0.458163371,0
+Ceilings,Generally,Plaster / render / plasterboard/ timber lining,51.65249947,15.49574984,5.165249947,0
+Mechanical Services,"Heating distribution, emitters and controls",Generally,80.39701045,28.13895366,8.039701045,0
+Mechanical Services,Hot and cold water system,Generally including heat source/calorifiers for heating the water,31.98189144,11.193662,3.198189144,0
+Mechanical Services,Mechanical ventilation / air conditioning,Mechanical ventilation,71.09157141,17.77289285,3.554578571,0
+Internal Walls and Doors,Walls and partitions finishes,No Internal Wall Finish/Exposed Structure,0,0,0,0
+"External Walls, Windows and Doors",Walls - Internal finishes,No Internal Wall Finish/Exposed Structure,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Hardwood strip / wood block / sprung flooring,181.1622098,54.34866295,18.11622098,0
+Floors and Stairs,Staircases - Balustrades,Metal; powder coated / self finsihed,35.44051501,8.860128753,1.772025751,0
+Floors and Stairs,Staircases - Treads and risers,Ceramic tiles / terrazzo,26.93822488,8.022839024,1.85142439,0
+Electrical Services,Lifts,Generally,82906.90463,20726.72616,4145.345231,0
+Floors and Stairs,Staircases - Treads and risers,Timber,0,0,0,0
+Ceilings,Generally,Fair face concrete,49.25130202,17.23795571,4.925130202,0
+External Areas,"Paths, pedestrian paved areas, play areas",Slabs / blocks,116.7994808,29.19987021,5.839974041,0
+Playing Fields,Generally,Tarmac,69.43243697,17.35810924,3.471621848,0
+"External Walls, Windows and Doors",Walls - External finishes,Flat ffibreglass / GRP / plastic / composite in sheet / panels,168.681334,42.17033349,16.8681334,0
+"External Walls, Windows and Doors",Walls - External finishes,Profiled ffibreglass / GRP / plastic / composite / metal sheet,199.5498382,59.86495147,19.95498382,0
+Playing Fields,Generally,Grass,11.04035815,2.760089537,0.552017907,0
+Playing Fields,Generally,"All-weather, artificial and specialist",180.6220981,36.12441961,9.031104903,0
+External Areas,"Paths, pedestrian paved areas, play areas",In-situ concrete,139.0487522,34.76218805,6.95243761,0
+External Areas,Roads and car parks,Slab/block paving,123.4742622,30.86856556,6.173713112,0

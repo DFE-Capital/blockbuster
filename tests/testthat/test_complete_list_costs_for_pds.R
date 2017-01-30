@@ -94,4 +94,51 @@ costs_missing_2 <- pds_concat_list[is.na(is_it_missing)]
 
 test_that("There are missing repair costs data! Which we don't know.", {
   expect_true(purrr::is_empty(costs_missing_2))
+  expect_equal(sum(complete.cases(costs_with_missing_concat_list_alnum_lower)),
+                                   length(costs_with_missing_concat_list_alnum_lower))
+})
+
+# The problem of matchign between the PDS data and the Costs data seems to be due to the Ampersand replacing the word "and"
+# Let's try replacing costs ampersand with and
+# Our hack or workaround is to repeated values in the appended list to cope with matching, as there might be more than one reason for it not matching
+# e.g. sprung floor rather than sprung flooring
+# perhaps partial matching could be used?
+# e.g. self finished is spelt wrong in the PDS
+
+# TESTING FINAL COSTS LIST
+# We've managed a work around, let's test that we can easily look up and compare ready for blockbuster
+costs_final <- readr::read_csv("repair_costs_tidy.csv")
+costs_final_with_missing_concat_list_alnum_lower <- iconv(unique(costs_final$concated_costs),
+                                                    from = "UTF-8", to = "ASCII", sub = "byte") %>%
+  stringr::str_replace_all("<e2><80><93>", "-") %>%  #  replace weird hyphen
+  stringr::str_replace_all("[[:number:]]", "") %>%
+  stringr::str_replace_all("[^[:alnum:]]", "") %>%  #  http://stackoverflow.com/questions/10294284/remove-all-special-characters-from-a-string-in-r
+  stringr::str_replace_all(" ", "") %>%
+  stringr::str_to_lower() 
+
+is_it_missing_from_final <- match(pds_concat_list_alnum_lower, costs_final_with_missing_concat_list_alnum_lower)
+costs_missing_final <- pds_concat_list[is.na(is_it_missing_from_final)]
+
+test_that("The final costs look up csv table is lacking data!", {
+  expect_true(purrr::is_empty(costs_missing_final))
+})
+
+# The RData for costs is complete
+# test on 40 rows of the PDS
+pds_test_with_grade <- dplyr::slice(x, 1:40) %>%
+  dplyr::mutate(concated_pds_grade = paste0(concated_pds, "c")) %>%
+  dplyr::select(concated_pds_grade) %>%
+  dplyr::mutate(concated_pds_grade = iconv(concated_pds_grade,
+                                    from = "UTF-8", to = "ASCII", sub = "byte") %>%
+           stringr::str_replace_all("<e2><80><93>", "-") %>%  #  replace weird hyphen, here for consistency but only in the PDS data
+           stringr::str_replace_all("[[:number:]]", "") %>%
+           stringr::str_replace_all("[^[:alnum:]]", "") %>%  #  http://stackoverflow.com/questions/10294284/remove-all-special-characters-from-a-string-in-r
+           stringr::str_replace_all(" ", "") %>%
+           stringr::str_to_lower())
+
+
+test_that("The blockbuster_pds_repair_costs RData is incomplete!", {
+  expect_equal(nrow(pds_test_with_grade),
+               sum(pds_test_with_grade$concated_pds_grade %in% blockbuster_pds_repair_costs$concated_building_component_grade_clean)
+  )
 })
