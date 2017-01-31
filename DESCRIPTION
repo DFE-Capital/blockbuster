@@ -20,7 +20,8 @@ Imports:
     tidyverse (>= 1.0.0),
     tibble,
     dplyr,
-    markovchain
+    markovchain,
+    stringr
 URL: https://github.com/mammykins/blockbuster
 BugReports: https://github.com/mammykins/blockbuster/issues
 Suggests: 
