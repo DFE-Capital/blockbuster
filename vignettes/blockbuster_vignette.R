@@ -49,6 +49,23 @@ my_block_10years <- blockbuster(y, 10)
 dplyr::select(my_block_10years[[11]], buildingid, elementid, grade, unit_area) %>%
   dplyr::arrange(elementid, grade)
 
+## ------------------------------------------------------------------------
+p4 <- my_wall_20year %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade) %>%
+  dplyr::summarise(sum_area = sum(unit_area, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(y = sum_area, x = grade)) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p4 + ylab("Estimated area (m^2)") + xlab("Condition grade") +
+  govstyle::theme_gov()
+
 ## ----warning=FALSE, message=FALSE, error=FALSE---------------------------
 
 my_wall_10 <- blockbuster(my_wall, 10)
@@ -59,15 +76,15 @@ df <- my_wall_10[[11]]
 # devtools::install_github('mangothecat/visualTest')  #  required for govstyle
 # devtools::install_github("UKGov-Data-Science/govstyle")
 
-p <- ggplot(data = df, aes(x = grade, y = unit_area)) +
-  geom_bar(stat = "identity", fill = govstyle::gov_cols['turquoise']) +
+p <- ggplot2::ggplot(data = df, aes(x = grade, y = unit_area)) +
+  ggplot2::geom_bar(stat = "identity", fill = govstyle::gov_cols['turquoise']) +
   xlab("Condition") +
   ylab(expression(paste(
   "Unit area (",m^2,
-  ")", sep = "")))
-
-p +
+  ")", sep = ""))) +
   govstyle::theme_gov()
+
+p 
 
 ## ------------------------------------------------------------------------
 total_wall_area <- sum(df$unit_area)
@@ -76,31 +93,53 @@ dplyr::mutate(df, prop_area = unit_area / total_wall_area) %>%
 
 ## ------------------------------------------------------------------------
 #  http://www.machinegurning.com/rstats/map_df/
-# my_block_2_years <- list(as_tibble(my_block_10years[[1]]),
-#                          as_tibble(my_block_10years[[2]]),
-#                          as_tibble(my_block_10years[[3]]))
+
 # 
 # cool_cars <- list(mtcars, mtcars, mtcars) %>%
 #   map_df(
-#     ~ .x , 
-#     .id = "timestep"
+#     ~ .x ,
+#     .id = "year"
 #   ) %>%
-#   group_by(cyl) %>%
-#   summarise(mean(disp), mean(hp)) %>%
-#   ggplot(aes(x = cyl, y = `mean(disp)`)) +
-#   geom_point()
-#   
-#   ggplot +
-#   aes(
-#     x = x,
-#     fill = dist
-#   ) +
-#   geom_histogram() +
+#   group_by("year") %>%
+#   ggplot(aes(x = cyl, y = disp, group = cyl)) +
+#   geom_boxplot() +
 #   facet_wrap(
-#     ~dist,
-#     ncol = 2 
+#     ~year
 #   )
+# cool_cars
 
+p2 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by("timestep") %>%
+  ggplot2::ggplot(aes(x = grade, y = cost)) +
+  ggplot2::geom_boxplot() +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
+  govstyle::theme_gov()
+
+
+## ------------------------------------------------------------------------
+p3 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade) %>%
+  dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = grade, y = sum_cost)) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
+  govstyle::theme_gov()
 
 ## ------------------------------------------------------------------------
 sessionInfo()

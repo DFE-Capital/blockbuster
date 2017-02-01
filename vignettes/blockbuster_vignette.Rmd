@@ -129,9 +129,35 @@ dplyr::select(my_block_10years[[11]], buildingid, elementid, grade, unit_area) %
 
 I suggest you spend time thinking about the precise question you are asking rather than using the whole `blockbuster_pds` tibble as input due to non-trivial computation time. As a rule of thumb the amount of rows you start with will be multiplied by five (as each `elementid` deteriorates to other states), with each of these tibbles being multiplied by the `forecast_horizon`. That's quite a lot of data and may tax your computer's RAM (although the `unit_area` and `timestep` will be the only variables changing through time).  
 
-## Plotting
+## Plotting output basics
 
-The tibble format is compatible with the `tidyverse` particularly `reshape2`-ing and plotting using `ggplot2`. 
+The tibble format is compatible with the `tidyverse` particularly `reshape2`-ing and plotting using `ggplot2`. The `purrr` package and the excellent `map_df()` function makes it easy to plot data from multiple dataframes across a list, as is the case with our `blockbuster` output.  
+
+### Blockbusting
+
+We can investigate the rate at which our critical elements are deteriorating or even what proportion of the `unit_area` is decommisioned. Given the flexibility of the model output we can ask anything of the data.  
+
+Here we are interested in tracking the deterioration of critical building components in our block of interest.  We recycle the `my_wall_20year` object for this question. The wall starts as all condition grade B then gradually deteriorates.
+
+```{r}
+p4 <- my_wall_20year %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade) %>%
+  dplyr::summarise(sum_area = sum(unit_area, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(y = sum_area, x = grade)) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p4 + ylab("Estimated area (m^2)") + xlab("Condition grade") +
+  govstyle::theme_gov()
+```
+
+
 
 ### Critical building elements
 
@@ -147,15 +173,15 @@ df <- my_wall_10[[11]]
 # devtools::install_github('mangothecat/visualTest')  #  required for govstyle
 # devtools::install_github("UKGov-Data-Science/govstyle")
 
-p <- ggplot(data = df, aes(x = grade, y = unit_area)) +
-  geom_bar(stat = "identity", fill = govstyle::gov_cols['turquoise']) +
+p <- ggplot2::ggplot(data = df, aes(x = grade, y = unit_area)) +
+  ggplot2::geom_bar(stat = "identity", fill = govstyle::gov_cols['turquoise']) +
   xlab("Condition") +
   ylab(expression(paste(
   "Unit area (",m^2,
-  ")", sep = "")))
-
-p +
+  ")", sep = ""))) +
   govstyle::theme_gov()
+
+p 
 ```
 
 We use `dplyr` to elucidate and determine that our wall is below our arbitrary 20% threshold, if we wanted to scale this we could create a new variable using `mutate` which is based on a logical test. The only limit is your imagination (and coding skills).
@@ -174,36 +200,63 @@ Currently it will return `NA` for grade E. This due to lack of data on repairing
 
 ### Blockcosting
 
-We continue with the examples from above by considering the aggregated cost of repairs through time. Let us plot the aggregated costs by condition grade through each year.
+We continue with the examples from above by considering the aggregated cost of repairs through time. Let us plot the distribution of costs by condition grade using a box plot through each year. Repair costs from grade A should always be zero as they are already in excellent condition and do not need any work. This plot shows how the median costs for each grade steadily increase year on year with some building components in particularly deteriorating quickly and in a costly fashion (the outliers indicated by the black circles).
  
 
 ```{r}
 #  http://www.machinegurning.com/rstats/map_df/
-# my_block_2_years <- list(as_tibble(my_block_10years[[1]]),
-#                          as_tibble(my_block_10years[[2]]),
-#                          as_tibble(my_block_10years[[3]]))
+
 # 
 # cool_cars <- list(mtcars, mtcars, mtcars) %>%
 #   map_df(
-#     ~ .x , 
-#     .id = "timestep"
+#     ~ .x ,
+#     .id = "year"
 #   ) %>%
-#   group_by(cyl) %>%
-#   summarise(mean(disp), mean(hp)) %>%
-#   ggplot(aes(x = cyl, y = `mean(disp)`)) +
-#   geom_point()
-#   
-#   ggplot +
-#   aes(
-#     x = x,
-#     fill = dist
-#   ) +
-#   geom_histogram() +
+#   group_by("year") %>%
+#   ggplot(aes(x = cyl, y = disp, group = cyl)) +
+#   geom_boxplot() +
 #   facet_wrap(
-#     ~dist,
-#     ncol = 2 
+#     ~year
 #   )
+# cool_cars
 
+p2 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by("timestep") %>%
+  ggplot2::ggplot(aes(x = grade, y = cost)) +
+  ggplot2::geom_boxplot() +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
+  govstyle::theme_gov()
+
+```
+
+### Total Blockcosting
+
+We take our hypothetical building and plot the total costs year on year by condition grade. Notice how the costs to repair the hypothetical block increase until a maximum around seven years at which it reaches a balance. However, this ignores the amount of building component going into the decommissioned status.  
+
+```{r}
+p3 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade) %>%
+  dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = grade, y = sum_cost)) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
+  govstyle::theme_gov()
 ```
 
 ## Summary
@@ -218,4 +271,3 @@ We continue with the examples from above by considering the aggregated cost of r
 ```{r}
 sessionInfo()
 ```
-
