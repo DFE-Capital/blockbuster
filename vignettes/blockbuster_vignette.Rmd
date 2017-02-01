@@ -168,11 +168,41 @@ dplyr::mutate(df, prop_area = unit_area / total_wall_area) %>%
 
 ## Costing
 
-A caveat, `costs` have been set to zero for now until another family of functions is developed to estimate these for each timestep. These can be calculated after the fact, but will need to implemented after the deterioration step if rebuilding and maintenance are to be incorporated into the model.  
+The costing part of the `blockbuster` function is built using an internal function called `blockcoster_lookup`. This takes the building component and condition grade information and looks this character string up in the `blockbuster_pds_repair_costs` tibble, thus finding the appropriate repair costs constant to multiply the `unit_area` of that building component by.  
+
+Currently it will return `NA` for grade E. This due to lack of data on repairing a building component from grade E back to A, furthermore as grade E is meant to encapsulate a decommisioned status for now it is deemed more appropriate to only be able to get E back to grade N through rebuilding. Costs are calculated for each row. The `cost_sum` variable is set to zero as this can be recalculated later if required, as it requires an aggregation by `buildingid` step.
+
+### Blockcosting
+
+We continue with the examples from above by considering the aggregated cost of repairs through time. Let us plot the aggregated costs by condition grade through each year.
+ 
 
 ```{r}
-head(my_block_10years[[11]]$cost, 1)
-head(my_block_10years[[11]]$cost_sum, 1)
+#  http://www.machinegurning.com/rstats/map_df/
+# my_block_2_years <- list(as_tibble(my_block_10years[[1]]),
+#                          as_tibble(my_block_10years[[2]]),
+#                          as_tibble(my_block_10years[[3]]))
+# 
+# cool_cars <- list(mtcars, mtcars, mtcars) %>%
+#   map_df(
+#     ~ .x , 
+#     .id = "timestep"
+#   ) %>%
+#   group_by(cyl) %>%
+#   summarise(mean(disp), mean(hp)) %>%
+#   ggplot(aes(x = cyl, y = `mean(disp)`)) +
+#   geom_point()
+#   
+#   ggplot +
+#   aes(
+#     x = x,
+#     fill = dist
+#   ) +
+#   geom_histogram() +
+#   facet_wrap(
+#     ~dist,
+#     ncol = 2 
+#   )
 
 ```
 
@@ -182,7 +212,8 @@ head(my_block_10years[[11]]$cost_sum, 1)
 * It uses a robust statistical modelling approach.  
 * The input structure is preserved in the output tibbles.  
 * The model can be iteratively improved as more data is collected.  
-* There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.  
+* There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.
+* the writing of a package allows us to enshrine business knowledge into a corpus of code that is inseparable from the documentation of that code.
 
 ```{r}
 sessionInfo()

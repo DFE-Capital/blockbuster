@@ -162,7 +162,9 @@ blockbust <- function(blockbuster_tibble) {
 #' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
 #' combination at a given timestep while also duplicating all
 #'  other variables and values from the input tibble.
-#' After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}.
+#' After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}. 
+#' Then repair cost estimates are calculated using \code{\link{blockcoster_lookup}} to find the correct constant which
+#' is multiplied by the \code{unit_area} to give the expected repair \code{cost}.
 #' @importFrom stats aggregate
 #' @export
 #' @examples 
@@ -193,6 +195,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon) {
     
     #  Sum unit_area over each row, keep all other variables
     #  then mutate the cost, needs to happen here after aggregation but before rebuild / maintenance
+    #  Note if E grade or decommissioned it will return NA for cost.
     blockbusted[[i + 1]] <- dplyr::mutate(tibble::as_tibble(stats::aggregate(unit_area ~., data = x, FUN = sum)),
                                           cost = unit_area * blockcoster_lookup(element, sub_element, const_type, grade))
     

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Matthew Gregory" />
 
-<meta name="date" content="2017-01-11" />
+<meta name="date" content="2017-02-01" />
 
 <title>Blockbuster modelling: wow; what a difference!</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Blockbuster modelling: wow; what a difference!</h1>
 <h4 class="author"><em>Matthew Gregory</em></h4>
-<h4 class="date"><em>2017-01-11</em></h4>
+<h4 class="date"><em>2017-02-01</em></h4>
 
 
 
@@ -311,11 +311,37 @@ dplyr::<span class="kw">mutate</span>(df, <span class="dt">prop_area =</span> un
 </div>
 <div id="costing" class="section level2">
 <h2>Costing</h2>
-<p>A caveat, <code>costs</code> have been set to zero for now until another family of functions is developed to estimate these for each timestep. These can be calculated after the fact, but will need to implemented after the deterioration step if rebuilding and maintenance are to be incorporated into the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(my_block_10years[[<span class="dv">11</span>]]$cost, <span class="dv">1</span>)</code></pre></div>
-<pre><code>## [1] 0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(my_block_10years[[<span class="dv">11</span>]]$cost_sum, <span class="dv">1</span>)</code></pre></div>
-<pre><code>## [1] 0</code></pre>
+<p>The costing part of the <code>blockbuster</code> function is built using an internal function called <code>blockcoster_lookup</code>. This takes the building component and condition grade information and looks this character string up in the <code>blockbuster_pds_repair_costs</code> tibble, thus finding the appropriate repair costs constant to multiply the <code>unit_area</code> of that building component by.</p>
+<p>Currently it will return <code>NA</code> for grade E. This due to lack of data on repairing a building component from grade E back to A, furthermore as grade E is meant to encapsulate a decommisioned status for now it is deemed more appropriate to only be able to get E back to grade N through rebuilding. Costs are calculated for each row. The <code>cost_sum</code> variable is set to zero as this can be recalculated later if required, as it requires an aggregation by <code>buildingid</code> step.</p>
+<div id="blockcosting" class="section level3">
+<h3>Blockcosting</h3>
+<p>We continue with the examples from above by considering the aggregated cost of repairs through time. Let us plot the aggregated costs by condition grade through each year.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  http://www.machinegurning.com/rstats/map_df/</span>
+<span class="co"># my_block_2_years &lt;- list(as_tibble(my_block_10years[[1]]),</span>
+<span class="co">#                          as_tibble(my_block_10years[[2]]),</span>
+<span class="co">#                          as_tibble(my_block_10years[[3]]))</span>
+<span class="co"># </span>
+<span class="co"># cool_cars &lt;- list(mtcars, mtcars, mtcars) %&gt;%</span>
+<span class="co">#   map_df(</span>
+<span class="co">#     ~ .x , </span>
+<span class="co">#     .id = &quot;timestep&quot;</span>
+<span class="co">#   ) %&gt;%</span>
+<span class="co">#   group_by(cyl) %&gt;%</span>
+<span class="co">#   summarise(mean(disp), mean(hp)) %&gt;%</span>
+<span class="co">#   ggplot(aes(x = cyl, y = `mean(disp)`)) +</span>
+<span class="co">#   geom_point()</span>
+<span class="co">#   </span>
+<span class="co">#   ggplot +</span>
+<span class="co">#   aes(</span>
+<span class="co">#     x = x,</span>
+<span class="co">#     fill = dist</span>
+<span class="co">#   ) +</span>
+<span class="co">#   geom_histogram() +</span>
+<span class="co">#   facet_wrap(</span>
+<span class="co">#     ~dist,</span>
+<span class="co">#     ncol = 2 </span>
+<span class="co">#   )</span></code></pre></div>
+</div>
 </div>
 <div id="summary" class="section level2">
 <h2>Summary</h2>
@@ -329,6 +355,7 @@ dplyr::<span class="kw">mutate</span>(df, <span class="dt">prop_area =</span> un
 <li>The model can be iteratively improved as more data is collected.<br />
 </li>
 <li>There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.</li>
+<li>the writing of a package allows us to enshrine business knowledge into a corpus of code that is inseparable from the documentation of that code.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.3.2 (2016-10-31)
@@ -352,18 +379,18 @@ dplyr::<span class="kw">mutate</span>(df, <span class="dt">prop_area =</span> un
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.7         plyr_1.8.4          tools_3.3.2        
-##  [4] testthat_1.0.2      digest_0.6.10       memoise_1.0.0      
+##  [4] testthat_1.0.2      digest_0.6.11       memoise_1.0.0      
 ##  [7] evaluate_0.10       gtable_0.2.0        lattice_0.20-34    
 ## [10] Matrix_1.2-7.1      igraph_1.0.1        DBI_0.5-1          
 ## [13] yaml_2.1.14         parallel_3.3.2      expm_0.999-0       
 ## [16] withr_1.0.2         stringr_1.1.0       roxygen2_5.0.1     
 ## [19] knitr_1.15.1        devtools_1.12.0     stats4_3.3.2       
-## [22] grid_3.3.2          R6_2.2.0            rmarkdown_1.1      
-## [25] matlab_1.0.2        magrittr_1.5        scales_0.4.0       
-## [28] htmltools_0.3.5     assertthat_0.1      govstyle_0.1.0     
-## [31] colorspace_1.2-7    labeling_0.3        stringi_1.1.2      
-## [34] lazyeval_0.2.0      RcppParallel_4.3.20 munsell_0.4.3      
-## [37] crayon_1.3.2</code></pre>
+## [22] rprojroot_1.2       grid_3.3.2          R6_2.2.0           
+## [25] rmarkdown_1.3       matlab_1.0.2        magrittr_1.5       
+## [28] backports_1.0.4     scales_0.4.0        htmltools_0.3.5    
+## [31] assertthat_0.1      govstyle_0.1.0      colorspace_1.2-7   
+## [34] labeling_0.3        stringi_1.1.2       lazyeval_0.2.0     
+## [37] RcppParallel_4.3.20 munsell_0.4.3       crayon_1.3.2</code></pre>
 </div>
 
 

@@ -75,8 +75,31 @@ dplyr::mutate(df, prop_area = unit_area / total_wall_area) %>%
   dplyr::select(grade, unit_area, prop_area)
 
 ## ------------------------------------------------------------------------
-head(my_block_10years[[11]]$cost, 1)
-head(my_block_10years[[11]]$cost_sum, 1)
+#  http://www.machinegurning.com/rstats/map_df/
+# my_block_2_years <- list(as_tibble(my_block_10years[[1]]),
+#                          as_tibble(my_block_10years[[2]]),
+#                          as_tibble(my_block_10years[[3]]))
+# 
+# cool_cars <- list(mtcars, mtcars, mtcars) %>%
+#   map_df(
+#     ~ .x , 
+#     .id = "timestep"
+#   ) %>%
+#   group_by(cyl) %>%
+#   summarise(mean(disp), mean(hp)) %>%
+#   ggplot(aes(x = cyl, y = `mean(disp)`)) +
+#   geom_point()
+#   
+#   ggplot +
+#   aes(
+#     x = x,
+#     fill = dist
+#   ) +
+#   geom_histogram() +
+#   facet_wrap(
+#     ~dist,
+#     ncol = 2 
+#   )
 
 
 ## ------------------------------------------------------------------------

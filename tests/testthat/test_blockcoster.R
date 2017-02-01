@@ -24,3 +24,13 @@ test_that("blockbuster_lookup is not implemented in blockbuster function as expe
   expect_equal(round(z_test[[2]][[3, "cost"]]), 4117)  #  check after deterioration of one year costs are produced
 })
 
+
+# when grade == "E" -------------------------------------------------------
+# perhaps we just accrue E, to sort it you need rebuild, maintenance can't fix therefore no sense costing it
+# for now
+test_that("blockbuster_lookup returns NA when grade is E", {
+  expect_true(is.na(blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
+                                  const_type = "Flat roof - Flexible sheet; single ply or built up",
+                                  grade = "E")))
+})
+
