@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.8.1
-RVersion: 3.3.1
+RVersion: 3.3.2
 Repos: CRAN=https://cran.rstudio.com/
 
 Package: BH
@@ -17,8 +17,8 @@ Package: NMF
 Source: CRAN
 Version: 0.20.6
 Hash: 632aad207ab2e551b33990c9f09ab8af
-Requires: RColorBrewer, colorspace, digest, gridBase, registry,
-    foreach, stringr, doParallel, pkgmaker, reshape2, rngtools, ggplot2
+Requires: RColorBrewer, colorspace, digest, doParallel, foreach,
+    ggplot2, gridBase, pkgmaker, registry, reshape2, rngtools, stringr
 
 Package: R6
 Source: CRAN
@@ -67,11 +67,16 @@ Source: CRAN
 Version: 1.0-6
 Hash: 67d0775189fd0041d95abca618c5c07e
 
+Package: brew
+Source: CRAN
+Version: 1.0-6
+Hash: 931f9972deae0f205e1c78a51f33149b
+
 Package: broom
 Source: CRAN
 Version: 0.4.1
 Hash: c90145ada2eac0128487c21ab2ac9c78
-Requires: plyr, psych, stringr, dplyr, reshape2, tidyr
+Requires: dplyr, plyr, psych, reshape2, stringr, tidyr
 
 Package: caTools
 Source: CRAN
@@ -98,8 +103,8 @@ Package: devtools
 Source: CRAN
 Version: 1.12.0
 Hash: bbad95109ae75cbb14099281cda43af2
-Requires: digest, git2r, jsonlite, rstudioapi, whisker, withr, memoise,
-    httr
+Requires: digest, git2r, httr, jsonlite, memoise, rstudioapi, whisker,
+    withr
 
 Package: dichromat
 Source: CRAN
@@ -115,7 +120,7 @@ Package: doParallel
 Source: CRAN
 Version: 1.0.10
 Hash: df91a7abfa938c06ad87b9a2b9269adb
-Requires: iterators, foreach
+Requires: foreach, iterators
 
 Package: dplyr
 Source: CRAN
@@ -155,7 +160,7 @@ Package: ggplot2
 Source: CRAN
 Version: 2.2.0
 Hash: 78c14285e0c114542d051a09bd552472
-Requires: digest, gtable, lazyeval, plyr, tibble, scales, reshape2
+Requires: digest, gtable, lazyeval, plyr, reshape2, scales, tibble
 
 Package: git2r
 Source: CRAN
@@ -166,7 +171,7 @@ Package: govstyle
 Source: github
 Version: 0.1.1
 Hash: 144413fae7c8dd3d57c1f7da5878135f
-Requires: png, testthat, devtools, ggplot2
+Requires: devtools, ggplot2, png, testthat
 GithubRepo: govstyle
 GithubUsername: ukgovdatascience
 GithubRef: master
@@ -186,7 +191,7 @@ Package: haven
 Source: CRAN
 Version: 1.0.0
 Hash: b71a2d2c1db7e6382d59f0ccec383d33
-Requires: BH, Rcpp, hms, tibble, readr
+Requires: BH, Rcpp, hms, readr, tibble
 
 Package: highr
 Source: CRAN
@@ -214,7 +219,7 @@ Package: igraph
 Source: CRAN
 Version: 1.0.1
 Hash: 26ac36402e881905359daabfd9ba4057
-Requires: irlba, magrittr, NMF
+Requires: NMF, irlba, magrittr
 
 Package: irlba
 Source: CRAN
@@ -268,7 +273,7 @@ Package: markovchain
 Source: CRAN
 Version: 0.6.5.1
 Hash: 7e07d17aa46f0bb78b5a06eed21fc83c
-Requires: Rcpp, expm, matlab, RcppParallel, RcppArmadillo, igraph
+Requires: Rcpp, RcppArmadillo, RcppParallel, expm, igraph, matlab
 
 Package: matlab
 Source: CRAN
@@ -295,7 +300,7 @@ Package: modelr
 Source: CRAN
 Version: 0.1.0
 Hash: 7c9848bf4d734f38b8ce91022d8de949
-Requires: lazyeval, magrittr, tibble, dplyr, purrr, tidyr, broom
+Requires: broom, dplyr, lazyeval, magrittr, purrr, tibble, tidyr
 
 Package: munsell
 Source: CRAN
@@ -317,7 +322,7 @@ Package: pkgmaker
 Source: CRAN
 Version: 0.22
 Hash: 2e5fc2a6b7eaeb1e1d397a8dc5f54480
-Requires: digest, registry, xtable, stringr
+Requires: digest, registry, stringr, xtable
 
 Package: plyr
 Source: CRAN
@@ -345,7 +350,7 @@ Package: purrr
 Source: CRAN
 Version: 0.2.2
 Hash: 883eb391742d94eb62d05aa8c5055211
-Requires: BH, Rcpp, lazyeval, magrittr, dplyr
+Requires: BH, Rcpp, dplyr, lazyeval, magrittr
 
 Package: readr
 Source: CRAN
@@ -381,7 +386,13 @@ Package: rngtools
 Source: CRAN
 Version: 1.2.4
 Hash: 4db0661fe95ab6eb3d6339495bf22003
-Requires: digest, stringr, pkgmaker
+Requires: digest, pkgmaker, stringr
+
+Package: roxygen2
+Source: CRAN
+Version: 5.0.1
+Hash: fd554bf7b028b1e8a65f2b9adcafa4f6
+Requires: Rcpp, brew, digest, stringi, stringr
 
 Package: rprojroot
 Source: CRAN
@@ -398,13 +409,13 @@ Package: rvest
 Source: CRAN
 Version: 0.3.2
 Hash: c69f7526520bad66fd2111ebe8b1364b
-Requires: magrittr, xml2, httr, selectr
+Requires: httr, magrittr, selectr, xml2
 
 Package: scales
 Source: CRAN
 Version: 0.4.1
 Hash: cf658953d600d4736b058df1558df481
-Requires: RColorBrewer, Rcpp, dichromat, labeling, plyr, munsell
+Requires: RColorBrewer, Rcpp, dichromat, labeling, munsell, plyr
 
 Package: selectr
 Source: CRAN
@@ -439,15 +450,24 @@ Package: tidyr
 Source: CRAN
 Version: 0.6.0
 Hash: 55b2d458dcd3407abb74732c82be146c
-Requires: Rcpp, lazyeval, magrittr, stringi, tibble, dplyr
+Requires: Rcpp, dplyr, lazyeval, magrittr, stringi, tibble
 
 Package: tidyverse
 Source: CRAN
 Version: 1.0.0
 Hash: 7adbfd73ba78f6c97f54e45df607850a
-Requires: DBI, hms, jsonlite, magrittr, readxl, xml2, tibble, httr,
-    stringr, dplyr, forcats, readr, lubridate, purrr, tidyr, haven,
-    ggplot2, rvest, broom, modelr
+Requires: DBI, broom, dplyr, forcats, ggplot2, haven, hms, httr,
+    jsonlite, lubridate, magrittr, modelr, purrr, readr, readxl, rvest,
+    stringr, tibble, tidyr, xml2
+
+Package: visualTest
+Source: github
+Version: 1.0.0
+Hash: 32c3b46bff5787e7d741e5a47bdc8603
+GithubRepo: visualTest
+GithubUsername: mangothecat
+GithubRef: master
+GithubSha1: 9b835a707479a9162ca50f108308a5d814bbc923
 
 Package: whisker
 Source: CRAN
