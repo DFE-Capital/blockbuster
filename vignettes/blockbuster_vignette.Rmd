@@ -259,14 +259,93 @@ p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
   govstyle::theme_gov()
 ```
 
+### Line plot
+
+The blockbuster output is flexible and amenable to data manipulation and or transformation prior to plotting. The user is only limited by their imagination.  
+
+Below we present a standard output that is seen in many reports of the School Estate. Here we plot the total costs by aggregated by condition grade for each year. Note how the `theme_gov()` style omits the legend.  
+
+```{r}
+
+p4 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade) %>%
+  dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = timestep, y = sum_cost, group = grade, colour = grade)) +
+  ggplot2::geom_line(size = 1.5)
+  
+
+p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
+  govstyle::theme_gov()  #  doesn't produce a legend
+
+```
+
+### Digging down
+
+> Better to draw several approximate graphics saying something about the right question than to draw one precise graphicrelating to the wrong question.
+
+The above graphic ignores the grade E or decommisioned building components that do not contribute to the total cost of repairs but will need to be addressed usually by reubilding of the whole block. Be imaginative and try plenty of variety in your plots.
+
+#### Total costs by building element
+
+```{r}
+p5 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, element) %>%
+  dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = element, y = sum_cost)) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
+  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+#### Subsetting the blockbuster list output for specified years of interest
+
+Or regarding the more critical building components, when does the amount of decommisioned or grade E `unit_area` become too much. Perhaps we are interested in just the last couple of years of the simulation? 
+
+```{r}
+p6 <- my_block_10years[11] %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade, abbreviate(element, 14)) %>%
+  dplyr::summarise(sum_unit_area = sum(unit_area, na.rm = TRUE),
+                   sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = sum_cost, y = sum_unit_area,
+                      group = grade, colour = grade, shape = grade)) +
+  ggplot2::geom_point() +
+  ggplot2::facet_wrap(
+    ~ element
+  )
+
+p6 + ylab("Estimated area") + xlab("Condition grade") +
+  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+#### Plotting two categorical variables
+
+This plot shows why working at a non
+
 ## Summary
 
-* This modelling approach makes use of all the data.  
+* This modelling approach has the potential to make use of all the data.  
 * It uses a robust statistical modelling approach.  
 * The input structure is preserved in the output tibbles.  
 * The model can be iteratively improved as more data is collected.  
 * There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.
-* the writing of a package allows us to enshrine business knowledge into a corpus of code that is inseparable from the documentation of that code.
+* The writing of a package allows us to enshrine business knowledge into a corpus of code that is inseparable from the documentation of that code.
 
 ```{r}
 sessionInfo()
