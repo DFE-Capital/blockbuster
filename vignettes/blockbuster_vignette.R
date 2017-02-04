@@ -142,5 +142,59 @@ p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
   govstyle::theme_gov()
 
 ## ------------------------------------------------------------------------
+
+p4 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade) %>%
+  dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = timestep, y = sum_cost, group = grade, colour = grade)) +
+  ggplot2::geom_line(size = 1.5)
+  
+
+p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
+  govstyle::theme_gov()  #  doesn't produce a legend
+
+
+## ------------------------------------------------------------------------
+p5 <- my_block_10years %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, element) %>%
+  dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = element, y = sum_cost)) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_wrap(
+    ~timestep
+  )
+
+p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
+  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+## ------------------------------------------------------------------------
+p6 <- my_block_10years[11] %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, grade, element_shrt = as.factor(abbreviate(element, 14))) %>%
+  dplyr::summarise(sum_unit_area = sum(unit_area, na.rm = TRUE),
+                   sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = sum_unit_area, y = sum_cost, colour = grade,
+                      shape = element_shrt)) +
+  ggplot2::geom_point() +
+  ggplot2::facet_wrap(
+    ~ timestep
+  )
+
+p6 + ylab("Cost of repairs") + xlab("Unit area (m^2)") + theme_bw()
+  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+## ------------------------------------------------------------------------
 sessionInfo()
 

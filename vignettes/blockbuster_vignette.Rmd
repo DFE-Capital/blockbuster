@@ -311,7 +311,9 @@ p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
 
 #### Subsetting the blockbuster list output for specified years of interest
 
-Or regarding the more critical building components, when does the amount of decommisioned or grade E `unit_area` become too much. Perhaps we are interested in just the last couple of years of the simulation? 
+Perhaps we are interested in just the last couple of years of the simulation? We can subset a single year of interest or dataframe from the list using the normal R syntax.  
+
+The following graph also highlights a flaw in the earlier generation of the deterioration model which just considerd the `unit_area` of a building component and ignored the building component `element`, `sub_element` or `const_type` type in its calculations. The blockbuster model considers this when estimating repair costs. In the figure below we aggregate across building `element` the total `unit_area` and `cost` of repairs and plot using the extra dimensions afforded by shape and colour.  
 
 ```{r}
 p6 <- my_block_10years[11] %>%
@@ -319,24 +321,20 @@ p6 <- my_block_10years[11] %>%
     ~ .x ,
     .id = NULL
   ) %>%
-  dplyr::group_by(timestep, grade, abbreviate(element, 14)) %>%
+  dplyr::group_by(timestep, grade, element_shrt = as.factor(abbreviate(element, 14))) %>%
   dplyr::summarise(sum_unit_area = sum(unit_area, na.rm = TRUE),
                    sum_cost = sum(cost, na.rm = TRUE)) %>%
-  ggplot2::ggplot(aes(x = sum_cost, y = sum_unit_area,
-                      group = grade, colour = grade, shape = grade)) +
+  ggplot2::ggplot(aes(x = sum_unit_area, y = sum_cost, colour = grade,
+                      shape = element_shrt)) +
   ggplot2::geom_point() +
   ggplot2::facet_wrap(
-    ~ element
+    ~ timestep
   )
 
-p6 + ylab("Estimated area") + xlab("Condition grade") +
+p6 + ylab("Cost of repairs") + xlab("Unit area (m^2)") + theme_bw()
   govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ```
-
-#### Plotting two categorical variables
-
-This plot shows why working at a non
 
 ## Summary
 
