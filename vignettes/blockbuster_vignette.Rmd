@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-> ""Can I have a P please, Bob?"."
+> Can I have a P please, Bob?.
 ([via](http://www.bbc.co.uk/news/entertainment-arts-16447409))
 
 ## Modelling  deterioration of the School Estate using Discrete-Time Markov chains
@@ -139,7 +139,7 @@ We can investigate the rate at which our critical elements are deteriorating or 
 
 Here we are interested in tracking the deterioration of critical building components in our block of interest.  We recycle the `my_wall_20year` object for this question. The wall starts as all condition grade B then gradually deteriorates.
 
-```{r}
+```{r fig.width=9, fig.height=6}
 p4 <- my_wall_20year %>%
   purrr::map_df(
     ~ .x ,
@@ -154,7 +154,7 @@ p4 <- my_wall_20year %>%
   )
 
 p4 + ylab("Estimated area (m^2)") + xlab("Condition grade") +
-  govstyle::theme_gov()
+  govstyle::theme_gov() 
 ```
 
 
@@ -163,7 +163,7 @@ p4 + ylab("Estimated area (m^2)") + xlab("Condition grade") +
 
 Typically we may be more interested in critical, structural building-features such as the roof or walls and whether the `unit_area` exceeds a critical threshold determined by expert opinion. For example, is our wall's total `unit_area` after 10 years comprised of over 20% grade D and E? We plot then expect the numbers.
 
-```{r warning=FALSE, message=FALSE, error=FALSE}
+```{r warning=FALSE, message=FALSE, error=FALSE, fig.width=9, fig.height=6}
 
 my_wall_10 <- blockbuster(my_wall, 10)
 #  We are interested in the 10 th (+ 1) timestep
@@ -203,7 +203,7 @@ Currently it will return `NA` for grade E. This due to lack of data on repairing
 We continue with the examples from above by considering the aggregated cost of repairs through time. Let us plot the distribution of costs by condition grade using a box plot through each year. Repair costs from grade A should always be zero as they are already in excellent condition and do not need any work. This plot shows how the median costs for each grade steadily increase year on year with some building components in particularly deteriorating quickly and in a costly fashion (the outliers indicated by the black circles).
  
 
-```{r}
+```{r fig.width=9, fig.height=6}
 #  http://www.machinegurning.com/rstats/map_df/
 
 # 
@@ -233,7 +233,7 @@ p2 <- my_block_10years %>%
   )
 
 p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
-  govstyle::theme_gov()
+  govstyle::theme_gov() 
 
 ```
 
@@ -241,7 +241,7 @@ p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
 
 We take our hypothetical building and plot the total costs year on year by condition grade. Notice how the costs to repair the hypothetical block increase until a maximum around seven years at which it reaches a balance. However, this ignores the amount of building component going into the decommissioned status.  
 
-```{r}
+```{r fig.width=9, fig.height=6}
 p3 <- my_block_10years %>%
   purrr::map_df(
     ~ .x ,
@@ -256,16 +256,48 @@ p3 <- my_block_10years %>%
   )
 
 p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
-  govstyle::theme_gov()
+  govstyle::theme_gov() 
 ```
 
 ### Line plot
 
 The blockbuster output is flexible and amenable to data manipulation and or transformation prior to plotting. The user is only limited by their imagination.  
 
-Below we present a standard output that is seen in many reports of the School Estate. Here we plot the total costs by aggregated by condition grade for each year. Note how the `theme_gov()` style omits the legend.  
+Below we present a standard output that is seen in many reports of the School Estate. Here we plot the total costs by aggregated by condition grade for each year and give it a slightly prettier finish. Note how the condition `grade` A and E do not contribute to the cost hence the repair cost increase rate decelerates as more building components' `unit_area` transitions into grade E from D. It's important users are aware of this when interpretating these graphics. If you waited long enough the cost of repairs would go to zero as everything becomes decommisioned and cannot be repaired. This needs to be replaced through rebuilding, a costlier exercise compared to simple repair and maintenance.   
 
-```{r}
+```{r fig.width=9, fig.height=6}
+# https://rpubs.com/Koundy/71792
+theme_Publication <- function(base_size=14) {
+      library(grid)
+      library(ggthemes)
+      (theme_foundation(base_size=base_size)
+       + theme(plot.title = element_text(face = "bold",
+                                         size = rel(1.2), hjust = 0.5),
+               text = element_text(),
+               panel.background = element_rect(colour = NA),
+               plot.background = element_rect(colour = NA),
+               panel.border = element_rect(colour = NA),
+               axis.title = element_text(face = "bold",size = rel(1)),
+               axis.title.y = element_text(angle=90,vjust =2),
+               axis.title.x = element_text(vjust = -0.2),
+               axis.text = element_text(), 
+               axis.line = element_line(colour="black"),
+               axis.ticks = element_line(),
+               panel.grid.major = element_line(colour="#f0f0f0"),
+               panel.grid.minor = element_blank(),
+               legend.key = element_rect(colour = NA),
+               legend.position = "bottom",
+               legend.direction = "horizontal",
+               legend.key.size= unit(0.2, "cm"),
+               #legend.margin = unit(0, "cm"),
+               legend.title = element_text(face="italic"),
+               plot.margin=unit(c(10,5,5,5),"mm"),
+               strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
+               strip.text = element_text(face="bold")
+          ))
+      
+}
+
 
 p4 <- my_block_10years %>%
   purrr::map_df(
@@ -275,23 +307,24 @@ p4 <- my_block_10years %>%
   dplyr::group_by(timestep, grade) %>%
   dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
   ggplot2::ggplot(aes(x = timestep, y = sum_cost, group = grade, colour = grade)) +
-  ggplot2::geom_line(size = 1.5)
+  ggplot2::geom_line(size = 1.3) 
   
 
 p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
-  govstyle::theme_gov()  #  doesn't produce a legend
+  theme_Publication()  +
+  ggtitle("Cost of repairs through time for our example block")
 
 ```
 
 ### Digging down
 
-> Better to draw several approximate graphics saying something about the right question than to draw one precise graphicrelating to the wrong question.
+> Better to draw several approximate graphics saying something about the right question than to draw one precise graphic relating to the wrong question.
 
 The above graphic ignores the grade E or decommisioned building components that do not contribute to the total cost of repairs but will need to be addressed usually by reubilding of the whole block. Be imaginative and try plenty of variety in your plots.
 
 #### Total costs by building element
 
-```{r}
+```{r fig.width=9, fig.height=6}
 p5 <- my_block_10years %>%
   purrr::map_df(
     ~ .x ,
@@ -306,16 +339,17 @@ p5 <- my_block_10years %>%
   )
 
 p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
-  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme(plot.margin = unit(c(20,10,10,10),"mm"))
 ```
 
 #### Subsetting the blockbuster list output for specified years of interest
 
 Perhaps we are interested in just the last couple of years of the simulation? We can subset a single year of interest or dataframe from the list using the normal R syntax.  
 
-The following graph also highlights a flaw in the earlier generation of the deterioration model which just considerd the `unit_area` of a building component and ignored the building component `element`, `sub_element` or `const_type` type in its calculations. The blockbuster model considers this when estimating repair costs. In the figure below we aggregate across building `element` the total `unit_area` and `cost` of repairs and plot using the extra dimensions afforded by shape and colour.  
+The following graph also highlights a flaw in the earlier generation of the deterioration model which just considerd the `unit_area` of a building component and ignored the building component `element`, `sub_element` or `const_type` type in its calculations. The blockbuster model considers this when estimating repair costs. In the figure below we aggregate across building `element` the total `unit_area` and `cost` of repairs and plot using the extra dimensions afforded by point area and colour.  
 
-```{r}
+```{r fig.width=9, fig.height=6}
 p6 <- my_block_10years[11] %>%
   purrr::map_df(
     ~ .x ,
@@ -324,15 +358,15 @@ p6 <- my_block_10years[11] %>%
   dplyr::group_by(timestep, grade, element_shrt = as.factor(abbreviate(element, 14))) %>%
   dplyr::summarise(sum_unit_area = sum(unit_area, na.rm = TRUE),
                    sum_cost = sum(cost, na.rm = TRUE)) %>%
-  ggplot2::ggplot(aes(x = sum_unit_area, y = sum_cost, colour = grade,
-                      shape = element_shrt)) +
-  ggplot2::geom_point() +
+  ggplot2::ggplot(aes(x = grade, y = sum_cost, colour = element_shrt, size = sum_unit_area)) +
+  ggplot2::geom_point(alpha = 0.7) +
   ggplot2::facet_wrap(
     ~ timestep
   )
 
-p6 + ylab("Cost of repairs") + xlab("Unit area (m^2)") + theme_bw()
-  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+p6 + ylab("Cost of repairs (£)") + xlab("Condition grade")  +
+  theme_economist() + 
+  scale_size_continuous(breaks = c(1000, 2000, 3000), range = c(3,10))
 
 ```
 

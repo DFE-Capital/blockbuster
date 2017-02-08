@@ -49,7 +49,7 @@ my_block_10years <- blockbuster(y, 10)
 dplyr::select(my_block_10years[[11]], buildingid, elementid, grade, unit_area) %>%
   dplyr::arrange(elementid, grade)
 
-## ------------------------------------------------------------------------
+## ----fig.width=9, fig.height=6-------------------------------------------
 p4 <- my_wall_20year %>%
   purrr::map_df(
     ~ .x ,
@@ -64,9 +64,9 @@ p4 <- my_wall_20year %>%
   )
 
 p4 + ylab("Estimated area (m^2)") + xlab("Condition grade") +
-  govstyle::theme_gov()
+  govstyle::theme_gov() 
 
-## ----warning=FALSE, message=FALSE, error=FALSE---------------------------
+## ----warning=FALSE, message=FALSE, error=FALSE, fig.width=9, fig.height=6----
 
 my_wall_10 <- blockbuster(my_wall, 10)
 #  We are interested in the 10 th (+ 1) timestep
@@ -91,7 +91,7 @@ total_wall_area <- sum(df$unit_area)
 dplyr::mutate(df, prop_area = unit_area / total_wall_area) %>%
   dplyr::select(grade, unit_area, prop_area)
 
-## ------------------------------------------------------------------------
+## ----fig.width=9, fig.height=6-------------------------------------------
 #  http://www.machinegurning.com/rstats/map_df/
 
 # 
@@ -121,10 +121,10 @@ p2 <- my_block_10years %>%
   )
 
 p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
-  govstyle::theme_gov()
+  govstyle::theme_gov() 
 
 
-## ------------------------------------------------------------------------
+## ----fig.width=9, fig.height=6-------------------------------------------
 p3 <- my_block_10years %>%
   purrr::map_df(
     ~ .x ,
@@ -139,9 +139,41 @@ p3 <- my_block_10years %>%
   )
 
 p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
-  govstyle::theme_gov()
+  govstyle::theme_gov() 
 
-## ------------------------------------------------------------------------
+## ----fig.width=9, fig.height=6-------------------------------------------
+# https://rpubs.com/Koundy/71792
+theme_Publication <- function(base_size=14) {
+      library(grid)
+      library(ggthemes)
+      (theme_foundation(base_size=base_size)
+       + theme(plot.title = element_text(face = "bold",
+                                         size = rel(1.2), hjust = 0.5),
+               text = element_text(),
+               panel.background = element_rect(colour = NA),
+               plot.background = element_rect(colour = NA),
+               panel.border = element_rect(colour = NA),
+               axis.title = element_text(face = "bold",size = rel(1)),
+               axis.title.y = element_text(angle=90,vjust =2),
+               axis.title.x = element_text(vjust = -0.2),
+               axis.text = element_text(), 
+               axis.line = element_line(colour="black"),
+               axis.ticks = element_line(),
+               panel.grid.major = element_line(colour="#f0f0f0"),
+               panel.grid.minor = element_blank(),
+               legend.key = element_rect(colour = NA),
+               legend.position = "bottom",
+               legend.direction = "horizontal",
+               legend.key.size= unit(0.2, "cm"),
+               #legend.margin = unit(0, "cm"),
+               legend.title = element_text(face="italic"),
+               plot.margin=unit(c(10,5,5,5),"mm"),
+               strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
+               strip.text = element_text(face="bold")
+          ))
+      
+}
+
 
 p4 <- my_block_10years %>%
   purrr::map_df(
@@ -151,14 +183,15 @@ p4 <- my_block_10years %>%
   dplyr::group_by(timestep, grade) %>%
   dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
   ggplot2::ggplot(aes(x = timestep, y = sum_cost, group = grade, colour = grade)) +
-  ggplot2::geom_line(size = 1.5)
+  ggplot2::geom_line(size = 1.3) 
   
 
 p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
-  govstyle::theme_gov()  #  doesn't produce a legend
+  theme_Publication()  +
+  ggtitle("Cost of repairs through time for our example block")
 
 
-## ------------------------------------------------------------------------
+## ----fig.width=9, fig.height=6-------------------------------------------
 p5 <- my_block_10years %>%
   purrr::map_df(
     ~ .x ,
@@ -173,9 +206,10 @@ p5 <- my_block_10years %>%
   )
 
 p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
-  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme(plot.margin = unit(c(20,10,10,10),"mm"))
 
-## ------------------------------------------------------------------------
+## ----fig.width=9, fig.height=6-------------------------------------------
 p6 <- my_block_10years[11] %>%
   purrr::map_df(
     ~ .x ,
@@ -184,15 +218,15 @@ p6 <- my_block_10years[11] %>%
   dplyr::group_by(timestep, grade, element_shrt = as.factor(abbreviate(element, 14))) %>%
   dplyr::summarise(sum_unit_area = sum(unit_area, na.rm = TRUE),
                    sum_cost = sum(cost, na.rm = TRUE)) %>%
-  ggplot2::ggplot(aes(x = sum_unit_area, y = sum_cost, colour = grade,
-                      shape = element_shrt)) +
-  ggplot2::geom_point() +
+  ggplot2::ggplot(aes(x = grade, y = sum_cost, colour = element_shrt, size = sum_unit_area)) +
+  ggplot2::geom_point(alpha = 0.7) +
   ggplot2::facet_wrap(
     ~ timestep
   )
 
-p6 + ylab("Cost of repairs") + xlab("Unit area (m^2)") + theme_bw()
-  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+p6 + ylab("Cost of repairs (£)") + xlab("Condition grade")  +
+  theme_economist() + 
+  scale_size_continuous(breaks = c(1000, 2000, 3000), range = c(3,10))
 
 
 ## ------------------------------------------------------------------------
