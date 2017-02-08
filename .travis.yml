@@ -1,6 +1,8 @@
 language: r
 cache:
-  directories: $TRAVIS_BUILD_DIR/packrat/
+  directories:
+    - $TRAVIS_BUILD_DIR/packrat/src
+    - $TRAVIS_BUILD_DIR/packrat/lib
   packages: true
 
 os:
@@ -18,12 +20,8 @@ r_github_packages:
   - MangoTheCat/visualTest
   - UKGov-Data-Science/govstyle@v0.1.1
 
-install:
-  - R -e "0" --args --bootstrap-packrat
-
-cache:
-  directories: $TRAVIS_BUILD_DIR/packrat/
-  packages: true
+#install:
+#  - R -e "0" --args --bootstrap-packrat
 
 after_success:
   - Rscript -e 'covr::codecov()'
