@@ -29,7 +29,8 @@ Suggests:
     knitr (>= 1.15.1),
     rmarkdown (>= 1.2),
     govstyle (>= 0.1.0),
-    devtools (>= 1.12.0)
+    devtools (>= 1.12.0),
+    ggthemes (>= 3.3.0)
 VignetteBuilder: knitr
 Remotes:
     github::UKGov-Data-Science/govstyle
