@@ -17,26 +17,41 @@
 #' @examples 
 #' cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, 
 #' blockbuster_pds[3, ]$const_type, blockbuster_pds[3, ]$grade)
-blockcoster_lookup <- function(element, sub_element, const_type, grade, costs_lookup = blockbuster_pds_repair_costs) {
+
+blockcoster_lookup <- function(
+  element, sub_element, const_type, grade, costs_lookup = blockbuster_pds_repair_costs
+) {
   
   #  Create new variable to match against
   #  We do this without pipes which impairs readibility, see comments  for what happens at each step
-  concated_building_component_grade <- paste(element, sub_element,
-                                            const_type, grade,
-                                            sep = "_")
-  concated_building_component_grade_clean <- iconv(concated_building_component_grade,
-                                                  from = "UTF-8", to = "ASCII", sub = "byte")
-  concated_building_component_grade_clean <- stringr::str_replace_all(concated_building_component_grade_clean, "<e2><80><93>", "-")
-  concated_building_component_grade_clean <- stringr::str_replace_all(concated_building_component_grade_clean,
-                             "[[:number:]]|[^[:alnum:]]| ", "")
-  concated_building_component_grade_clean <- stringr::str_to_lower(concated_building_component_grade_clean)
+  
+  concated_building_component_grade <- paste(
+    element, sub_element, const_type, grade, sep = "_"
+  )
+  
+  concated_building_component_grade_clean <- iconv(
+    concated_building_component_grade, from = "UTF-8", to = "ASCII", sub = "byte"
+  )
+  
+  concated_building_component_grade_clean <- stringr::str_replace_all(
+    concated_building_component_grade_clean, "<e2><80><93>", "-"
+  )
+  
+  concated_building_component_grade_clean <- stringr::str_replace_all(
+    concated_building_component_grade_clean, "[[:number:]]|[^[:alnum:]]| ", ""
+  )
+  
+  concated_building_component_grade_clean <- stringr::str_to_lower(
+    concated_building_component_grade_clean
+  )
 
  #  http://stackoverflow.com/questions/10294284/remove-all-special-characters-from-a-string-in-r
 
   #  Match new variable and get index of match, this blockbuster_pds_repair_costs index as default
   pos <- as.integer()
-  pos <- match(concated_building_component_grade_clean, 
-    costs_lookup$concated_building_component_grade_clean)
+  pos <- match(
+    concated_building_component_grade_clean, costs_lookup$concated_building_component_grade_clean
+  )
   
   # Test that length pos is not zero, therefore it has been matched
   if (length(pos) == 0) stop("Repair cost constant of building component not found by name!")
