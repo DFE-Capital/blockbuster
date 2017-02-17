@@ -1,7 +1,7 @@
 #' A random ten percent sample of the condition of the School Estate.
 #'
 #' A dataset containing the condition grade and other attributes of almost 255,000
-#' building elements of the English School Estate. The unit_area was estimated using
+#' building components of the English School Estate. The unit_area was estimated using
 #' the \code{areafy} function in this package. School identifying features have been removed.
 #'
 #' @format A tibble with 254,878 rows and 30 variables:
@@ -76,3 +76,26 @@
 #'   ...
 #' }
 "blockbuster_mc_list"
+
+#' A dataframe of repair costs at 2016 prices.
+#'
+#' A dataframe containing all repair costs per unit area by grade for each building component. 
+#' This is used in the blockbuster function to multiply the building components and its unit_area by
+#' the appropriate constant to estimate the expected repair costs to get the building component from
+#' grade D, C or B to grade A. Due to discrepancies in the spelling of the building components
+#' and the original Excel Costs model, these have been fixed and matched to that of the PDS here, to ensure
+#' compatability. For details of the process see \code{04_read_tidy_costs_data.R} in the \code{data-raw}
+#' directory; also see the associated \code{tests}.
+#'
+#' @format A dataframe of 640 rows and 8 variables to be used for cost estimation in blockbuster. 
+#' \describe{
+#'   \item{element}{The top level of the quantity surveyors' building component hierarchy.}
+#'   \item{sub_element}{The mid level of the quantity surveyors' building component hierarchy.}
+#'   \item{const_type}{The lowest level of the quantity surveyors' building component hierarchy.}
+#'   \item{variable}{The condition grade of the building component}
+#'   \item{repair_costs}{Cost in pounds per unit_area of the building component repaired to condition A.}
+#'   \item{concated_building_component_grade}{To save computation time we pre concatenate these for lookup.}
+#'   \item{concated_building_component_grade_clean}{To save computation time we pre concatenate these and tidy for lookup.}
+#'   ...
+#' }
+"blockbuster_pds_repair_costs"
