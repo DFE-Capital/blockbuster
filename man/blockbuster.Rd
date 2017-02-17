@@ -17,7 +17,9 @@ with each tibble containing
 the \code{unit_area} and condition of the \code{element sub_element constr_type} 
 combination at a given timestep while also duplicating all
  other variables and values from the input tibble.
-After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}.
+After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}. 
+Then repair cost estimates are calculated using \code{\link{blockcoster_lookup}} to find the correct constant which
+is multiplied by the \code{unit_area} to give the expected repair \code{cost}.
 }
 \description{
 The deterioration of more than one blockbuster rows through one time period.

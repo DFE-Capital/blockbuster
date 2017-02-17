@@ -1,0 +1,161 @@
+element,sub_element,const_type,D,C,B,A
+1 Roofs,1.1 Structure,1.1.1 Flat roof structure and deck - Generally,153.7182546,38.42956365,7.68591273,0
+1 Roofs,1.1 Structure,1.1.2 Pitched roof structure - Generally,281.7999548,49.31499209,14.08999774,0
+1 Roofs,1.2 Coverings and insulation,1.2.1 Flat roof - Flexible sheet; single ply or built up,141.1645476,42.34936428,14.11645476,0
+1 Roofs,1.2 Coverings and insulation,1.2.2 Flat roof - Asphalt,133.4310717,40.0293215,13.34310717,0
+1 Roofs,1.2 Coverings and insulation,1.2.3 Flat roof - Flat metal sheet,346.3714316,129.8892869,43.29642895,0
+1 Roofs,1.2 Coverings and insulation,1.2.4 Flat roof - Liquid applied,120.5451656,36.16354968,12.05451656,0
+1 Roofs,1.2 Coverings and insulation,1.2.5 Flat roof - Green roof,292.1092742,87.63278226,29.21092742,0
+1 Roofs,1.2 Coverings and insulation,1.2.6 Flat roof - Glazed areas / rooflights,3.548308406,0.887077101,0.17741542,0
+1 Roofs,1.2 Coverings and insulation,1.2.7 Pitched roof - Natural slates,211.4893386,68.73403505,15.8617004,0
+1 Roofs,1.2 Coverings and insulation,1.2.8 Pitched roof - Tiles,213.2550486,69.30789078,15.99412864,0
+1 Roofs,1.2 Coverings and insulation,1.2.9 Pitched roof - Flexible sheet; single ply or built up,175.0096436,52.50289308,17.50096436,0
+1 Roofs,1.2 Coverings and insulation,1.2.10 Pitched roof - Profiled fibreglass / GRP / plastic / composite sheet,117.5851008,23.51702015,5.879255038,0
+1 Roofs,1.2 Coverings and insulation,1.2.11 Pitched roof - Profiled fibre cement sheet,105.9245643,21.18491286,5.296228214,0
+1 Roofs,1.2 Coverings and insulation,1.2.12 Pitched roof - profiled metal sheet; self finished,148.7518246,44.62554737,14.87518246,0
+1 Roofs,1.2 Coverings and insulation,1.2.13 Pitched roof - Flat metal sheet,535.0104689,200.6289258,66.87630862,0
+1 Roofs,1.2 Coverings and insulation,1.2.14 Pitched roof - Glazed areas / rooflights,1167.028414,291.7571036,58.35142072,0
+1 Roofs,1.3 Drainage,1.3.1 Flat roof - Fibre cement,20.40460452,5.101151129,1.020230226,0
+1 Roofs,1.3 Drainage,1.3.2 Flat roof - Cast iron,25.66628138,6.416570345,1.283314069,0
+1 Roofs,1.3 Drainage,1.3.3 Flat roof - Aluminium,22.24173237,5.560433093,1.112086619,0
+1 Roofs,1.3 Drainage,1.3.4 Flat roof - Other metal,56.40250055,14.10062514,2.820125028,0
+1 Roofs,1.3 Drainage,1.3.5 Flat roof - Plastic,9.702888861,2.425722215,0.485144443,0
+1 Roofs,1.3 Drainage,1.3.6 Pitched roof - Fibre cement,20.40460452,5.101151129,1.020230226,0
+1 Roofs,1.3 Drainage,1.3.7 Pitched roof - Cast iron,25.66628138,6.416570345,1.283314069,0
+1 Roofs,1.3 Drainage,1.3.8 Pitched roof - Aluminium,22.24173237,5.560433093,1.112086619,0
+1 Roofs,1.3 Drainage,1.3.9 Pitched roof - Other metal,56.40250055,14.10062514,2.820125028,0
+1 Roofs,1.3 Drainage,1.3.10 Pitched roof - Plastic,9.702888861,2.425722215,0.485144443,0
+2 Floors and stairs,2.1 Ground bearing / hollow floors - structure,2.1.1 Generally,279.9836358,69.99590896,13.99918179,0
+2 Floors and stairs,2.2 Suspended floors - structure,2.2.1 Generally,298.8201417,74.70503543,14.94100709,0
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.1 Concrete / unfinished screed / floor paint,147.9426724,51.77993535,14.79426724,0
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.2 Softwood boarding,79.68356274,22.74114577,7.580381922,0
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.3 Hardwood strip / wood block / sprung floor,181.1622098,54.34866295,18.11622098,0
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.4 Raised access floor,113.8896646,20.65949045,4.131898091,0
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.5 Vinyl / rubber / cork in tiles / sheet,56.77074361,10.88865857,2.722164642,0
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.6 Ceramic tiles / terrazzo,222.1616716,69.24242941,15.97902217,0
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.7 Carpet,58.24408745,11.43722876,2.85930719,0
+2 Floors and stairs,2.4 Staircases - structure,2.4.1 Concrete,121.8048467,18.270727,6.090242335,0
+2 Floors and stairs,2.4 Staircases - structure,2.4.2 Timber,46.71521836,11.67880459,2.335760918,0
+2 Floors and stairs,2.4 Staircases - structure,2.4.3 Metal,55.96254113,8.394381169,2.798127056,0
+2 Floors and stairs,2.5 Staircases - Balustrades,2.5.1 Timber,24.31964883,6.079912207,1.215982441,0
+2 Floors and stairs,2.5 Staircases - Balustrades,2.5.2 Metal; painted,29.66158856,7.415397139,1.483079428,0
+2 Floors and stairs,2.5 Staircases - Balustrades,2.5.3 Metal; powder coated / self finished,35.44051501,8.860128753,1.772025751,0
+2 Floors and stairs,2.6 Staircases - Treads & risers,2.6.1 Timber,0,0,0,0
+2 Floors and stairs,2.6 Staircases - Treads & risers,2.6.2 Vinyl / rubber / cork / carpet in tiles / sheet,9.777206331,1.832653483,0.458163371,0
+2 Floors and stairs,2.6 Staircases - Treads & risers,2.6.3 Ceramic tiles / terrazzo,26.93822488,8.022839024,1.85142439,0
+3 Ceilings,3.1 Generally,3.1.1 Fair faced concrete,49.25130202,17.23795571,4.925130202,0
+4 Ceilings,3.1 Generally,3.1.2 Plaster / render / plasterboard lining / timber lining,51.65249947,15.49574984,5.165249947,0
+5 Ceilings,3.1 Generally,3.1.3 No ceiling / exposed structure,0,0,0,0
+6 Ceilings,3.1 Generally,3.1.4 Fibreboard / acoustic tile lining,78.59369704,23.57810911,7.859369704,0
+7 Ceilings,3.1 Generally,3.1.5 Suspended ceiling; timber boarding / panels,92.9815592,27.89446776,9.29815592,0
+8 Ceilings,3.1 Generally,3.1.6 Suspended ceiling; fibreboard / acoustic tiles,64.00963676,19.20289103,6.400963676,0
+9 Ceilings,3.1 Generally,3.1.7 Suspended ceiling; metal tiles,92.62186265,27.78655879,9.262186265,0
+10 Ceilings,3.1 Generally,3.1.8 Suspended rafts below fair faced / plaster soffit,74.93133213,22.47939964,7.493133213,0
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.1 In situ concrete,502.3652871,125.5913218,25.11826436,0
+"5 External walls, windows and doors",4.1 Walls - structure,4.1.2 Precast concrete,545.9703194,136.4925798,27.29851597,0
+"6 External walls, windows and doors",4.1 Walls - structure,4.1.3 Brick / block,257.5427326,64.38568316,12.87713663,0
+"7 External walls, windows and doors",4.1 Walls - structure,4.1.4 Stone,370.5691998,92.64229995,18.52845999,0
+"8 External walls, windows and doors",4.1 Walls - structure,4.1.5 Concrete / brick / block with rainscreen cladding,154.0482242,46.21446725,15.40482242,0
+"9 External walls, windows and doors",4.1 Walls - structure,4.1.6 Timber framed curtain walling,1333.346076,333.336519,66.6673038,0
+"10 External walls, windows and doors",4.1 Walls - structure,4.1.7 Metal framed curtain walling,1325.939597,397.7818791,132.5939597,0
+"11 External walls, windows and doors",4.1 Walls - structure,4.1.8 Frameless glazing,1654.420584,496.3261752,165.4420584,0
+"12 External walls, windows and doors",4.2 Walls - external finishes,4.2.1 Concrete,578.3169981,173.4950994,57.83169981,0
+"13 External walls, windows and doors",4.2 Walls - external finishes,4.2.2 Brick / stone,57.86952741,17.36085822,5.786952741,0
+"14 External walls, windows and doors",4.2 Walls - external finishes,4.2.3 Render,86.60140442,25.98042132,8.660140442,0
+"15 External walls, windows and doors",4.2 Walls - external finishes,4.2.4 Natural slate hanging,177.4285002,53.22855005,17.74285002,0
+"16 External walls, windows and doors",4.2 Walls - external finishes,4.2.5 Tile hanging,147.0177915,44.10533745,14.70177915,0
+"17 External walls, windows and doors",4.2 Walls - external finishes,4.2.6 Timber cladding,135.4584523,40.63753568,13.54584523,0
+"18 External walls, windows and doors",4.2 Walls - external finishes,4.2.7 No wall finish / exposed structure,0,0,0,0
+"19 External walls, windows and doors",4.2 Walls - external finishes,4.2.8 Profiled fibre cement sheet,125.1907506,37.55722519,12.51907506,0
+"20 External walls, windows and doors",4.2 Walls - external finishes,4.2.9 Profiled fibreglass / GRP / plastic / composite sheet / profiled metal sheet,199.5498382,59.86495147,19.95498382,0
+"21 External walls, windows and doors",4.2 Walls - external finishes,4.2.10 Flat metal sheet / panels,440.568453,132.1705359,44.0568453,0
+"22 External walls, windows and doors",4.2 Walls - external finishes,4.2.11 Flat fibreglass / GRP / plastic / composite in sheet / panels,168.681334,42.17033349,16.8681334,0
+"23 External walls, windows and doors",4.2 Walls - external finishes,4.2.12 Ceramic tiles,142.2272874,35.55682185,7.11136437,0
+"24 External walls, windows and doors",4.3 Walls - internal finishes,4.3.1 Concrete / brick / block / stone,0,0,0,0
+"25 External walls, windows and doors",4.3 Walls - internal finishes,4.3.2 Plaster / render / plasterboard lining,48.44458588,14.53337576,4.844458588,0
+"26 External walls, windows and doors",4.3 Walls - internal finishes,4.3.3 Fibreboard / acoustic lining,42.05179713,12.61553914,4.205179713,0
+"27 External walls, windows and doors",4.3 Walls - internal finishes,4.3.4 Timber lining,69.48683429,20.84605029,6.948683429,0
+"28 External walls, windows and doors",4.3 Walls - internal finishes,4.3.5 Ceramic tiles,105.7704067,31.731122,10.57704067,0
+"29 External walls, windows and doors",4.4 Windows and doors,4.4.1 Timber,547.8654149,164.3596245,54.78654149,0
+"30 External walls, windows and doors",4.4 Windows and doors,4.4.2 Metal,735.7005903,220.7101771,73.57005903,0
+"31 External walls, windows and doors",4.4 Windows and doors,4.4.3 Plastic,596.736583,179.0209749,59.6736583,0
+5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.1 Brick / block / concrete,287.0601453,40.59323634,4.779513547,0
+6 Internal walls and doors,5.1 Walls and partitions - structure,5.1.2 Timber / metal stud,75.0524696,12.72313168,1.632408125,0
+7 Internal walls and doors,5.1 Walls and partitions - structure,5.1.3 Glazed screen,226.8808309,62.75305859,25.10122344,0
+8 Internal walls and doors,5.1 Walls and partitions - structure,5.1.4 Sliding / folding partition,458.6621558,141.0131851,3.600949569,0
+9 Internal walls and doors,5.2 Walls and partitions finishes,5.2.1 Concrete / brick / block / stone,0,0,0,0
+10 Internal walls and doors,5.2 Walls and partitions finishes,5.2.2 Plaster / render / plasterboard lining,68.22789635,11.71460914,2.67262477,0
+11 Internal walls and doors,5.2 Walls and partitions finishes,5.2.3 Fibreboard / acoustic lining,62.68529945,8.828087963,2.191537908,0
+12 Internal walls and doors,5.2 Walls and partitions finishes,5.2.4 Timber lining,166.4577553,27.58615446,6.038072237,0
+13 Internal walls and doors,5.2 Walls and partitions finishes,5.2.5 Ceramic tiles,161.0132574,23.01006775,4.555201205,0
+14 Internal walls and doors,5.3 Doors,5.3.1 Timber,37.91528676,9.36783506,0.393425959,0
+15 Internal walls and doors,5.3 Doors,5.3.2 Metal / plastic,54.77197526,12.09901909,0.574619612,0
+6 Sanitary Services,6.1 Generally,6.1.1 Generally,23.86482591,8.352689069,2.386482591,0
+7. Mechanical Services,7.1 Heat source & equipment,7.1.1 Generally,27.9718694,7.692264086,2.097890205,0
+7. Mechanical Services,"7.2 Heating distribution, emitters & controls",7.2.1 Generally,80.39701045,28.13895366,8.039701045,0
+7. Mechanical Services,7.3 Hot & Cold Water System,7.3.1 Generally including heat source / calorifiers for heating the water,31.98189144,11.193662,3.198189144,0
+7. Mechanical Services,7.4 Gas distribution,7.4.1 Generally,13.32742618,4.664599164,1.332742618,0
+7. Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.1 No mechanical ventilation or air conditioning,0,0,0,0
+7. Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.2 Ventilation,71.09157141,17.77289285,3.554578571,0
+7. Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.3 Air conditioning,119.7895799,32.94213446,8.98421849,0
+8 Electrical Services,8.1 Control Gear,8.1.1 Generally,142.957085,46.46105261,10.72178137,0
+9 Electrical Services,8.2 Power,8.2.1 Generally,72.07308224,20.72101114,4.144202229,0
+10 Electrical Services,8.3 Lighting System,8.3.1 Generally,129.0448546,48.23051441,11.13011871,0
+11 Electrical Services,8.4 Alarms,8.4.1 Generally,32.84832166,9.443892478,1.888778496,0
+12 Electrical Services,8.5 Communications and IT infrastructure,8.5.1 Generally,11.78675071,4.40529808,1.016607249,0
+13 Electrical Services,8.6 Lifts and Hoists,8.6.1 Generally,82906.90463,20726.72616,4145.345231,0
+9 Re-decorations,9.1 External - walls,9.1.1 Unpainted,0,0,0,0
+10 Re-decorations,9.1 External - walls,9.1.2 Painted,39.06349167,7.812698333,1.953174583,0
+11 Re-decorations,"9.2 External - windows, doors etc.",9.2.1 Timber,35.44274454,7.088548907,1.772137227,0
+12 Re-decorations,"9.2 External - windows, doors etc.",9.2.2 Metal / plastic; unpainted,0,0,0,0
+13 Re-decorations,"9.2 External - windows, doors etc.",9.2.3 Metal; painted,32.25898413,6.451796826,1.612949206,0
+14 Re-decorations,9.3 Internal - walls,9.3.1 Unpainted,0,0,0,0
+15 Re-decorations,9.3 Internal - walls,9.3.2 Painted,52.27044923,10.45408985,2.613522461,0
+16 Re-decorations,9.4 Internal - ceilings,9.4.1 Unpainted,0,0,0,0
+17 Re-decorations,9.4 Internal - ceilings,9.4.2 Painted,18.75327034,3.750654067,0.937663517,0
+18 Re-decorations,"9.5 Internal - windows, doors etc",9.5.1 Generally,1.343046927,0.268609385,0.067152346,0
+10 Fixed Furniture and Fittings,"10.1 Teaching - science, technology",10.1.1 Generally,518.3068901,181.4074115,51.83068901,0
+11 Fixed Furniture and Fittings,10.2.1 Teaching - other,10.2.1 Generally,166.0267599,58.10936597,16.60267599,0
+12 Fixed Furniture and Fittings,10.3 Non-teaching - catering kitchen,10.3.1 Generally,2275.493664,796.4227823,227.5493664,0
+13 Fixed Furniture and Fittings,10.4 Non-teaching - other,10.4.1 Generally,130.2088041,45.57308143,13.02088041,0
+11 External Areas,11.1 Roads and car parks,11.1.1 Tarmac,88.3167359,22.07918397,4.415836795,0
+12 External Areas,11.1 Roads and car parks,11.1.2 In-situ concrete,151.3685967,37.84214917,7.568429834,0
+13 External Areas,11.1 Roads and car parks,11.1.3 Slabs / blocks,123.4742622,30.86856556,6.173713112,0
+14 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.1 Tarmac,69.43243697,17.35810924,3.471621848,0
+15 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.2 In-situ concrete paving,139.0487522,34.76218805,6.95243761,0
+16 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.3 Slab/block paving,116.7994808,29.19987021,5.839974041,0
+17 External Areas,11.3 Soft Landscaping,11.3.1 Generally,42.40845969,10.60211492,2.120422984,0
+18 External Areas,11.4 Mains Services,11.4.1 Generally,0.919391379,0.229847845,0.045969569,0
+19 External Areas,11.5 Boundary walls and fences,11.5.1 Brick / block / concrete / stone,268.155819,67.03895474,13.40779095,0
+20 External Areas,11.5 Boundary walls and fences,11.5.2 Timber / metal,92.26858651,23.06714663,4.613429325,0
+21 External Areas,11.5 Boundary walls and fences,11.5.3 Chainlink,46.16877043,9.233754086,2.308438522,0
+22 External Areas,11.5 Boundary walls and fences,11.5.4 No boundary / others' boundary,0,0,0,0
+23 External Areas,"11.6 Other walls, fences and barriers including around tennis courts, 'MUGAS' etc",11.6.1 Generally,18.03539422,3.607078845,0.901769711,0
+24 External Areas,11.7 Swimming Pools - Structure,11.7.1 Generally,14978.41789,10485.35222,2482.969652,0
+25 External Areas,11.8 Swimming Pools - Plant,11.8.1 Generally,19153.98707,13407.79095,3830.797414,0
+26 External Areas,11.9 Drainage - Treatment Plant,11.9.1 Generally,8.42775431,2.949714009,0.842775431,0
+27 External Areas,11.10 Drainage - Other,11.10.1 Generally,42.13877155,14.74857004,4.213877155,0
+12 Playing Fields / equipment,12.1 Generally,12.1.1 Tarmac,69.43243697,17.35810924,3.471621848,0
+13 Playing Fields / equipment,12.1 Generally,"12.1.2 All Weather, artificial and specialist",180.6220981,36.12441961,9.031104903,0
+14 Playing Fields / equipment,12.1 Generally,12.1.3 Grass,11.04035815,2.760089537,0.552017907,0
+Floors and Stairs,Staircases - Treads and risers,Vinyl / rubber / cork / carpet in tiles / sheet,9.777206331,1.832653483,0.458163371,0
+Ceilings,Generally,Plaster / render / plasterboard/ timber lining,51.65249947,15.49574984,5.165249947,0
+Mechanical Services,"Heating distribution, emitters and controls",Generally,80.39701045,28.13895366,8.039701045,0
+Mechanical Services,Hot and cold water system,Generally including heat source/calorifiers for heating the water,31.98189144,11.193662,3.198189144,0
+Mechanical Services,Mechanical ventilation / air conditioning,Mechanical ventilation,71.09157141,17.77289285,3.554578571,0
+Internal Walls and Doors,Walls and partitions finishes,No Internal Wall Finish/Exposed Structure,0,0,0,0
+"External Walls, Windows and Doors",Walls - Internal finishes,No Internal Wall Finish/Exposed Structure,0,0,0,0
+Floors and Stairs,Floors -  Screed & finish,Hardwood strip / wood block / sprung flooring,181.1622098,54.34866295,18.11622098,0
+Floors and Stairs,Staircases - Balustrades,Metal; powder coated / self finsihed,35.44051501,8.860128753,1.772025751,0
+Floors and Stairs,Staircases - Treads and risers,Ceramic tiles / terrazzo,26.93822488,8.022839024,1.85142439,0
+Electrical Services,Lifts,Generally,82906.90463,20726.72616,4145.345231,0
+Floors and Stairs,Staircases - Treads and risers,Timber,0,0,0,0
+Ceilings,Generally,Fair face concrete,49.25130202,17.23795571,4.925130202,0
+External Areas,"Paths, pedestrian paved areas, play areas",Slabs / blocks,116.7994808,29.19987021,5.839974041,0
+Playing Fields,Generally,Tarmac,69.43243697,17.35810924,3.471621848,0
+"External Walls, Windows and Doors",Walls - External finishes,Flat ffibreglass / GRP / plastic / composite in sheet / panels,168.681334,42.17033349,16.8681334,0
+"External Walls, Windows and Doors",Walls - External finishes,Profiled ffibreglass / GRP / plastic / composite / metal sheet,199.5498382,59.86495147,19.95498382,0
+Playing Fields,Generally,Grass,11.04035815,2.760089537,0.552017907,0
+Playing Fields,Generally,"All-weather, artificial and specialist",180.6220981,36.12441961,9.031104903,0
+External Areas,"Paths, pedestrian paved areas, play areas",In-situ concrete,139.0487522,34.76218805,6.95243761,0
+External Areas,Roads and car parks,Slab/block paving,123.4742622,30.86856556,6.173713112,0

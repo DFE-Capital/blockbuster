@@ -1,16 +1,13 @@
 language: r
 cache:
-  directories: $TRAVIS_BUILD_DIR/packrat/
+  directories:
+    - $TRAVIS_BUILD_DIR/packrat/src
+    - $TRAVIS_BUILD_DIR/packrat/lib
   packages: true
 
-matrix:
-  include:
-    - os: linux
-      dist: precise
-      sudo: required
-    - os: osx
-      osx_image: xcode8.3
-      latex: false
+os:
+  - linux
+#  - osx
 
 r_packages:
   - knitr
@@ -18,17 +15,14 @@ r_packages:
 git:
   depth: 3
 
-r_github_packages:
-  - jimhester/covr
-  - MangoTheCat/visualTest
-  - UKGov-Data-Science/govstyle@v0.1.1
+#r_github_packages:
+#  - jimhester/covr
+#  - MangoTheCat/visualTest
+#  - UKGov-Data-Science/govstyle@v0.1.1
 
 install:
   - R -e "0" --args --bootstrap-packrat
 
-cache:
-  directories: $TRAVIS_BUILD_DIR/packrat/
-  packages: true
-
 after_success:
+  - Rscript -e 'devtools::install_github("jimhester/covr")'
   - Rscript -e 'covr::codecov()'

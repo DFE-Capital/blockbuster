@@ -42,7 +42,7 @@ blockbuster_pds
 }
 \description{
 A dataset containing the condition grade and other attributes of almost 255,000
-building elements of the English School Estate. The unit_area was estimated using
+building components of the English School Estate. The unit_area was estimated using
 the \code{areafy} function in this package. School identifying features have been removed.
 }
 \keyword{datasets}
