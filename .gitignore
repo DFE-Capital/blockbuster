@@ -17,6 +17,7 @@ missing_dtmc
 #blockbuster_det_data.rda
 inst/doc
 building_component_life_summary.xls
+data-raw/blockbuster_unit_quantity_methods.csv
 Final_PDSP_Cost_model_4Q16.xlsx
 data-raw/repair_costs_pre_tidy.csv
 data-raw/repair_costs_tidy.csv

@@ -1,8 +1,13 @@
 ## ----warning=FALSE, message=FALSE, error=FALSE---------------------------
-library(tidyverse)  #  Recommended for filterting rows desired for input.
+#  You could load tidyverse or you can load the individual packages, one-at-a-time.
+
+library(dplyr)  #  need pipe %>%
+library(ggplot2)  #  for visualisation
 library(markovchain)  #  Recommended for markovchain S4 object handling (advanced).
 
 library(blockbuster)  #  Required.
+
+library(ggthemes)  #  Make pretty output with little effort.
 
 
 ## ------------------------------------------------------------------------
@@ -46,7 +51,8 @@ head(my_wall_next_year[[2]]$timestep, 1)  #  1 timestep later than initial
 ## ------------------------------------------------------------------------
 y <- blockbuster_pds[1:20, ]  #  select all rows associated with decision level of interest, perhaps one block or one LA?
 my_block_10years <- blockbuster(y, 10)
-dplyr::select(my_block_10years[[11]], buildingid, elementid, grade, unit_area) %>%
+dplyr::select(my_block_10years[[11]],
+              buildingid, elementid, grade, unit_area) %>%
   dplyr::arrange(elementid, grade)
 
 ## ----fig.width=9, fig.height=6-------------------------------------------
@@ -143,36 +149,36 @@ p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
 
 ## ----fig.width=9, fig.height=6-------------------------------------------
 # https://rpubs.com/Koundy/71792
-theme_Publication <- function(base_size=14) {
-      library(grid)
-      library(ggthemes)
-      (theme_foundation(base_size=base_size)
-       + theme(plot.title = element_text(face = "bold",
-                                         size = rel(1.2), hjust = 0.5),
-               text = element_text(),
-               panel.background = element_rect(colour = NA),
-               plot.background = element_rect(colour = NA),
-               panel.border = element_rect(colour = NA),
-               axis.title = element_text(face = "bold",size = rel(1)),
-               axis.title.y = element_text(angle=90,vjust =2),
-               axis.title.x = element_text(vjust = -0.2),
-               axis.text = element_text(), 
-               axis.line = element_line(colour="black"),
-               axis.ticks = element_line(),
-               panel.grid.major = element_line(colour="#f0f0f0"),
-               panel.grid.minor = element_blank(),
-               legend.key = element_rect(colour = NA),
-               legend.position = "bottom",
-               legend.direction = "horizontal",
-               legend.key.size= unit(0.2, "cm"),
-               #legend.margin = unit(0, "cm"),
-               legend.title = element_text(face="italic"),
-               plot.margin=unit(c(10,5,5,5),"mm"),
-               strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
-               strip.text = element_text(face="bold")
-          ))
-      
-}
+# theme_Publication <- function(base_size=14) {
+#       library(grid)
+#       library(ggthemes)
+#       (theme_foundation(base_size = base_size)
+#        + theme(plot.title = element_text(face = "bold",
+#                                          size = rel(1.2), hjust = 0.5),
+#                text = element_text(),
+#                panel.background = element_rect(colour = NA),
+#                plot.background = element_rect(colour = NA),
+#                panel.border = element_rect(colour = NA),
+#                axis.title = element_text(face = "bold",size = rel(1)),
+#                axis.title.y = element_text(angle = 90,vjust = 2),
+#                axis.title.x = element_text(vjust = -0.2),
+#                axis.text = element_text(), 
+#                axis.line = element_line(colour = "black"),
+#                axis.ticks = element_line(),
+#                panel.grid.major = element_line(colour = "#f0f0f0"),
+#                panel.grid.minor = element_blank(),
+#                legend.key = element_rect(colour = NA),
+#                legend.position = "bottom",
+#                legend.direction = "horizontal",
+#                legend.key.size = unit(0.2, "cm"),
+#                #legend.margin = unit(0, "cm"),
+#                legend.title = element_text(face = "italic"),
+#                plot.margin = unit(c(10,5,5,5),"mm"),
+#                strip.background = element_rect(colour = "#f0f0f0",fill = "#f0f0f0"),
+#                strip.text = element_text(face = "bold")
+#           ))
+#       
+# }
 
 
 p4 <- my_block_10years %>%
@@ -187,7 +193,8 @@ p4 <- my_block_10years %>%
   
 
 p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
-  theme_Publication()  +
+  # theme_Publication()  +
+  ggthemes::theme_hc() + ggthemes::scale_colour_hc() +
   ggtitle("Cost of repairs through time for our example block")
 
 
