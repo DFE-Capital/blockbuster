@@ -80,7 +80,7 @@ areafy <- function(blockbuster_initial_state) {
                      unit_area = dplyr::if_else(unit_area == 0 &
                                                   iconv(sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
                                                   paste0("Suspended floors ", "<96>", " Structure"),  #  Problem with the weird hyphen
-                               true = ground_gifa,
+                               true = gifa - ground_gifa,
                                false = unit_area
       
     )
@@ -151,26 +151,36 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
   variables_to_check <- c("gifa", "ground_gifa", "block_perimeter",
                           "block_perimeter", "height", "windows_doors",
                           "site_area_exc_field", "boundary_length",
-                          "field_area", "swimming_pool")
+                          "field_area", "swimming_pool", "composition")
   lapply(variables_to_check, f)
 
 
 # INSPECT BUILDING COMPONENT THEN CALCULATE UNIT AREA ---------------------------------------------------------------
 
-  areafyed <- dplyr::mutate(blockbuster_initial_state,
-                            unit_area = case_when(
-                              .$element == "Mazda RX4" & .$sub_element == "Mazda RX4 Wag" & .$const_type  ~ "Mazda",
-                              TRUE ~ gifa
-                            )
-                            )
+  areafyed <- blockbuster_initial_state %>%
+    dplyr::mutate(unit_area = case_when(
+      
+      #  match on alpha numeric on strings with dodgy punctuation e.g. weird hyphen en-dash Alt + 0150
+      #  This does exist but it's not being detected due to different encodings?
+      iconv(.$sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
+        paste0("Suspended floors ", "<96>", " Structure") ~ .$gifa - .$ground_gifa,
+      
+      #  Roofs are all estimated as being ground floor gifa
+      .$element == "Roofs" ~ .$ground_gifa,
+      
+      .$element == "Playing Fields" ~ .$field_area,
+      
+      
+      TRUE ~ 0
+      )
+      )
   
   
 
 # CONSIDER COMPOSITION ----------------------------------------------------
+  areafyed <- areafyed %>%
+    dplyr::mutate(unit_area = unit_area * composition)
 
-
-
-  
   return(areafyed)
   
 }

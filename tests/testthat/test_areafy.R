@@ -17,9 +17,11 @@ test_that("areafy works on blockbuster PDS data with unit_area removed", {
   expect_equal(x$unit_area, areafy(y)$unit_area)  #  robust, tests 1000 rows
 })
 
+
+# REMEMBER COMPOSITION ----------------------------------------------------
 test_that("areafy makes correct decisions regarding unit_area estimates", {
-  expect_equal(areafy(y[1, ])$unit_area, y[1, ]$gifa)
-  expect_equal(areafy(y[999, ])$unit_area, y[1, ]$gifa)
+  expect_equal(areafy(y[1, ])$unit_area, y[1, ]$gifa * y[1, ]$composition)  #  structure flat roof should be equal to gifa
+  expect_equal(areafy(y[999, ])$unit_area, y[999, ]$gifa * y[1, ]$composition)
 })
 
 # Developing areafy2 as an easier to read version of areafy using case_when
