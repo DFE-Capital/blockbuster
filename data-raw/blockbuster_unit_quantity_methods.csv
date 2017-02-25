@@ -25,116 +25,116 @@ element,sub_element,construction_type,unit_quantity_method,status_in_areafy,bloc
 1 Roofs,1.3 Drainage,1.3.8 Pitched roof - Aluminium,GF GIFA,OK,GF GIFA,OK,0,NA,NA,,OK
 1 Roofs,1.3 Drainage,1.3.9 Pitched roof - Other metal,GF GIFA,OK,GF GIFA,OK,0,NA,NA,,OK
 1 Roofs,1.3 Drainage,1.3.10 Pitched roof - Plastic,GF GIFA,OK,GF GIFA,OK,0,NA,NA,,OK
-2 Floors and stairs,2.1 Ground bearing / hollow floors - structure,2.1.1 Generally,GF GIFA,OK,GF GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.2 Suspended floors - structure,2.2.1 Generally,GIFA less GF GIFA,OK,GIFA less GF GIFA,OK,1,"When gifa = ground gifa then unit_area equals zero which is silly, affects ~ 0.22% of rows","Yes, if unit_area = 0 and gifa-ground_gifa = 0 then use gifa_ground as estimate",,cannot filter by this string
-2 Floors and stairs,2.3 Floors - screed & finish,2.3.1 Concrete / unfinished screed / floor paint,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.3 Floors - screed & finish,2.3.2 Softwood boarding,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.3 Floors - screed & finish,2.3.3 Hardwood strip / wood block / sprung floor,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.3 Floors - screed & finish,2.3.4 Raised access floor,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.3 Floors - screed & finish,2.3.5 Vinyl / rubber / cork in tiles / sheet,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.3 Floors - screed & finish,2.3.6 Ceramic tiles / terrazzo,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.3 Floors - screed & finish,2.3.7 Carpet,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.4 Staircases - structure,2.4.1 Concrete,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.4 Staircases - structure,2.4.2 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.4 Staircases - structure,2.4.3 Metal,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.5 Staircases - Balustrades,2.5.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.5 Staircases - Balustrades,2.5.2 Metal; painted,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.5 Staircases - Balustrades,2.5.3 Metal; powder coated / self finished,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.2 Vinyl / rubber / cork / carpet in tiles / sheet,GIFA,OK,GIFA,OK,0,NA,NA,,
-2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.3 Ceramic tiles / terrazzo,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.1 Fair faced concrete,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.2 Plaster / render / plasterboard lining / timber lining,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.3 No ceiling / exposed structure,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.4 Fibreboard / acoustic tile lining,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.5 Suspended ceiling; timber boarding / panels,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.6 Suspended ceiling; fibreboard / acoustic tiles,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.7 Suspended ceiling; metal tiles,GIFA,OK,GIFA,OK,0,NA,NA,,
-3 Ceilings,3.1 Generally,3.1.8 Suspended rafts below fair faced / plaster soffit,GIFA,OK,GIFA,OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.1 In situ concrete,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.2 Precast concrete,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.3 Brick / block,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.4 Stone,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.5 Concrete / brick / block with rainscreen cladding,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.6 Timber framed curtain walling,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.7 Metal framed curtain walling,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.1 Walls - structure,4.1.8 Frameless glazing,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.1 Concrete,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.2 Brick / stone,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.3 Render,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.4 Natural slate hanging,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.5 Tile hanging,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.6 Timber cladding,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.7 No wall finish / exposed structure,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.8 Profiled fibre cement sheet,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.9 Profiled fibreglass / GRP / plastic / composite sheet / profiled metal sheet,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.10 Flat metal sheet / panels,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.11 Flat fibreglass / GRP / plastic / composite in sheet / panels,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.12 Ceramic tiles,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.1 Concrete / brick / block / stone,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.2 Plaster / render / plasterboard lining,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.3 Fibreboard / acoustic lining,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.4 Timber lining,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.5 Ceramic tiles,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,
-"4 External walls, windows and doors",4.4 Windows and doors,4.4.1 Timber,Perim x height x % windows and doors,OK,windows and doors,OK,0,NA,NA,,
-"4 External walls, windows and doors",4.4 Windows and doors,4.4.2 Metal,Perim x height x % windows and doors,OK,windows and doors,OK,0,NA,NA,,
-"4 External walls, windows and doors",4.4 Windows and doors,4.4.3 Plastic,Perim x height x % windows and doors,OK,windows and doors,OK,0,NA,NA,,
-5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.1 Brick / block / concrete,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.2 Timber / metal stud,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.3 Glazed screen,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.4 Sliding / folding partition,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.1 Concrete / brick / block / stone,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.2 Plaster / render / plasterboard lining,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.3 Fibreboard / acoustic lining,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.4 Timber lining,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.5 Ceramic tiles,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.3 Doors,5.3.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,
-5 Internal walls and doors,5.3 Doors,5.3.2 Metal / plastic,GIFA,OK,GIFA,OK,0,NA,NA,,
-6 Sanitary Services,6.1 Generally,6.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-7 Mechanical Services,7.1 Heat source & equipment,7.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-7 Mechanical Services,"7.2 Heating distribution, emitters & controls",7.2.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-7 Mechanical Services,7.3 Hot & Cold Water System,7.3.1 Generally including heat source / calorifiers for heating the water,GIFA,OK,GIFA,OK,0,NA,NA,,
-7 Mechanical Services,7.4 Gas distribution,7.4.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-7 Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.1 No mechanical ventilation or air conditioning,GIFA,OK,GIFA,OK,0,NA,NA,,
-7 Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.2 Ventilation,GIFA,OK,GIFA,OK,0,NA,NA,,
-7 Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.3 Air conditioning,GIFA,OK,GIFA,OK,0,NA,NA,,
-8 Electrical Services,8.1 Control Gear,8.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-8 Electrical Services,8.2 Power,8.2.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-8 Electrical Services,8.3 Lighting System,8.3.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-8 Electrical Services,8.4 Alarms,8.4.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-8 Electrical Services,8.5 Communications and IT infrastructure,8.5.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-8 Electrical Services,8.6 Lifts and Hoists,8.6.1 Generally,Count,OK,Count,OK,0,NA,NA,,
-9 Re-decorations,9.1 External - walls,9.1.1 Unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,9.1 External - walls,9.1.2 Painted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,"9.2 External - windows, doors etc.",9.2.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,"9.2 External - windows, doors etc.",9.2.2 Metal / plastic; unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,"9.2 External - windows, doors etc.",9.2.3 Metal; painted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,9.3 Internal - walls,9.3.1 Unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,9.3 Internal - walls,9.3.2 Painted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,9.4 Internal - ceilings,9.4.1 Unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,9.4 Internal - ceilings,9.4.2 Painted,GIFA,OK,GIFA,OK,0,NA,NA,,
-9 Re-decorations,"9.5 Internal - windows, doors etc",9.5.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-10 Fixed Furniture and Fittings,"10.1 Teaching - science, technology",10.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-10 Fixed Furniture and Fittings,10.2.1 Teaching - other,10.2.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-10 Fixed Furniture and Fittings,10.3 Non-teaching - catering kitchen,10.3.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-10 Fixed Furniture and Fittings,10.4 Non-teaching - other,10.4.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,
-11 External Areas,11.1 Roads and car parks,11.1.1 Tarmac,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,11.1 Roads and car parks,11.1.2 In-situ concrete,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,11.1 Roads and car parks,11.1.3 Slabs / blocks,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.1 Tarmac,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.2 In-situ concrete paving,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.3 Slab/block paving,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,11.3 Soft Landscaping,11.3.1 Generally,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,11.4 Mains Services,11.4.1 Generally,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,11.5 Boundary walls and fences,11.5.1 Brick / block / concrete / stone,Boundary length,OK,Boundary length,OK,0,NA,NA,,
-11 External Areas,11.5 Boundary walls and fences,11.5.2 Timber / metal,Boundary length,OK,Boundary length,OK,0,NA,NA,,
-11 External Areas,11.5 Boundary walls and fences,11.5.3 Chainlink,Boundary length,OK,Boundary length,OK,0,NA,NA,,
-11 External Areas,11.5 Boundary walls and fences,11.5.4 No boundary / others' boundary,Boundary length,OK,Boundary length,OK,0,NA,NA,,
-11 External Areas,"11.6 Other walls, fences and barriers including around tennis courts, 'MUGAS' etc",11.6.1 Generally,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,
-11 External Areas,11.7 Swimming Pools - Structure,11.7.1 Generally,Swimming pool count,OK,Swimming pool count,OK,0,NA,NA,,
-11 External Areas,11.8 Swimming Pools - Plant,11.8.1 Generally,Swimming pool count,OK,Swimming pool count,OK,0,NA,NA,,
-11 External Areas,11.9 Drainage - Treatment Plant,11.9.1 Generally,GIFA,OK,GIFA,OK,1,"gifa is zero, so unit_area is, affects 0.02% of rows",NA,,
-11 External Areas,11.10 Drainage - Other,11.10.1 Generally,GIFA,OK,GIFA,OK,1,"gifa is zero, so unit_area is, affects 0.25% of rows",NA,,
-12 Playing Fields / equipment,12.1 Generally,12.1.1 Tarmac,Playing field area,OK,Playing field area,OK,0,NA,NA,,
-12 Playing Fields / equipment,12.1 Generally,"12.1.2 All Weather, artificial and specialist",Playing field area,OK,Playing field area,OK,0,NA,NA,,
-12 Playing Fields / equipment,12.1 Generally,12.1.3 Grass,Playing field area,OK,Playing field area,OK,0,NA,NA,,
+2 Floors and stairs,2.1 Ground bearing / hollow floors - structure,2.1.1 Generally,GF GIFA,OK,GF GIFA,OK,0,NA,NA,,includes the row below incorrectly but OK itself
+2 Floors and stairs,2.2 Suspended floors - structure,2.2.1 Generally,GIFA less GF GIFA,OK,GIFA less GF GIFA,OK,1,"When gifa = ground gifa then unit_area equals zero which is silly, affects ~ 0.22% of rows","Yes, if unit_area = 0 and gifa-ground_gifa = 0 then use gifa_ground as estimate",,"cannot filter by this string, fix use sub_element and assign GF GIFA with 2.1.1"
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.1 Concrete / unfinished screed / floor paint,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.2 Softwood boarding,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.3 Hardwood strip / wood block / sprung floor,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.4 Raised access floor,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.5 Vinyl / rubber / cork in tiles / sheet,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.6 Ceramic tiles / terrazzo,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.3 Floors - screed & finish,2.3.7 Carpet,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.4 Staircases - structure,2.4.1 Concrete,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.4 Staircases - structure,2.4.2 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.4 Staircases - structure,2.4.3 Metal,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.5 Staircases - Balustrades,2.5.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.5 Staircases - Balustrades,2.5.2 Metal; painted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.5 Staircases - Balustrades,2.5.3 Metal; powder coated / self finished,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.2 Vinyl / rubber / cork / carpet in tiles / sheet,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+2 Floors and stairs,2.6 Staircases – Treads & risers,2.6.3 Ceramic tiles / terrazzo,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.1 Fair faced concrete,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.2 Plaster / render / plasterboard lining / timber lining,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.3 No ceiling / exposed structure,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.4 Fibreboard / acoustic tile lining,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.5 Suspended ceiling; timber boarding / panels,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.6 Suspended ceiling; fibreboard / acoustic tiles,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.7 Suspended ceiling; metal tiles,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+3 Ceilings,3.1 Generally,3.1.8 Suspended rafts below fair faced / plaster soffit,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.1 In situ concrete,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.2 Precast concrete,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.3 Brick / block,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.4 Stone,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.5 Concrete / brick / block with rainscreen cladding,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.6 Timber framed curtain walling,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.7 Metal framed curtain walling,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.1 Walls - structure,4.1.8 Frameless glazing,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.1 Concrete,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.2 Brick / stone,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.3 Render,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.4 Natural slate hanging,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.5 Tile hanging,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.6 Timber cladding,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.7 No wall finish / exposed structure,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.8 Profiled fibre cement sheet,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.9 Profiled fibreglass / GRP / plastic / composite sheet / profiled metal sheet,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.10 Flat metal sheet / panels,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.11 Flat fibreglass / GRP / plastic / composite in sheet / panels,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.2 Walls - external finishes,4.2.12 Ceramic tiles,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.1 Concrete / brick / block / stone,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.2 Plaster / render / plasterboard lining,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.3 Fibreboard / acoustic lining,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.4 Timber lining,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.3 Walls – internal finishes,4.3.5 Ceramic tiles,"Perim x height, less % windows and doors",OK,"Perim x height, less % windows and doors",OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.4 Windows and doors,4.4.1 Timber,Perim x height x % windows and doors,OK,windows and doors,OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.4 Windows and doors,4.4.2 Metal,Perim x height x % windows and doors,OK,windows and doors,OK,0,NA,NA,,OK
+"4 External walls, windows and doors",4.4 Windows and doors,4.4.3 Plastic,Perim x height x % windows and doors,OK,windows and doors,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.1 Brick / block / concrete,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.2 Timber / metal stud,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.3 Glazed screen,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.1 Walls and partitions - structure,5.1.4 Sliding / folding partition,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.1 Concrete / brick / block / stone,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.2 Plaster / render / plasterboard lining,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.3 Fibreboard / acoustic lining,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.4 Timber lining,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.2 Walls and partitions finishes,5.2.5 Ceramic tiles,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.3 Doors,5.3.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+5 Internal walls and doors,5.3 Doors,5.3.2 Metal / plastic,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+6 Sanitary Services,6.1 Generally,6.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+7 Mechanical Services,7.1 Heat source & equipment,7.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+7 Mechanical Services,"7.2 Heating distribution, emitters & controls",7.2.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+7 Mechanical Services,7.3 Hot & Cold Water System,7.3.1 Generally including heat source / calorifiers for heating the water,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+7 Mechanical Services,7.4 Gas distribution,7.4.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+7 Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.1 No mechanical ventilation or air conditioning,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+7 Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.2 Ventilation,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+7 Mechanical Services,7.5 Mechanical Ventilation / air conditioning,7.5.3 Air conditioning,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+8 Electrical Services,8.1 Control Gear,8.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+8 Electrical Services,8.2 Power,8.2.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+8 Electrical Services,8.3 Lighting System,8.3.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+8 Electrical Services,8.4 Alarms,8.4.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+8 Electrical Services,8.5 Communications and IT infrastructure,8.5.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+8 Electrical Services,8.6 Lifts and Hoists,8.6.1 Generally,Count,OK,Count,OK,0,NA,NA,,OK
+9 Re-decorations,9.1 External - walls,9.1.1 Unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,9.1 External - walls,9.1.2 Painted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,"9.2 External - windows, doors etc.",9.2.1 Timber,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,"9.2 External - windows, doors etc.",9.2.2 Metal / plastic; unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,"9.2 External - windows, doors etc.",9.2.3 Metal; painted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,9.3 Internal - walls,9.3.1 Unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,9.3 Internal - walls,9.3.2 Painted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,9.4 Internal - ceilings,9.4.1 Unpainted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,9.4 Internal - ceilings,9.4.2 Painted,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+9 Re-decorations,"9.5 Internal - windows, doors etc",9.5.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+10 Fixed Furniture and Fittings,"10.1 Teaching - science, technology",10.1.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+10 Fixed Furniture and Fittings,10.2.1 Teaching - other,10.2.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+10 Fixed Furniture and Fittings,10.3 Non-teaching - catering kitchen,10.3.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+10 Fixed Furniture and Fittings,10.4 Non-teaching - other,10.4.1 Generally,GIFA,OK,GIFA,OK,0,NA,NA,,OK
+11 External Areas,11.1 Roads and car parks,11.1.1 Tarmac,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,11.1 Roads and car parks,11.1.2 In-situ concrete,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,11.1 Roads and car parks,11.1.3 Slabs / blocks,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.1 Tarmac,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.2 In-situ concrete paving,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,"11.2 Paths, pedestrian paved areas, play areas",11.2.3 Slab/block paving,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,11.3 Soft Landscaping,11.3.1 Generally,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,11.4 Mains Services,11.4.1 Generally,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,11.5 Boundary walls and fences,11.5.1 Brick / block / concrete / stone,Boundary length,OK,Boundary length,OK,0,NA,NA,,OK
+11 External Areas,11.5 Boundary walls and fences,11.5.2 Timber / metal,Boundary length,OK,Boundary length,OK,0,NA,NA,,OK
+11 External Areas,11.5 Boundary walls and fences,11.5.3 Chainlink,Boundary length,OK,Boundary length,OK,0,NA,NA,,OK
+11 External Areas,11.5 Boundary walls and fences,11.5.4 No boundary / others' boundary,Boundary length,OK,Boundary length,OK,0,NA,NA,,OK
+11 External Areas,"11.6 Other walls, fences and barriers including around tennis courts, 'MUGAS' etc",11.6.1 Generally,Site Area - GF GIFA,OK,Site Area - GF GIFA,OK,0,NA,NA,,OK
+11 External Areas,11.7 Swimming Pools - Structure,11.7.1 Generally,Swimming pool count,OK,Swimming pool count,OK,0,NA,NA,,OK
+11 External Areas,11.8 Swimming Pools - Plant,11.8.1 Generally,Swimming pool count,OK,Swimming pool count,OK,0,NA,NA,,OK
+11 External Areas,11.9 Drainage - Treatment Plant,11.9.1 Generally,GIFA,OK,GIFA,OK,1,"gifa is zero, so unit_area is, affects 0.02% of rows",NA,,OK
+11 External Areas,11.10 Drainage - Other,11.10.1 Generally,GIFA,OK,GIFA,OK,1,"gifa is zero, so unit_area is, affects 0.25% of rows",NA,,OK
+12 Playing Fields / equipment,12.1 Generally,12.1.1 Tarmac,Playing field area,OK,Playing field area,OK,0,NA,NA,,OK
+12 Playing Fields / equipment,12.1 Generally,"12.1.2 All Weather, artificial and specialist",Playing field area,OK,Playing field area,OK,0,NA,NA,,OK
+12 Playing Fields / equipment,12.1 Generally,12.1.3 Grass,Playing field area,OK,Playing field area,OK,0,NA,NA,,OK
