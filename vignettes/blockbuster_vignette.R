@@ -1,5 +1,5 @@
 ## ----warning=FALSE, message=FALSE, error=FALSE---------------------------
-library(tidyverse)  #  Recommended for filterting rows desired for input.
+library(tidyverse)  #  Recommended for filtering rows desired for input.
 library(markovchain)  #  Recommended for markovchain S4 object handling (advanced).
 
 library(blockbuster)  #  Required.

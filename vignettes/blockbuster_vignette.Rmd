@@ -31,7 +31,7 @@ The `blockbuster` function can be used on more than one row of what I call a `bl
 Check you have these packages installed and then load them into memory using `require()`.
 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
-library(tidyverse)  #  Recommended for filterting rows desired for input.
+library(tidyverse)  #  Recommended for filtering rows desired for input.
 library(markovchain)  #  Recommended for markovchain S4 object handling (advanced).
 
 library(blockbuster)  #  Required.
@@ -40,7 +40,9 @@ library(blockbuster)  #  Required.
 
 ## The initial state data
 
-Provided with this package is some sampled data with identifying features removed. We suggest loading the `tidyverse` package when handling this data. This object is a tibble called by `blockbuster_pds`. For creating a subset of this data to make it manageable for simulation, use the [`dplyr` package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html).
+Provided with this package is some sampled data with identifying features removed. We suggest loading the `tidyverse` package when handling this data. This object is a tibble called by `blockbuster_pds`. For creating a subset of this data to make it manageable for simulation, use the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html).  
+
+The `areafy2` function was used on data queried from the Department for Education Education Funding Authority Property Data Survey SQL data tables (see 01_read_and_tidy_data.R for details). This provides estimates for the `unit_area` (a quantification of how much of a buildign component there is) variable. This is crucial for the DTMC methodology and for quantifying the costs of repairs.  
 
 ```{r}
 dplyr::glimpse(blockbuster_pds)
