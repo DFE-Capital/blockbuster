@@ -53,7 +53,7 @@ levels(block_data_correct_type$grade) <- list(N = "N", A = "A", B = "B",
 
 blockbuster_pds <- block_data_correct_type %>%
   select(-1, -dfeno, -urn, -site_ref, -block_ref, -priority)  %>%  #  drop irrelevant yet sensitive columns
-  blockbuster::areafy() %>%  #  estimate unit_area variable at time zero
+  blockbuster::areafy2() %>%  #  estimate unit_area variable at time zero using improved method
   as_tibble() %>%  #  reorder into appropirate hierarchy
   select(lano, siteid, buildingid, elementid, everything())
 

@@ -8,7 +8,7 @@
 # deterioration stages, as you need an approximation of how much of something there
 # is, if you want to deteriorate it using a discrete-time markov chain approach. 
 
-#' Estimate the unit_area for an observation for a blockbuster tibble.
+#' Estimate the unit_area for an observation for a blockbuster tibble (deprecated; see \code{\link{areafy2}}).
 #'
 #' @param blockbuster_initial_state a blockbuster dataframe or tibble.
 #' @return a blockbuster tibble with the unit_area estimated for each row.
@@ -24,7 +24,6 @@
 #' these may take a unit_area of zero and thus will not contribute to the cost of repairs which
 #' could be misleading.
 #' @seealso  
-#' @export
 #' @examples 
 #' pds_data <- areafy(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
 #' pds_data == blockbuster_pds[1, ]$unit_area  #  The unit_area column was added to the blockbuster_pds using this function at time zero.
@@ -94,23 +93,25 @@ areafy <- function(blockbuster_initial_state) {
 }
 
 #' Estimate the unit_area for an observation for a blockbuster tibble with readable code.
-#'
-#' @param blockbuster_initial_state a blockbuster dataframe or tibble.
-#' @param unit_area_methods a string to specify whether "PDS" or "CDC". Currently only "PDS" supported.
-#' @return a blockbuster tibble with the unit_area estimated for each row.
+#' 
 #' This should be used to provide the initial estimates of the unit_area
 #' of each element-sub-element construction type in the dataframe found in the
-#' R script 01_read_and_tidy_data.R. It may be preferred over \code{\link{areafy}} as its easier to read,
+#' R script 01_read_and_tidy_data.R. 
+#' 
+#' It may be preferred over \code{\link{areafy}} as its easier to read,
 #' however as \code{\link[dplyr]{case_when}} is experimental, areafy may be preferred.  
 #' It will not need to be called after deterioration and different grades of the elementid appear,
 #' as the unit_area will be calculated by the transition from the superior grade condition.
 #' As most unit area calculation methods are to use the gifa,
 #'  we do this first and then specify the rarer \code{unit_area}
 #' calculations or estimation methods. A window or door is assumed to have an area of one 
-#' square metre.
-#' See the data-raw file blockbuster_unit_quantity_method for method details.
+#' square metre. See the data-raw file blockbuster_unit_quantity_method.csv for method details.
 #' The first areafy function used nested ifelse statements and was difficult to read. This version is
 #' an attempt to tidy that and make the code more human readable for debugging.
+#'
+#' @param blockbuster_initial_state a blockbuster dataframe or tibble without \code{unit_area}.
+#' @param unit_area_methods a string to specify whether "PDS" or "CDC". Currently only "PDS" supported.
+#' @return a blockbuster tibble with the unit_area estimated for each row.
 #' @seealso  
 #' @export
 #' @examples 
@@ -175,6 +176,7 @@ require(dplyr)
       
       #  match on alpha numeric on strings with dodgy punctuation e.g. weird hyphen en-dash Alt + 0150
       #  This does exist but it's not being detected due to different encodings?
+      #  y[grep("^Suspended floors", y$sub_element), ]  #  possible fix
       iconv(.$sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
         paste0("Suspended floors ", "<96>", " Structure") ~ .$gifa - .$ground_gifa,
       
@@ -194,6 +196,8 @@ require(dplyr)
       
       #  Roofs are all estimated as being ground floor gifa
       .$element == "Roofs" ~ .$ground_gifa,
+      
+      #  Code self explanatory
       
       .$element == "Playing Fields" ~ .$field_area,
       

@@ -2,7 +2,7 @@
 % Please edit documentation in R/areafy.R
 \name{areafy}
 \alias{areafy}
-\title{Estimate the unit_area for an observation for a blockbuster tibble.}
+\title{Estimate the unit_area for an observation for a blockbuster tibble (deprecated; see \code{\link{areafy2}}).}
 \usage{
 areafy(blockbuster_initial_state)
 }
@@ -18,10 +18,13 @@ as the unit_area will be calculated by the transition from the superior grade co
 As most unit area calculation methods are to use the gifa,
  we do this first and then specify the rarer \code{unit_area}
 calculations or estimation methods. A window or door is assumed to have an area of one 
-square metre.
+square metre.  
+There are some building components that lack a method for \code{unit_area} estimation,
+these may take a unit_area of zero and thus will not contribute to the cost of repairs which
+could be misleading.
 }
 \description{
-Estimate the unit_area for an observation for a blockbuster tibble.
+Estimate the unit_area for an observation for a blockbuster tibble (deprecated; see \code{\link{areafy2}}).
 }
 \examples{
 pds_data <- areafy(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
