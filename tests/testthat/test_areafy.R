@@ -30,5 +30,6 @@ test_that("areafy makes correct decisions regarding unit_area estimates", {
 # Could switch to this when CDC starts to arrive
 
 test_that("areafy2 checks inputs", {
-  expect_message(areafy2(y[1, ], "PDS"))
+  expect_warning(areafy2(y[1, ], "PDS"), regexp = NA)  #  If NA, asserts that there should be no output, messages, warnings, or errors.
+  expect_error(areafy2(y[1, ], "CDC"), regexp = NULL)  #  If NULL, the default, asserts that there should be an output, a messsage, a warning, or an error
 })
