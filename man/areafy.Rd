@@ -27,8 +27,8 @@ could be misleading.
 Estimate the unit_area for an observation for a blockbuster tibble (deprecated; see \code{\link{areafy2}}).
 }
 \examples{
-pds_data <- areafy(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
-pds_data == blockbuster_pds[1, ]$unit_area  #  The unit_area column was added to the blockbuster_pds using this function at time zero.
+pds_data <- areafy(blockbuster_pds[1, ])$unit_area 
+pds_data == blockbuster_pds[1, ]$unit_area  
 }
 \seealso{
 

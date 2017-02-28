@@ -26,8 +26,8 @@
 #' @seealso  
 #' @export
 #' @examples 
-#' pds_data <- areafy(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
-#' pds_data == blockbuster_pds[1, ]$unit_area  #  The unit_area column was added to the blockbuster_pds using this function at time zero.
+#' pds_data <- areafy(blockbuster_pds[1, ])$unit_area 
+#' pds_data == blockbuster_pds[1, ]$unit_area  
 
 areafy <- function(blockbuster_initial_state) {
   
@@ -116,8 +116,8 @@ areafy <- function(blockbuster_initial_state) {
 #' @seealso  
 #' @export
 #' @examples 
-#' pds_data <- areafy2(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
-#' pds_data == blockbuster_pds[1, ]$unit_area  #  The unit_area column was added to the blockbuster_pds using this function at time zero.
+#' pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 
+#' pds_data == blockbuster_pds[1, ]$unit_area  
 
 areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
   # This function is an improvement on the original areafy which was found to contain some errors.
@@ -159,7 +159,7 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
 
 
 # CALL DPLYR --------------------------------------------------------------
-require(dplyr)  
+require(tidyverse)  
   
 # INSPECT BUILDING COMPONENT THEN CALCULATE UNIT AREA ---------------------------------------------------------------
 

@@ -32,8 +32,8 @@ The first areafy function used nested ifelse statements and was difficult to rea
 an attempt to tidy that and make the code more human readable for debugging.
 }
 \examples{
-pds_data <- areafy2(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
-pds_data == blockbuster_pds[1, ]$unit_area  #  The unit_area column was added to the blockbuster_pds using this function at time zero.
+pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 
+pds_data == blockbuster_pds[1, ]$unit_area  
 }
 \seealso{
 
