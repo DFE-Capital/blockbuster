@@ -24,6 +24,7 @@
 #' these may take a unit_area of zero and thus will not contribute to the cost of repairs which
 #' could be misleading.
 #' @seealso  
+#' @export
 #' @examples 
 #' pds_data <- areafy(blockbuster_pds[1, ])$unit_area  #  The unit_area did not come with the raw data
 #' pds_data == blockbuster_pds[1, ]$unit_area  #  The unit_area column was added to the blockbuster_pds using this function at time zero.
