@@ -20,12 +20,8 @@ git:
 #  - MangoTheCat/visualTest
 #  - UKGov-Data-Science/govstyle@v0.1.1
 
-before_install:
-  - Rscript -e 'install.packages("knitr")'
-  - Rscript -e 'install.packages("rmarkdown")'
-
 install:
-  - R -e "0" --args --bootstrap-packrat
+#  - R -e "0" --args --bootstrap-packrat
 
 
 after_success:
