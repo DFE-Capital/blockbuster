@@ -22,6 +22,7 @@ git:
 
 before_install:
   - Rscript -e 'install.packages("knitr")'
+  - Rscript -e 'install.packages("rmarkdown")'
 
 install:
   - R -e "0" --args --bootstrap-packrat
