@@ -1,5 +1,6 @@
 ## ----warning=FALSE, message=FALSE, error=FALSE---------------------------
-# library(tidyverse)  #  Or you can load the individual packages, one-at-a-time.
+#  You could load tidyverse or you can load the individual packages, one-at-a-time.
+
 library(dplyr)  #  need pipe %>%
 library(ggplot2)  #  for visualisation
 library(markovchain)  #  Recommended for markovchain S4 object handling (advanced).

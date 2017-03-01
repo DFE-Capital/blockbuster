@@ -29,7 +29,6 @@
 #' @param unit_area_methods a string to specify whether "PDS" or "CDC". Currently only "PDS" supported.
 #' @return a blockbuster tibble with the unit_area estimated for each row.
 #' @importFrom dplyr %>%
-#' @seealso  
 #' @export
 #' @examples 
 #' pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 

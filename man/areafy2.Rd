@@ -35,7 +35,4 @@ an attempt to tidy that and make the code more human readable for debugging.
 pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 
 pds_data == blockbuster_pds[1, ]$unit_area  
 }
-\seealso{
-
-}
 
