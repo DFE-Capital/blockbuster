@@ -30,7 +30,7 @@
 #'   \item{field_area}{Playing fields areas metres squared.}
 #'   \item{swimming_pool}{Swimming pool? Caveat, no definition or minimum size to qualify.}
 #'   \item{timestep}{What year relative to the survey date are we in, timestep zero is at 2012-2014.}
-#'   \item{unit_area}{An estimation / quantification of how much of a building component there is. See \code{areafy2}
+#'   \item{unit_area}{An estimation / quantification of how much of a building component there is. See \code{areafy2}}
 #'   \item{cost_sum}{An aggregate of the costs by buildingid.}
 #'   ...
 #' }

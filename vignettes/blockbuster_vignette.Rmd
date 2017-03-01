@@ -31,10 +31,14 @@ The `blockbuster` function can be used on more than one row of what I call a `bl
 Check you have these packages installed and then load them into memory using `require()`.
 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
-library(tidyverse)  #  Recommended for filtering rows desired for input.
+# library(tidyverse)  #  Or you can load the individual packages, one-at-a-time.
+library(dplyr)  #  need pipe %>%
+library(ggplot2)  #  for visualisation
 library(markovchain)  #  Recommended for markovchain S4 object handling (advanced).
 
 library(blockbuster)  #  Required.
+
+library(ggthemes)  #  Make pretty output with little effort.
 
 ```
 
@@ -123,13 +127,14 @@ The same principle applies as above where we pass the `blockbuster` function an 
 ```{r}
 y <- blockbuster_pds[1:20, ]  #  select all rows associated with decision level of interest, perhaps one block or one LA?
 my_block_10years <- blockbuster(y, 10)
-dplyr::select(my_block_10years[[11]], buildingid, elementid, grade, unit_area) %>%
+dplyr::select(my_block_10years[[11]],
+              buildingid, elementid, grade, unit_area) %>%
   dplyr::arrange(elementid, grade)
 ```
 
 ## Computation time
 
-I suggest you spend time thinking about the precise question you are asking rather than using the whole `blockbuster_pds` tibble as input due to non-trivial computation time. As a rule of thumb the amount of rows you start with will be multiplied by five (as each `elementid` deteriorates to other states), with each of these tibbles being multiplied by the `forecast_horizon`. That's quite a lot of data and may tax your computer's RAM (although the `unit_area` and `timestep` will be the only variables changing through time).  
+I suggest you spend time thinking about the precise question you are asking rather than using the whole `blockbuster_pds` tibble as input due to non-trivial computation time. As a rule of thumb the amount of rows you start with will be multiplied by five (as each `elementid` deteriorates to other states), with each of these tibbles being multiplied by the `forecast_horizon`. That's quite a lot of data and may tax your computer's RAM (although the `unit_area`,  `timestep` and `cost` will be the only variables changing through time).  
 
 ## Plotting output basics
 
@@ -269,36 +274,36 @@ Below we present a standard output that is seen in many reports of the School Es
 
 ```{r fig.width=9, fig.height=6}
 # https://rpubs.com/Koundy/71792
-theme_Publication <- function(base_size=14) {
-      library(grid)
-      library(ggthemes)
-      (theme_foundation(base_size=base_size)
-       + theme(plot.title = element_text(face = "bold",
-                                         size = rel(1.2), hjust = 0.5),
-               text = element_text(),
-               panel.background = element_rect(colour = NA),
-               plot.background = element_rect(colour = NA),
-               panel.border = element_rect(colour = NA),
-               axis.title = element_text(face = "bold",size = rel(1)),
-               axis.title.y = element_text(angle=90,vjust =2),
-               axis.title.x = element_text(vjust = -0.2),
-               axis.text = element_text(), 
-               axis.line = element_line(colour="black"),
-               axis.ticks = element_line(),
-               panel.grid.major = element_line(colour="#f0f0f0"),
-               panel.grid.minor = element_blank(),
-               legend.key = element_rect(colour = NA),
-               legend.position = "bottom",
-               legend.direction = "horizontal",
-               legend.key.size= unit(0.2, "cm"),
-               #legend.margin = unit(0, "cm"),
-               legend.title = element_text(face="italic"),
-               plot.margin=unit(c(10,5,5,5),"mm"),
-               strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
-               strip.text = element_text(face="bold")
-          ))
-      
-}
+# theme_Publication <- function(base_size=14) {
+#       library(grid)
+#       library(ggthemes)
+#       (theme_foundation(base_size = base_size)
+#        + theme(plot.title = element_text(face = "bold",
+#                                          size = rel(1.2), hjust = 0.5),
+#                text = element_text(),
+#                panel.background = element_rect(colour = NA),
+#                plot.background = element_rect(colour = NA),
+#                panel.border = element_rect(colour = NA),
+#                axis.title = element_text(face = "bold",size = rel(1)),
+#                axis.title.y = element_text(angle = 90,vjust = 2),
+#                axis.title.x = element_text(vjust = -0.2),
+#                axis.text = element_text(), 
+#                axis.line = element_line(colour = "black"),
+#                axis.ticks = element_line(),
+#                panel.grid.major = element_line(colour = "#f0f0f0"),
+#                panel.grid.minor = element_blank(),
+#                legend.key = element_rect(colour = NA),
+#                legend.position = "bottom",
+#                legend.direction = "horizontal",
+#                legend.key.size = unit(0.2, "cm"),
+#                #legend.margin = unit(0, "cm"),
+#                legend.title = element_text(face = "italic"),
+#                plot.margin = unit(c(10,5,5,5),"mm"),
+#                strip.background = element_rect(colour = "#f0f0f0",fill = "#f0f0f0"),
+#                strip.text = element_text(face = "bold")
+#           ))
+#       
+# }
 
 
 p4 <- my_block_10years %>%
@@ -313,7 +318,8 @@ p4 <- my_block_10years %>%
   
 
 p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
-  theme_Publication()  +
+  # theme_Publication()  +
+  ggthemes::theme_hc() + ggthemes::scale_colour_hc() +
   ggtitle("Cost of repairs through time for our example block")
 
 ```
