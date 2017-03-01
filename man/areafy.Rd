@@ -33,4 +33,3 @@ pds_data == blockbuster_pds[1, ]$unit_area
 \seealso{
 
 }
-

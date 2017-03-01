@@ -28,4 +28,3 @@ compatability. For details of the process see \code{04_read_tidy_costs_data.R} i
 directory; also see the associated \code{tests}.
 }
 \keyword{datasets}
-
