@@ -8,99 +8,13 @@
 # deterioration stages, as you need an approximation of how much of something there
 # is, if you want to deteriorate it using a discrete-time markov chain approach. 
 
-#' Estimate the unit_area for an observation for a blockbuster tibble (deprecated; see \code{\link{areafy2}}).
-#'
-#' @param blockbuster_initial_state a blockbuster dataframe or tibble.
-#' @return a blockbuster tibble with the unit_area estimated for each row.
-#' This should be used to provide the initial estimates of the unit_area
-#' of each element-sub-element construction type in the dataframe.
-#' It will not need to be called after deterioration and different grades of the elementid appear,
-#' as the unit_area will be calculated by the transition from the superior grade condition.
-#' As most unit area calculation methods are to use the gifa,
-#'  we do this first and then specify the rarer \code{unit_area}
-#' calculations or estimation methods. A window or door is assumed to have an area of one 
-#' square metre.  
-#' There are some building components that lack a method for \code{unit_area} estimation,
-#' these may take a unit_area of zero and thus will not contribute to the cost of repairs which
-#' could be misleading.
-#' @seealso  
-#' @export
-#' @importFrom dplyr %>%
-#' @examples 
-#' pds_data <- areafy(blockbuster_pds[1, ])$unit_area 
-#' pds_data == blockbuster_pds[1, ]$unit_area  
-
-areafy <- function(blockbuster_initial_state) {
-  
-  areafyed <- dplyr::mutate(blockbuster_initial_state,
-                     unit_area = dplyr::if_else(element == "Roofs", true = ground_gifa,
-                          false = dplyr::if_else(element == "Floors and Stairs" |              element == "Ceilings" |
-                                            element == "Internal Walls and Doors" |     element == "Sanitary Services" |
-                                            element == "Sanitary Services" |            element == "Mechanical Services" |
-                                            element == "Electrical Services" |          element == "Redecorations" |
-                                            element == "Fixed Furniture and Fittings" | element == "External Areas",
-                                          true = gifa,
-                                          false = dplyr::if_else(element == "External Walls, Windows and Doors",
-                                                          true = (block_perimeter*height) - windows_doors,
-                                                          false = dplyr::if_else(element == "Playing Fields",
-                                                                          true = field_area,
-                                                                          false = 0
-                                                                            )
-                                                            )
-                                          )
-                          )
-    ) #  Keep it readable, that's using element level, some we need sub-element detail for method
-  areafyed <- dplyr::mutate(areafyed,
-                     unit_area = dplyr::if_else(iconv(sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
-                                                  paste0("Suspended floors ", "<96>", " Structure"),  #  Problem with the weird hyphen
-                                                true = gifa - ground_gifa,
-                               false = dplyr::if_else(sub_element == "Windows and doors", true = windows_doors,
-                                               false = dplyr::if_else(sub_element == "Lifts", true = number_lifts,
-                                                               false = dplyr::if_else(sub_element == "Roads and car parks" |
-                                                                                 sub_element == "Paths, pedestrian paved areas, play areas" |
-                                                                                 sub_element == "Soft Landscaping" |
-                                                                                 sub_element == "Mains Services" |
-                                                                                 sub_element == "Other walls, fences and barriers, including around tennis courts, MUGAs etc",
-                                                                               true = site_area_exc_field - ground_gifa,
-                                                                 false = dplyr::if_else(sub_element == "Boundary walls and fences", true = boundary_length,
-                                                                                 false = dplyr::if_else(sub_element == "Swimming Pools - Plant" |
-                                                                                                   sub_element == "Swimming Pools - Structure",
-                                                                                                 true = as.integer(swimming_pool) - 1,  #  Factor, level 1 is No, level 2 is Yes (alphabetical)
-                                                                                                   false = unit_area  #  already defined earlier
-                                                                                                 )
-                                                                   
-                                                                 )
-                                                               )
-                                                 
-                                               )
-                                                 )
-      
-    )
-    )  #  Here we introduce fixes for some errors in the original methods of unit_area estimation
-  areafyed <- dplyr::mutate(areafyed,
-                     unit_area = dplyr::if_else(unit_area == 0 &
-                                                  iconv(sub_element, from = "UTF-8", to = "ASCII", sub = "byte") ==
-                                                  paste0("Suspended floors ", "<96>", " Structure"),  #  Problem with the weird hyphen
-                               true = gifa - ground_gifa,
-                               false = unit_area
-      
-    )
-      
-    )
-  #  To finish we need to consider the composition e.g. the observation may be only 0.8 composition
-  areafyed <- dplyr::mutate(areafyed,
-                            unit_area = unit_area*composition)
-  #  Explicitly return as_tibble
-  return(tibble::as_tibble(areafyed))
-}
-
 #' Estimate the unit_area for an observation for a blockbuster tibble with readable code.
 #' 
 #' This should be used to provide the initial estimates of the unit_area
 #' of each element-sub-element construction type in the dataframe found in the
 #' R script 01_read_and_tidy_data.R. 
 #' 
-#' It may be preferred over \code{\link{areafy}} as its easier to read,
+#' It may be preferred over the deprecated \code{areafy} as its easier to read,
 #' however as \code{\link[dplyr]{case_when}} is experimental, areafy may be preferred.  
 #' It will not need to be called after deterioration and different grades of the elementid appear,
 #' as the unit_area will be calculated by the transition from the superior grade condition.
@@ -114,6 +28,7 @@ areafy <- function(blockbuster_initial_state) {
 #' @param blockbuster_initial_state a blockbuster dataframe or tibble without \code{unit_area}.
 #' @param unit_area_methods a string to specify whether "PDS" or "CDC". Currently only "PDS" supported.
 #' @return a blockbuster tibble with the unit_area estimated for each row.
+#' @importFrom dplyr %>%
 #' @seealso  
 #' @export
 #' @examples 
@@ -160,7 +75,7 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
 
 
 # CALL DPLYR --------------------------------------------------------------
-require(tidyverse)  
+# require(tidyverse)  
   
 # INSPECT BUILDING COMPONENT THEN CALCULATE UNIT AREA ---------------------------------------------------------------
 

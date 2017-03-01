@@ -25,3 +25,4 @@ by construction type combination through time as in the
  \code{det_eriorate} function in this package.
 }
 \keyword{datasets}
+

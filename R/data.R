@@ -2,7 +2,7 @@
 #'
 #' A dataset containing the condition grade and other attributes of almost 255,000
 #' building components of the English School Estate. The unit_area was estimated using
-#' the \code{areafy} function in this package. School identifying features have been removed.
+#' the \code{areafy2} function in this package. School identifying features have been removed.
 #'
 #' @format A tibble with 254,878 rows and 30 variables:
 #' \describe{
@@ -30,7 +30,7 @@
 #'   \item{field_area}{Playing fields areas metres squared.}
 #'   \item{swimming_pool}{Swimming pool? Caveat, no definition or minimum size to qualify.}
 #'   \item{timestep}{What year relative to the survey date are we in, timestep zero is at 2012-2014.}
-#'   \item{unit_area}{An estimation / quantification of how much of a building component there is. See \code{\link{areafy}} }
+#'   \item{unit_area}{An estimation / quantification of how much of a building component there is. See \code{areafy2}
 #'   \item{cost_sum}{An aggregate of the costs by buildingid.}
 #'   ...
 #' }

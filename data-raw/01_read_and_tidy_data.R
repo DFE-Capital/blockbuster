@@ -6,7 +6,7 @@
 
 # GET DATA ----------------------------------------------------------------
 # source("00_get_data.R")
-# script currently empty
+# script currently empty, could be SQL call
 
 # INPUT -------------------------------------------------------------------
 

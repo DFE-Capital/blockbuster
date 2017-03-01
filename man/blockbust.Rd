@@ -26,3 +26,4 @@ The deterioration of more than one blockbuster rows through one time period.
 one_year_later <- blockbust(dplyr::filter(blockbuster_pds, buildingid == 127617))
 }
 }
+

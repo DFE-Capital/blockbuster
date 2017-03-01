@@ -20,7 +20,7 @@ of each element-sub-element construction type in the dataframe found in the
 R script 01_read_and_tidy_data.R.
 }
 \details{
-It may be preferred over \code{\link{areafy}} as its easier to read,
+It may be preferred over the deprecated \code{areafy} as its easier to read,
 however as \code{\link[dplyr]{case_when}} is experimental, areafy may be preferred.  
 It will not need to be called after deterioration and different grades of the elementid appear,
 as the unit_area will be calculated by the transition from the superior grade condition.
@@ -38,3 +38,4 @@ pds_data == blockbuster_pds[1, ]$unit_area
 \seealso{
 
 }
+
