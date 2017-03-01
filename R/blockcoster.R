@@ -15,7 +15,8 @@
 #' @seealso \code{\link{blockbuster_pds_repair_costs}}
 #' @export
 #' @examples 
-#' cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, 
+#' cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(
+#' blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, 
 #' blockbuster_pds[3, ]$const_type, blockbuster_pds[3, ]$grade)
 
 blockcoster_lookup <- function(

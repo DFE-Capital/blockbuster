@@ -27,7 +27,8 @@ An internal function in \code{\link{blockbuster}} to select the correct repair c
 It works by matching strings from the concatenated \code{element}, \code{sub_element}, \code{const_type} and \code{grade}.
 }
 \examples{
-cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, 
+cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(
+blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, 
 blockbuster_pds[3, ]$const_type, blockbuster_pds[3, ]$grade)
 }
 \seealso{
