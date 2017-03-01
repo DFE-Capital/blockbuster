@@ -28,4 +28,3 @@ one_year_later <- det_eriorate(blockbuster_pds[1, ])
 \seealso{
 \code{\link{blockbuster_det_data}}
 }
-

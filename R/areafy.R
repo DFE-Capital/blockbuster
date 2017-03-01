@@ -25,6 +25,7 @@
 #' could be misleading.
 #' @seealso  
 #' @export
+#' @importFrom dplyr %>%
 #' @examples 
 #' pds_data <- areafy(blockbuster_pds[1, ])$unit_area 
 #' pds_data == blockbuster_pds[1, ]$unit_area  
