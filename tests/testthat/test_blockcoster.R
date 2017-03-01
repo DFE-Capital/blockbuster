@@ -1,5 +1,5 @@
 library(blockbuster)
-library(tidyverse)
+
 context("Looking up and estimating repair costs for a row in a blockbuster tibble.")
 
 

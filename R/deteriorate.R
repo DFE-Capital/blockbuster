@@ -11,6 +11,7 @@
 #' @return a markovchain object containing the appropriate transition matrix
 #' for the input blockbuster tibble row. Can only accept one row at a time due to how grep works.
 #' @seealso \code{\link{blockbuster_det_data}}
+#' @import markovchain
 #' @export
 #' @examples 
 #' dtmc_a <- det_what_tm(blockbuster_pds[1, ])
@@ -57,6 +58,7 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 #'  The ouput duplicates all other variables and values.
 #' The timestep also needs to increase by one given deterioration has occurred.
 #' @seealso \code{\link{blockbuster_det_data}}
+#' @import markovchain
 #' @export
 #' @examples 
 #' one_year_later <- det_eriorate(blockbuster_pds[1, ])
