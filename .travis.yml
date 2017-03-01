@@ -11,6 +11,7 @@ os:
 
 r_packages:
   - knitr
+  - tidyverse
 
 git:
   depth: 3
