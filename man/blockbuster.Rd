@@ -2,27 +2,41 @@
 % Please edit documentation in R/blockbuster.R
 \name{blockbuster}
 \alias{blockbuster}
-\title{The deterioration of more than one blockbuster rows through time.}
+\title{The deterioration of a blockbuster_tibble through time.}
 \usage{
-blockbuster(blockbuster_tibble, forecast_horizon)
+blockbuster(blockbuster_tibble, forecast_horizon, rebuild_cost_rate = 1274)
 }
 \arguments{
 \item{blockbuster_tibble}{a blockbuster dataframe or tibble.}
 
 \item{forecast_horizon}{an integer for the number of timesteps to model deterioration over.}
+
+\item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon}.}
 }
 \value{
-A list of n tibbles (where n is based on the \code{forecast_horizon}),
-with each tibble containing
-the \code{unit_area} and condition of the \code{element sub_element constr_type} 
-combination at a given timestep while also duplicating all
- other variables and values from the input tibble.
-After each timestep is simulated the rows are aggregated by \code{elementid} and \code{grade}. 
-Then repair cost estimates are calculated using \code{\link{blockcoster_lookup}} to find the correct constant which
-is multiplied by the \code{unit_area} to give the expected repair \code{cost}.
+A list of n plus one tibbles (where n is the \code{forecast_horizon}). 
+The first tibble is the initial \code{blockbuster_tibble}.
 }
 \description{
-The deterioration of more than one blockbuster rows through time.
+High level modelling of a blockbuster_tibble through time that considers
+maintenance and rebuilding interventions on the condition of the modelled building components.
+It is composed of many smaller functions.
+Outputs a list of blockbuster_tibbles with each tibble containing
+the \code{unit_area} and condition of the \code{element sub_element constr_type} 
+combination at a given timestep while also duplicating all
+ other variables and values from the input tibble. This is not as expensive as it sounds
+ because modifying a list no longer makes a deep copy; modifying a list efficiently reuses
+ existing vectors (R >= 3.1.0).  
+After each timestep is simulated the \code{unit_area} are aggregated by identifying features, e.g.
+\code{buildingid}, \code{elementid} and \code{grade}. 
+Then repair cost estimates are calculated using \code{\link{blockcoster_lookup}} to find the correct constant which
+is multiplied by the \code{unit_area} to give the expected repair \code{cost} (the initial
+\code{unit_area} at time zero is estimated using \code{\link{areafy2}}). Grade E building
+components don't have a repair cost (they can't be repaired and must be rebuilt) thus
+a seperate variable \code{block_rebuild_cost} is needed to quantify their cost.
+ This cost value applies to the estimated rebuild
+cost of the whole block (not just that one building component)
+ based on the argument \code{rebuild_cost_rate} (£ per m^2).
 }
 \examples{
 

@@ -53,11 +53,12 @@ test_that("blockbust() produces correct row number", {
 })
 
 test_that("blockbuster produces correct row number by list", {
-  expect_equal(dplyr::mutate(blockbuster(v, forecast_horizon = 2)[[3]],
-                      cost = 0, cost_sum = 0),
-               tibble::as_tibble(aggregate(unit_area ~.,
+  expect_equal(NROW(dplyr::mutate(blockbuster(v, forecast_horizon = 2)[[3]],
+                      cost = 0, cost_sum = 0)),
+               NROW(tibble::as_tibble(aggregate(unit_area ~.,
                                            data = dplyr::mutate(blockbust(blockbust(v)), 
                                                                 cost = 0, cost_sum = 0), # we set the cost here to zero as blockbust doesnt do cost
-                                           FUN = sum)))  #  demonstrate blockbuster aggregateness
+                                           FUN = sum)))
+               )  #  demonstrate blockbuster aggregateness
   expect_equivalent(NROW(blockbuster(y, forecast_horizon = 5)[[6]]), 3)  #  One elementid starts at grade C, so C, D, E
 })
