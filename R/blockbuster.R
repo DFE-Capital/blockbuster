@@ -26,7 +26,7 @@
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
 #' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
-#' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon}.
+#' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon} or 1.
 #' @return A list of n plus one tibbles (where n is the \code{forecast_horizon}). 
 #' The first tibble is the initial \code{blockbuster_tibble}.
 #' 
@@ -38,8 +38,19 @@
 #' 
 blockbuster <- function(blockbuster_tibble, forecast_horizon, rebuild_cost_rate = 1274) {
   
+  
   #  Sensible forecast horizon
   stopifnot(forecast_horizon > 0, forecast_horizon < 51)
+  
+  #  Create appropriate vector for rebuild_cost_rate if constant cost throughout forecast
+  stopifnot(is.numeric(rebuild_cost_rate))
+  
+  if (length(rebuild_cost_rate) == 1) {
+    rebuild_cost_rate <- rep_len(rebuild_cost_rate,
+                                 length.out = forecast_horizon)
+  }
+  
+  stopifnot(length(rebuild_cost_rate) == forecast_horizon)
   
   #  Create placeholder
   #  Create placeholder variables for cost and block_rebuild_cost
@@ -64,7 +75,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon, rebuild_cost_rate 
     #  Note if E grade / decommissioned it will return zero for cost.
     blockbusted[[i + 1]] <- dplyr::mutate(tibble::as_tibble(stats::aggregate(unit_area ~., data = x, FUN = sum)),
                                           cost = unit_area * blockcoster_lookup(element, sub_element, const_type, grade),
-                                          block_rebuild_cost = rebuild_cost_rate * gifa)
+                                          block_rebuild_cost = rebuild_cost_rate[i] * gifa)
     
   }
   # Aggregate over each list to make tidy data, avoid repeated rows for elementid and grade

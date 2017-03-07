@@ -14,5 +14,6 @@ test_that("default rebuild rate is £1274 per m^2", {
                two_year_later[[3]]$block_rebuild_cost)
   expect_equal(two_year_later_inflation[[3]]$gifa * 1286.74,
                two_year_later_inflation[[3]]$block_rebuild_cost)
+  expect_error(blockbuster(x, 3, rebuild_cost_rate = c(1274, 1286.74)))
 })
 

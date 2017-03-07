@@ -11,7 +11,7 @@ blockbuster(blockbuster_tibble, forecast_horizon, rebuild_cost_rate = 1274)
 
 \item{forecast_horizon}{an integer for the number of timesteps to model deterioration over.}
 
-\item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon}.}
+\item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon} or 1.}
 }
 \value{
 A list of n plus one tibbles (where n is the \code{forecast_horizon}). 
