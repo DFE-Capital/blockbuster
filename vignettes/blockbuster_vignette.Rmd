@@ -274,38 +274,6 @@ The blockbuster output is flexible and amenable to data manipulation and or tran
 Below we present a standard output that is seen in many reports of the School Estate. Here we plot the total costs by aggregated by condition grade for each year and give it a slightly prettier finish. Note how the condition `grade` A and E do not contribute to the cost hence the repair cost increase rate decelerates as more building components' `unit_area` transitions into grade E from D. It's important users are aware of this when interpretating these graphics. If you waited long enough the cost of repairs would go to zero as everything becomes decommisioned and cannot be repaired. This needs to be replaced through rebuilding, a costlier exercise compared to simple repair and maintenance.   
 
 ```{r fig.width=9, fig.height=6}
-# https://rpubs.com/Koundy/71792
-# theme_Publication <- function(base_size=14) {
-#       library(grid)
-#       library(ggthemes)
-#       (theme_foundation(base_size = base_size)
-#        + theme(plot.title = element_text(face = "bold",
-#                                          size = rel(1.2), hjust = 0.5),
-#                text = element_text(),
-#                panel.background = element_rect(colour = NA),
-#                plot.background = element_rect(colour = NA),
-#                panel.border = element_rect(colour = NA),
-#                axis.title = element_text(face = "bold",size = rel(1)),
-#                axis.title.y = element_text(angle = 90,vjust = 2),
-#                axis.title.x = element_text(vjust = -0.2),
-#                axis.text = element_text(), 
-#                axis.line = element_line(colour = "black"),
-#                axis.ticks = element_line(),
-#                panel.grid.major = element_line(colour = "#f0f0f0"),
-#                panel.grid.minor = element_blank(),
-#                legend.key = element_rect(colour = NA),
-#                legend.position = "bottom",
-#                legend.direction = "horizontal",
-#                legend.key.size = unit(0.2, "cm"),
-#                #legend.margin = unit(0, "cm"),
-#                legend.title = element_text(face = "italic"),
-#                plot.margin = unit(c(10,5,5,5),"mm"),
-#                strip.background = element_rect(colour = "#f0f0f0",fill = "#f0f0f0"),
-#                strip.text = element_text(face = "bold")
-#           ))
-#       
-# }
-
 
 p4 <- my_block_10years %>%
   purrr::map_df(
@@ -329,7 +297,29 @@ p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
 
 > Better to draw several approximate graphics saying something about the right question than to draw one precise graphic relating to the wrong question.
 
-The above graphic ignores the grade E or decommisioned building components that do not contribute to the total cost of repairs but will need to be addressed usually by reubilding of the whole block. Be imaginative and try plenty of variety in your plots.
+The above graphic ignores the grade E or decommisioned building components that do not contribute to the total cost of repairs but will need to be addressed usually by rebuilding of the whole block. Be imaginative and try plenty of variety in your plots.
+
+### Costing the rebuilding of a block
+
+The repair costs ignore decommisioned building components (grade E `unit_area` of a building component). To incorporate this into our analysis of when it is better to rebuild a block rather than to maintain it we create a new variable in the `blockbuster_tibble` called `block_rebuild_cost`. This multiplies the `gifa`, of the block that the building component in question is part of, by the argument (blockbuster input) `rebuild_cost_rate` (this has a default value). This does not fully capture the complexity of estimating the rebuild cost of a block and could be enhanced in future iterations of the `blockbuster`. At the moment it can accept a constant `rebuild_cost_rate` or varying `rebuild_cost_rate` (a vector the same length as the argument `forecast_horizon` that can adjust for inflation). This value is the same for all building components in the same block as it is a function of the block's `gifa` (it only makes sense considered at the block level).  
+
+```{r}
+two_blocks_4_years_inflation <- blockbuster(dplyr::filter(blockbuster_pds,
+                                                              buildingid == 4382 |
+                                                                buildingid == 4472),
+                                                forecast_horizon = 4,
+                                                rebuild_cost_rate = c(1274, 1281, 1289, 1296) 
+                                                )
+
+two_blocks_4_years_inflation %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(buildingid, timestep, block_rebuild_cost) %>%
+  dplyr::tally()
+
+```
 
 #### Total costs by building element
 
@@ -350,6 +340,7 @@ p5 <- my_block_10years %>%
 p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
   govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
   theme(plot.margin = unit(c(20,10,10,10),"mm"))
+
 ```
 
 #### Subsetting the blockbuster list output for specified years of interest
