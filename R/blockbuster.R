@@ -22,7 +22,9 @@
 #' a seperate variable \code{block_rebuild_cost} is needed to quantify their cost.
 #'  This cost value applies to the estimated rebuild
 #' cost of the whole block (not just that one building component)
-#'  based on the argument \code{rebuild_cost_rate} (£ per m^2).
+#'  based on the argument \code{rebuild_cost_rate} (£ per m^2). The  \code{rebuild_cost_rate}
+#'  is also used to quantify the cost of decommissioned \code{unit_area}, creating the new variable
+#'  \code{cost_decommissioned} (zero cost for condition grades not E).  
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
 #' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
@@ -67,16 +69,28 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon, rebuild_cost_rate 
     #  Need to remove the cost variables, as it will be incorrect and misleading for non zero timestep
     x <- dplyr::mutate(blockbust(blockbusted[[i]]),
                        cost = 0,  #  get repair costs constant, causes failure if done before aggregate
-                       cost_sum = 0)  #  composition should also be set to zero as it is now redundant given unit_area estimates
-    # perhaps dropping these at the end rather than changing them each run will be faster
+                       cost_sum = 0,
+                       cost_decommissioned = 0)  #  having this here avoids aggregation errors, likely sub-optimal 
+    #  composition should also be set to zero as it is now redundant given unit_area estimates
+    #  perhaps dropping these at the end rather than changing them each run will be faster
     
+    #  BLOCKCOSTING ----
+
     #  Sum unit_area over each row, keep all other variables
     #  then mutate the cost, needs to happen here after aggregation but before rebuild / maintenance
-    #  Note if E grade / decommissioned it will return zero for cost.
-    blockbusted[[i + 1]] <- dplyr::mutate(tibble::as_tibble(stats::aggregate(unit_area ~., data = x, FUN = sum)),
+    #  Note if E grade / decommissioned it will return zero for cost but non-zero for cost_decommissioned
+    blockbusted[[i + 1]] <- dplyr::mutate(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
+                                                                             data = x, FUN = sum)),
                                           cost = unit_area * blockcoster_lookup(element, sub_element, const_type, grade),
-                                          block_rebuild_cost = rebuild_cost_rate[i] * gifa)
+                                          block_rebuild_cost = rebuild_cost_rate[i] * gifa,
+                                          cost_decommissioned = ifelse(grade == "E",
+                                                                       yes = rebuild_cost_rate[i] * unit_area,
+                                                                       0))  #  method to quantify E grade component cost, as it can't be repaired
+    # We ignore non-critical building elements
     
+    #  REBUILDING ----
+    
+    #  REPAIRS ----
   }
   # Aggregate over each list to make tidy data, avoid repeated rows for elementid and grade
   return(blockbusted)

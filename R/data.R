@@ -99,3 +99,22 @@
 #'   ...
 #' }
 "blockbuster_pds_repair_costs"
+
+#' A tibble lookup table of the \code{elementid} of each of the 139 building components in the PDS.
+#'
+#' A dataframe containing the building component identifier \code{elementid}
+#'  joined to its respective \code{element},
+#' \code{sub_element} and \code{const_type}. 
+#' 
+#' A useful lookup table when deciding upon
+#' selecting your \code{critical_building_components} argument for \code{\link{blockbuster}}.
+#'
+#' @format A dataframe of 139 rows and 4 variables.
+#'  \describe{
+#'  \item{elementid}{An identification number given to the type of building component.}
+#'   \item{element}{The top level of the quantity surveyors' building component hierarchy.}
+#'   \item{sub_element}{The mid level of the quantity surveyors' building component hierarchy.}
+#'   \item{const_type}{The lowest level of the quantity surveyors' building component hierarchy.}
+#'   ...
+#' }
+"building_component_lookup"

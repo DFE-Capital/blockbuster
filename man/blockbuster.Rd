@@ -36,7 +36,9 @@ components don't have a repair cost (they can't be repaired and must be rebuilt)
 a seperate variable \code{block_rebuild_cost} is needed to quantify their cost.
  This cost value applies to the estimated rebuild
 cost of the whole block (not just that one building component)
- based on the argument \code{rebuild_cost_rate} (£ per m^2).
+ based on the argument \code{rebuild_cost_rate} (£ per m^2). The  \code{rebuild_cost_rate}
+ is also used to quantify the cost of decommissioned \code{unit_area}, creating the new variable
+ \code{cost_decommissioned} (zero cost for condition grades not E).
 }
 \examples{
 

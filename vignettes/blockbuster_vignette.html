@@ -12,7 +12,7 @@
 
 <meta name="author" content="Matthew Gregory" />
 
-<meta name="date" content="2017-03-01" />
+<meta name="date" content="2017-03-08" />
 
 <title>Blockbuster modelling: wow; what a difference!</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Blockbuster modelling: wow; what a difference!</h1>
 <h4 class="author"><em>Matthew Gregory</em></h4>
-<h4 class="date"><em>2017-03-01</em></h4>
+<h4 class="date"><em>2017-03-08</em></h4>
 
 
 
@@ -222,33 +222,35 @@ my_wall_next_year</code></pre></div>
 ## #   unit_area &lt;dbl&gt;, cost_sum &lt;dbl&gt;
 ## 
 ## [[2]]
-## # A tibble: 2 × 25
+## # A tibble: 2 × 27
 ##    lano siteid buildingid elementid                           element
 ##   &lt;int&gt;  &lt;int&gt;      &lt;int&gt;     &lt;int&gt;                            &lt;fctr&gt;
 ## 1   331   1266       4382      1828 External Walls, Windows and Doors
 ## 2   331   1266       4382      1828 External Walls, Windows and Doors
-## # ... with 20 more variables: sub_element &lt;fctr&gt;, const_type &lt;fctr&gt;,
+## # ... with 22 more variables: sub_element &lt;fctr&gt;, const_type &lt;fctr&gt;,
 ## #   const_type_accessible &lt;fctr&gt;, grade &lt;fctr&gt;, cost &lt;dbl&gt;,
 ## #   composition &lt;dbl&gt;, storeys &lt;dbl&gt;, gifa &lt;dbl&gt;, ground_gifa &lt;dbl&gt;,
 ## #   block_perimeter &lt;dbl&gt;, height &lt;dbl&gt;, windows_doors &lt;dbl&gt;,
 ## #   number_lifts &lt;dbl&gt;, site_area_exc_field &lt;dbl&gt;, boundary_length &lt;dbl&gt;,
 ## #   field_area &lt;dbl&gt;, swimming_pool &lt;fctr&gt;, timestep &lt;dbl&gt;,
-## #   cost_sum &lt;dbl&gt;, unit_area &lt;dbl&gt;</code></pre>
+## #   cost_sum &lt;dbl&gt;, cost_decommissioned &lt;dbl&gt;, unit_area &lt;dbl&gt;,
+## #   block_rebuild_cost &lt;dbl&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wall_20year &lt;-<span class="st"> </span><span class="kw">blockbuster</span>(my_wall, <span class="dv">20</span>)</code></pre></div>
 <p>This produces a list of tibbles. Each tibble provides the condition of the input tibble at that timestep. Notice how the number of rows has increased. That’s because we have a row for each <code>grade</code> state and associated <code>unit_area</code>. The first tibble in the list is for the input data or <code>timestep == 0</code>. It is prudent to check the timestep by inspecting it.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wall_next_year[[<span class="dv">2</span>]]</code></pre></div>
-<pre><code>## # A tibble: 2 × 25
+<pre><code>## # A tibble: 2 × 27
 ##    lano siteid buildingid elementid                           element
 ##   &lt;int&gt;  &lt;int&gt;      &lt;int&gt;     &lt;int&gt;                            &lt;fctr&gt;
 ## 1   331   1266       4382      1828 External Walls, Windows and Doors
 ## 2   331   1266       4382      1828 External Walls, Windows and Doors
-## # ... with 20 more variables: sub_element &lt;fctr&gt;, const_type &lt;fctr&gt;,
+## # ... with 22 more variables: sub_element &lt;fctr&gt;, const_type &lt;fctr&gt;,
 ## #   const_type_accessible &lt;fctr&gt;, grade &lt;fctr&gt;, cost &lt;dbl&gt;,
 ## #   composition &lt;dbl&gt;, storeys &lt;dbl&gt;, gifa &lt;dbl&gt;, ground_gifa &lt;dbl&gt;,
 ## #   block_perimeter &lt;dbl&gt;, height &lt;dbl&gt;, windows_doors &lt;dbl&gt;,
 ## #   number_lifts &lt;dbl&gt;, site_area_exc_field &lt;dbl&gt;, boundary_length &lt;dbl&gt;,
 ## #   field_area &lt;dbl&gt;, swimming_pool &lt;fctr&gt;, timestep &lt;dbl&gt;,
-## #   cost_sum &lt;dbl&gt;, unit_area &lt;dbl&gt;</code></pre>
+## #   cost_sum &lt;dbl&gt;, cost_decommissioned &lt;dbl&gt;, unit_area &lt;dbl&gt;,
+## #   block_rebuild_cost &lt;dbl&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(my_wall_next_year[[<span class="dv">2</span>]]$timestep, <span class="dv">1</span>)  <span class="co">#  1 timestep later than initial</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </div>
@@ -401,40 +403,7 @@ p3 +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot
 <h3>Line plot</h3>
 <p>The blockbuster output is flexible and amenable to data manipulation and or transformation prior to plotting. The user is only limited by their imagination.</p>
 <p>Below we present a standard output that is seen in many reports of the School Estate. Here we plot the total costs by aggregated by condition grade for each year and give it a slightly prettier finish. Note how the condition <code>grade</code> A and E do not contribute to the cost hence the repair cost increase rate decelerates as more building components’ <code>unit_area</code> transitions into grade E from D. It’s important users are aware of this when interpretating these graphics. If you waited long enough the cost of repairs would go to zero as everything becomes decommisioned and cannot be repaired. This needs to be replaced through rebuilding, a costlier exercise compared to simple repair and maintenance.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># https://rpubs.com/Koundy/71792</span>
-<span class="co"># theme_Publication &lt;- function(base_size=14) {</span>
-<span class="co">#       library(grid)</span>
-<span class="co">#       library(ggthemes)</span>
-<span class="co">#       (theme_foundation(base_size = base_size)</span>
-<span class="co">#        + theme(plot.title = element_text(face = &quot;bold&quot;,</span>
-<span class="co">#                                          size = rel(1.2), hjust = 0.5),</span>
-<span class="co">#                text = element_text(),</span>
-<span class="co">#                panel.background = element_rect(colour = NA),</span>
-<span class="co">#                plot.background = element_rect(colour = NA),</span>
-<span class="co">#                panel.border = element_rect(colour = NA),</span>
-<span class="co">#                axis.title = element_text(face = &quot;bold&quot;,size = rel(1)),</span>
-<span class="co">#                axis.title.y = element_text(angle = 90,vjust = 2),</span>
-<span class="co">#                axis.title.x = element_text(vjust = -0.2),</span>
-<span class="co">#                axis.text = element_text(), </span>
-<span class="co">#                axis.line = element_line(colour = &quot;black&quot;),</span>
-<span class="co">#                axis.ticks = element_line(),</span>
-<span class="co">#                panel.grid.major = element_line(colour = &quot;#f0f0f0&quot;),</span>
-<span class="co">#                panel.grid.minor = element_blank(),</span>
-<span class="co">#                legend.key = element_rect(colour = NA),</span>
-<span class="co">#                legend.position = &quot;bottom&quot;,</span>
-<span class="co">#                legend.direction = &quot;horizontal&quot;,</span>
-<span class="co">#                legend.key.size = unit(0.2, &quot;cm&quot;),</span>
-<span class="co">#                #legend.margin = unit(0, &quot;cm&quot;),</span>
-<span class="co">#                legend.title = element_text(face = &quot;italic&quot;),</span>
-<span class="co">#                plot.margin = unit(c(10,5,5,5),&quot;mm&quot;),</span>
-<span class="co">#                strip.background = element_rect(colour = &quot;#f0f0f0&quot;,fill = &quot;#f0f0f0&quot;),</span>
-<span class="co">#                strip.text = element_text(face = &quot;bold&quot;)</span>
-<span class="co">#           ))</span>
-<span class="co">#       </span>
-<span class="co"># }</span>
-
-
-p4 &lt;-<span class="st"> </span>my_block_10years %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p4 &lt;-<span class="st"> </span>my_block_10years %&gt;%
 <span class="st">  </span>purrr::<span class="kw">map_df</span>(
     ~<span class="st"> </span>.x ,
     <span class="dt">.id =</span> <span class="ot">NULL</span>
@@ -456,7 +425,40 @@ p4 +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot
 <blockquote>
 <p>Better to draw several approximate graphics saying something about the right question than to draw one precise graphic relating to the wrong question.</p>
 </blockquote>
-<p>The above graphic ignores the grade E or decommisioned building components that do not contribute to the total cost of repairs but will need to be addressed usually by reubilding of the whole block. Be imaginative and try plenty of variety in your plots.</p>
+<p>The above graphic ignores the grade E or decommisioned building components that do not contribute to the total cost of repairs but will need to be addressed usually by rebuilding of the whole block. Be imaginative and try plenty of variety in your plots.</p>
+</div>
+<div id="costing-the-rebuilding-of-a-block" class="section level3">
+<h3>Costing the rebuilding of a block</h3>
+<p>The repair costs ignore decommisioned building components (grade E <code>unit_area</code> of a building component). To incorporate this into our analysis of when it is better to rebuild a block rather than to maintain it we create a new variable in the <code>blockbuster_tibble</code> called <code>block_rebuild_cost</code>. This multiplies the <code>gifa</code>, of the block that the building component in question is part of, by the argument (blockbuster input) <code>rebuild_cost_rate</code> (this has a default value). This does not fully capture the complexity of estimating the rebuild cost of a block and could be enhanced in future iterations of the <code>blockbuster</code>. At the moment it can accept a constant <code>rebuild_cost_rate</code> or varying <code>rebuild_cost_rate</code> (a vector the same length as the argument <code>forecast_horizon</code> that can adjust for inflation). This value is the same for all building components in the same block as it is a function of the block’s <code>gifa</code> (it only makes sense considered at the block level).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">two_blocks_4_years_inflation &lt;-<span class="st"> </span><span class="kw">blockbuster</span>(dplyr::<span class="kw">filter</span>(blockbuster_pds,
+                                                              buildingid ==<span class="st"> </span><span class="dv">4382</span> |
+<span class="st">                                                                </span>buildingid ==<span class="st"> </span><span class="dv">4472</span>),
+                                                <span class="dt">forecast_horizon =</span> <span class="dv">4</span>,
+                                                <span class="dt">rebuild_cost_rate =</span> <span class="kw">c</span>(<span class="dv">1274</span>, <span class="dv">1281</span>, <span class="dv">1289</span>, <span class="dv">1296</span>) 
+                                                )
+
+two_blocks_4_years_inflation %&gt;%
+<span class="st">  </span>purrr::<span class="kw">map_df</span>(
+    ~<span class="st"> </span>.x ,
+    <span class="dt">.id =</span> <span class="ot">NULL</span>
+  ) %&gt;%
+<span class="st">  </span>dplyr::<span class="kw">group_by</span>(buildingid, timestep, block_rebuild_cost) %&gt;%
+<span class="st">  </span>dplyr::<span class="kw">tally</span>()</code></pre></div>
+<pre><code>## Source: local data frame [10 x 4]
+## Groups: buildingid, timestep [?]
+## 
+##    buildingid timestep block_rebuild_cost     n
+##         &lt;int&gt;    &lt;dbl&gt;              &lt;dbl&gt; &lt;int&gt;
+## 1        4382        0                 NA    48
+## 2        4382        1            2440984    96
+## 3        4382        2            2454396   144
+## 4        4382        3            2469724   190
+## 5        4382        4            2483136   213
+## 6        4472        0                 NA    41
+## 7        4472        1              82810    82
+## 8        4472        2              83265   123
+## 9        4472        3              83785   164
+## 10       4472        4              84240   204</code></pre>
 <div id="total-costs-by-building-element" class="section level4">
 <h4>Total costs by building element</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p5 &lt;-<span class="st"> </span>my_block_10years %&gt;%
@@ -532,8 +534,8 @@ p6 +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggthemes_3.2.0         markovchain_0.6.5.1    ggplot2_2.1.0         
-## [4] dplyr_0.5.0            blockbuster_0.0.0.9001
+## [1] ggthemes_3.2.0         ggplot2_2.1.0          dplyr_0.5.0           
+## [4] blockbuster_0.0.0.9001 markovchain_0.6.5.1   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.7         plyr_1.8.4          tools_3.3.2        
@@ -543,10 +545,10 @@ p6 +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot
 ## [13] DBI_0.5-1           yaml_2.1.14         parallel_3.3.2     
 ## [16] expm_0.999-0        withr_1.0.2         stringr_1.1.0      
 ## [19] roxygen2_5.0.1      knitr_1.15.1        devtools_1.12.0    
-## [22] stats4_3.3.2        rprojroot_1.2       grid_3.3.2         
+## [22] rprojroot_1.2       stats4_3.3.2        grid_3.3.2         
 ## [25] R6_2.2.0            rmarkdown_1.3       purrr_0.2.2        
 ## [28] readr_1.0.0         matlab_1.0.2        magrittr_1.5       
-## [31] scales_0.4.0        backports_1.0.4     htmltools_0.3.5    
+## [31] backports_1.0.4     scales_0.4.1        htmltools_0.3.5    
 ## [34] assertthat_0.1      govstyle_0.1.0      colorspace_1.2-7   
 ## [37] labeling_0.3        stringi_1.1.2       lazyeval_0.2.0     
 ## [40] RcppParallel_4.3.20 munsell_0.4.3       crayon_1.3.2</code></pre>
