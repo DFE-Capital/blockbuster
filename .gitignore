@@ -24,6 +24,7 @@ data-raw/repair_costs_tidy.csv
 data-raw/missing_repair_costs.csv
 data-raw/repair_costs_pre_tidy.csv
 data-raw/repair_costs_pre_tidy_with_missing_appended.csv
+data-raw/building_component_lookup.csv
 tests/testthat/repair_costs_pre_tidy_with_missing_appended.csv
 tests/testthat/repair_costs_tidy.csv 
 
