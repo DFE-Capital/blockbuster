@@ -31,7 +31,9 @@
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
 #' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
-#' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon} or 1.
+#' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon} or one.
+#' @param rebuild_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
+#' @param repair_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
 #' @return A list of n plus one tibbles (where n is the \code{forecast_horizon}). 
 #' The first tibble is the initial \code{blockbuster_tibble}.
 #' 
@@ -39,13 +41,15 @@
 #' @export
 #' @examples 
 #' 
-#' two_year_later <- blockbuster(dplyr::filter(blockbuster_pds, buildingid == 127617), 2)
+#' two_yrs_counterfactual <- blockbuster(dplyr::filter(blockbuster_pds,
+#'  buildingid == 127617), 2)
 #' 
-blockbuster <- function(blockbuster_tibble, forecast_horizon, rebuild_cost_rate = 1274) {
+blockbuster <- function(blockbuster_tibble, forecast_horizon,
+                        rebuild_monies = 0, repair_monies = 0, rebuild_cost_rate = 1274) {
   
   
   #  Sensible forecast horizon
-  stopifnot(forecast_horizon > 0, forecast_horizon < 51)
+  stopifnot(forecast_horizon > 0, forecast_horizon < 21)
   
   #  Create appropriate vector for rebuild_cost_rate if constant cost throughout forecast
   stopifnot(is.numeric(rebuild_cost_rate))
@@ -56,6 +60,26 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon, rebuild_cost_rate 
   }
   
   stopifnot(length(rebuild_cost_rate) == forecast_horizon)
+  
+  #  Create appropriate vector for rebuild_monies if constant investment throughout forecast
+  stopifnot(is.numeric(rebuild_monies))
+  
+  if (length(rebuild_monies) == 1) {
+    rebuild_monies <- rep_len(rebuild_monies,
+                                 length.out = forecast_horizon)
+  }
+  
+  stopifnot(length(rebuild_monies) == forecast_horizon)
+  
+  #  Create appropriate vector for repair_monies if constant investment throughout forecast
+  stopifnot(is.numeric(repair_monies))
+  
+  if (length(repair_monies) == 1) {
+    repair_monies <- rep_len(repair_monies,
+                              length.out = forecast_horizon)
+  }
+  
+  stopifnot(length(repair_monies) == forecast_horizon)
   
   #  Create placeholder
   #  Create placeholder variables for cost and block_rebuild_cost
@@ -92,11 +116,12 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon, rebuild_cost_rate 
                                           #                              0)  #  method to quantify E grade component cost, as it can't be repaired
     # We ignore non-critical building elements
     
-    #  REBUILDING ----
-    
+    #  REBUILDING ---- in blockbuster_tibble, out rebuilt blockbuster_tibble
+    blockbusted[[i + 1]] <- rebuild(blockbusted[[i + 1]], rebuild_monies[i], rebuild_cost_rate[i])
     #  REPAIRS ----
+    # blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies)
   }
-  # Aggregate over each list to make tidy data, avoid repeated rows for elementid and grade
+  
   return(blockbusted)
   # tidyr::nest(data, ..., .key = data)
 }
