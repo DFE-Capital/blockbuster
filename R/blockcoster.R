@@ -5,6 +5,12 @@
 
 #' An internal function in \code{\link{blockbuster}} to select the correct repair cost constant for a building component and its condition grade. 
 #' It works by matching strings from the concatenated \code{element}, \code{sub_element}, \code{const_type} and \code{grade}.
+#' 
+#' The default is to use the repair cost estimates for the PDS plus
+#' an E grade cost estimator based on D grade cost plus 5% (removal costs etc.). This
+#' is likely to be a source of error as the replacement of a decommisioned component
+#' depends on the component as well as other complexities. This should be addressed in later
+#' improvements of the \code{\link{blockbuster}}.  
 #'
 #' @param element the element of a blockbuster tibble single row.
 #' @param sub_element the sub_element of a blockbuster tibble single row
@@ -60,7 +66,7 @@ blockcoster_lookup <- function(
   #  Use pos to provide correct row, use column name to select repair cost numeric value
   repair_costs_constant <- costs_lookup[pos, "repair_cost"]
   
-  # It's OK it its NA for grade E
+  # It's OK if its NA for grade E
   if (is.null(repair_costs_constant)) stop("Cost constant not assigned!")
   
   # Return for use in nested design

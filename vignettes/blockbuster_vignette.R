@@ -148,38 +148,6 @@ p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
   govstyle::theme_gov() 
 
 ## ----fig.width=9, fig.height=6-------------------------------------------
-# https://rpubs.com/Koundy/71792
-# theme_Publication <- function(base_size=14) {
-#       library(grid)
-#       library(ggthemes)
-#       (theme_foundation(base_size = base_size)
-#        + theme(plot.title = element_text(face = "bold",
-#                                          size = rel(1.2), hjust = 0.5),
-#                text = element_text(),
-#                panel.background = element_rect(colour = NA),
-#                plot.background = element_rect(colour = NA),
-#                panel.border = element_rect(colour = NA),
-#                axis.title = element_text(face = "bold",size = rel(1)),
-#                axis.title.y = element_text(angle = 90,vjust = 2),
-#                axis.title.x = element_text(vjust = -0.2),
-#                axis.text = element_text(), 
-#                axis.line = element_line(colour = "black"),
-#                axis.ticks = element_line(),
-#                panel.grid.major = element_line(colour = "#f0f0f0"),
-#                panel.grid.minor = element_blank(),
-#                legend.key = element_rect(colour = NA),
-#                legend.position = "bottom",
-#                legend.direction = "horizontal",
-#                legend.key.size = unit(0.2, "cm"),
-#                #legend.margin = unit(0, "cm"),
-#                legend.title = element_text(face = "italic"),
-#                plot.margin = unit(c(10,5,5,5),"mm"),
-#                strip.background = element_rect(colour = "#f0f0f0",fill = "#f0f0f0"),
-#                strip.text = element_text(face = "bold")
-#           ))
-#       
-# }
-
 
 p4 <- my_block_10years %>%
   purrr::map_df(
@@ -196,6 +164,23 @@ p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
   # theme_Publication()  +
   ggthemes::theme_hc() + ggthemes::scale_colour_hc() +
   ggtitle("Cost of repairs through time for our example block")
+
+
+## ------------------------------------------------------------------------
+two_blocks_4_years_inflation <- blockbuster(dplyr::filter(blockbuster_pds,
+                                                              buildingid == 4382 |
+                                                                buildingid == 4472),
+                                                forecast_horizon = 4,
+                                                rebuild_cost_rate = c(1274, 1281, 1289, 1296) 
+                                                )
+
+two_blocks_4_years_inflation %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(buildingid, timestep, block_rebuild_cost) %>%
+  dplyr::tally()
 
 
 ## ----fig.width=9, fig.height=6-------------------------------------------
@@ -215,6 +200,7 @@ p5 <- my_block_10years %>%
 p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
   govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
   theme(plot.margin = unit(c(20,10,10,10),"mm"))
+
 
 ## ----fig.width=9, fig.height=6-------------------------------------------
 p6 <- my_block_10years[11] %>%

@@ -10,7 +10,7 @@
 #'   \item{businessunitid}{unique identifier code of the School which can exist on more than one site, removed for annonynimity}
 #'   \item{urn}{Unique Reference Number, removed for annonynimity}
 #'   \item{siteid}{A School can be located on more than one site, however one is the most common. A unique id number.}
-#'   \item{elementid}{Unclear, probably a unique id for each building component in the School.}
+#'   \item{elementid}{A unique ID for every building component, see \code{\link{building_component_lookup}}}
 #'   \item{element}{Top of the building component description hierarchy.}
 #'   \item{sub_element}{Middle of the building component description hierarchy.}
 #'   \item{const_type}{Bottom of the building component description hierarchy.}
@@ -82,7 +82,8 @@
 #' A dataframe containing all repair costs per unit area by grade for each building component. 
 #' This is used in the blockbuster function to multiply the building components and its unit_area by
 #' the appropriate constant to estimate the expected repair costs to get the building component from
-#' grade D, C or B to grade A. Due to discrepancies in the spelling of the building components
+#' grade D, C or B to grade A (grade E has been added based on user feedback (E = D plus 5%)).
+#'  Due to discrepancies in the spelling of the building components
 #' and the original Excel Costs model, these have been fixed and matched to that of the PDS here, to ensure
 #' compatability. For details of the process see \code{04_read_tidy_costs_data.R} in the \code{data-raw}
 #' directory; also see the associated \code{tests}.
@@ -99,3 +100,22 @@
 #'   ...
 #' }
 "blockbuster_pds_repair_costs"
+
+#' A tibble lookup table of the \code{elementid} of each of the 139 building components in the PDS.
+#'
+#' A dataframe containing the building component identifier \code{elementid}
+#'  joined to its respective \code{element},
+#' \code{sub_element} and \code{const_type}. 
+#' 
+#' A useful lookup table when deciding upon
+#' selecting your \code{critical_building_components} argument for \code{\link{blockbuster}}.
+#'
+#' @format A dataframe of 139 rows and 4 variables.
+#'  \describe{
+#'  \item{elementid}{An identification number given to the type of building component.}
+#'   \item{element}{The top level of the quantity surveyors' building component hierarchy.}
+#'   \item{sub_element}{The mid level of the quantity surveyors' building component hierarchy.}
+#'   \item{const_type}{The lowest level of the quantity surveyors' building component hierarchy.}
+#'   ...
+#' }
+"building_component_lookup"
