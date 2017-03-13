@@ -23,8 +23,11 @@ blockcoster_lookup(element, sub_element, const_type, grade,
 a numeric constant for the repair cost of building component by grade, in pounds per unit_area.
 }
 \description{
-An internal function in \code{\link{blockbuster}} to select the correct repair cost constant for a building component and its condition grade. 
-It works by matching strings from the concatenated \code{element}, \code{sub_element}, \code{const_type} and \code{grade}.
+The default is to use the repair cost estimates for the PDS plus
+an E grade cost estimator based on D grade cost plus 5% (removal costs etc.). This
+is likely to be a source of error as the replacement of a decommisioned component
+depends on the component as well as other complexities. This should be addressed in later
+improvements of the \code{\link{blockbuster}}.
 }
 \examples{
 cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(

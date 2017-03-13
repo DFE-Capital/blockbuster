@@ -27,10 +27,17 @@ test_that("blockbuster_lookup is not implemented in blockbuster function as expe
 
 # when grade == "E" -------------------------------------------------------
 # perhaps we just accrue E, to sort it you need rebuild, maintenance can't fix therefore no sense costing it
-# for now
+# for now, However
+# Users requested a costing of E in the same variable
+# Adam Bray suggested same cost as D plus 5% for extras
 test_that("blockbuster_lookup returns NA when grade is E", {
-  expect_true(is.na(blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
+  expect_equal(blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
                                   const_type = "Flat roof - Flexible sheet; single ply or built up",
-                                  grade = "E")))
+                                  grade = "E"),
+               blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
+                                  const_type = "Flat roof - Flexible sheet; single ply or built up",
+                                  grade = "D") + blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
+                                                                    const_type = "Flat roof - Flexible sheet; single ply or built up",
+                                                                    grade = "D") * 0.05)
 })
 

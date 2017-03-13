@@ -114,7 +114,7 @@ my_wall_20year <- blockbuster(my_wall, 20)
 
 ```
 
-This produces a list of tibbles. Each tibble provides the condition of the input tibble at that timestep. Notice how the number of rows has increased. That's because we have a row for each `grade` state and associated `unit_area`. The first tibble in the list is for the input data or `timestep == 0`. It is prudent to check the timestep by inspecting it.
+This produces a [list of tibbles](https://twitter.com/hadleywickham/status/643381054758363136). Each tibble provides the condition of the input tibble at that timestep. Notice how the number of rows has increased. That's because we have a row for each `grade` state and associated `unit_area`. The first tibble in the list is for the input data or `timestep == 0`. It is prudent to check the timestep by inspecting it.
 
 ```{r}
 my_wall_next_year[[2]]
@@ -169,7 +169,7 @@ p4 + ylab("Estimated area (m^2)") + xlab("Condition grade") +
 
 ### Critical building elements
 
-Typically we may be more interested in critical, structural building-features such as the roof or walls and whether the `unit_area` exceeds a critical threshold determined by expert opinion. For example, is our wall's total `unit_area` after 10 years comprised of over 20% grade D and E? We plot then expect the numbers.
+Typically we may be more interested in critical, structural building-features such as the roof or walls and whether the `unit_area` exceeds a critical threshold determined by expert opinion. For example, is our wall's total `unit_area` after 10 years comprised of over 20% grade D and E? We plot then inspect the numbers.
 
 ```{r warning=FALSE, message=FALSE, error=FALSE, fig.width=9, fig.height=6}
 
@@ -204,11 +204,13 @@ dplyr::mutate(df, prop_area = unit_area / total_wall_area) %>%
 
 The costing part of the `blockbuster` function is built using an internal function called `blockcoster_lookup`. This takes the building component and condition grade information and looks this character string up in the `blockbuster_pds_repair_costs` tibble, thus finding the appropriate repair costs constant to multiply the `unit_area` of that building component by.  
 
-Currently it will return `NA` for grade E. This due to lack of data on repairing a building component from grade E back to A, furthermore as grade E is meant to encapsulate a decommisioned status for now it is deemed more appropriate to only be able to get E back to grade N through rebuilding. Costs are calculated for each row. The `cost_sum` variable is set to zero as this can be recalculated later if required, as it requires an aggregation by `buildingid` step.
+Originally it returned `NA` for grade E. This was due to lack of data on repairing a building component from grade E back to A, furthermore as grade E is meant to encapsulate a decommisioned status for now it was deemed more appropriate to only be able to get E back to grade N through rebuilding. However, user feedback suggested it more useful to attempt to approximate the grade E cost using a crude estiamte for now. This was achieved by modifying the code in `04_read_tidy_costs_data.R`. Costs for E are now simply the costs for D plus five percent. This approach was recommended by Adam Bray until we get empirical estimates.      
+
+Costs are calculated for each row. The `cost_sum` variable is set to zero as this can be recalculated later if required, as it requires an aggregation by `buildingid` step (this is somewhat technical, see the `blockbuster` code by the costing step, where aggregation occurs).
 
 ### Blockcosting
 
-We continue with the examples from above by considering the aggregated cost of repairs through time. Let us plot the distribution of costs by condition grade using a box plot through each year. Repair costs from grade A should always be zero as they are already in excellent condition and do not need any work. This plot shows how the median costs for each grade steadily increase year on year with some building components in particularly deteriorating quickly and in a costly fashion (the outliers indicated by the black circles).
+We continue with the examples from above by considering the aggregated cost of repairs through time. Let us plot the distribution of costs by condition grade using a box plot through each year. Repair costs from grade A should always be zero as they are already in excellent condition and do not need any work. This plot shows how the median costs for each grade steadily increase year on year with some building components in particularly deteriorating quickly and in a costly fashion (the outliers indicated by the black circles). Note: the comments in the code are there to teach you the basis of this coding approach using the `map_df` function from the `purrr` package.
  
 
 ```{r fig.width=9, fig.height=6}
@@ -247,7 +249,7 @@ p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
 
 ### Total Blockcosting
 
-We take our hypothetical building and plot the total costs year on year by condition grade. Notice how the costs to repair the hypothetical block increase until a maximum around seven years at which it reaches a balance. However, this ignores the amount of building component going into the decommissioned status.  
+We take our hypothetical building and plot the total costs year on year by condition grade. Notice how the costs to repair the hypothetical block increases, accelerating as more and more `unit_area` gets into grade E.
 
 ```{r fig.width=9, fig.height=6}
 p3 <- my_block_10years %>%
@@ -271,7 +273,7 @@ p3 + ylab("Total cost of repairs (£)") + xlab("Condition grade") +
 
 The blockbuster output is flexible and amenable to data manipulation and or transformation prior to plotting. The user is only limited by their imagination.  
 
-Below we present a standard output that is seen in many reports of the School Estate. Here we plot the total costs by aggregated by condition grade for each year and give it a slightly prettier finish. Note how the condition `grade` A and E do not contribute to the cost hence the repair cost increase rate decelerates as more building components' `unit_area` transitions into grade E from D. It's important users are aware of this when interpretating these graphics. If you waited long enough the cost of repairs would go to zero as everything becomes decommisioned and cannot be repaired. This needs to be replaced through rebuilding, a costlier exercise compared to simple repair and maintenance.   
+Below we present a standard output that is seen in many reports of the School Estate. Here we plot the total costs by aggregated by condition grade for each year and give it a slightly prettier finish. Note how the condition `grade` A do not contribute to the cost. However, the repair cost of E (set at D repair cost plus five percent) accelerates the total cost as more building components' `unit_area` transitions into grade E from D. It's important users are aware of this when interpretating these graphics as the estiamted cost of B, C and D should be considered more reliable as they are based on expert opinion and bespoke costs for each building component (whereas E grade is just 5% on D which may not be appropriate for every building component).     
 
 ```{r fig.width=9, fig.height=6}
 
@@ -297,11 +299,11 @@ p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
 
 > Better to draw several approximate graphics saying something about the right question than to draw one precise graphic relating to the wrong question.
 
-The above graphic ignores the grade E or decommisioned building components that do not contribute to the total cost of repairs but will need to be addressed usually by rebuilding of the whole block. Be imaginative and try plenty of variety in your plots.
+The `blockbuster` simulation is time expensive thus we do not want ot generate every possible outcome variable that a user might need. Instead we generate variables that are required for the simulation, for decision making regarding which blocks should be rebuilt or repaired. Instead you can derive variables yourself. Be imaginative and try plenty of variety in your plots.
 
 ### Costing the rebuilding of a block
 
-The repair costs ignore decommisioned building components (grade E `unit_area` of a building component). To incorporate this into our analysis of when it is better to rebuild a block rather than to maintain it we create a new variable in the `blockbuster_tibble` called `block_rebuild_cost`. This multiplies the `gifa`, of the block that the building component in question is part of, by the argument (blockbuster input) `rebuild_cost_rate` (this has a default value). This does not fully capture the complexity of estimating the rebuild cost of a block and could be enhanced in future iterations of the `blockbuster`. At the moment it can accept a constant `rebuild_cost_rate` or varying `rebuild_cost_rate` (a vector the same length as the argument `forecast_horizon` that can adjust for inflation). This value is the same for all building components in the same block as it is a function of the block's `gifa` (it only makes sense considered at the block level).  
+The repair costs had previously ignored decommisioned building components (grade E `unit_area` of a building component). To incorporate this into our analysis of when it is better to rebuild a block rather than to maintain it we create a new variable in the `blockbuster_tibble` called `block_rebuild_cost`. This multiplies the `gifa`, of the block that the building component in question is part of, by the argument (blockbuster input) `rebuild_cost_rate` (this has a default value). This does not fully capture the complexity of estimating the rebuild cost of a block and could be enhanced in future iterations of the `blockbuster`. At the moment it can accept a constant `rebuild_cost_rate` or varying `rebuild_cost_rate` (a vector the same length as the argument `forecast_horizon` that can adjust for inflation). This value is the same for all building components in the same block as it is a function of the block's `gifa` (it only makes sense considered at the block level).  
 
 ```{r}
 two_blocks_4_years_inflation <- blockbuster(dplyr::filter(blockbuster_pds,
@@ -347,7 +349,7 @@ p5 + ylab("Total cost of repairs (£)") + xlab("Building element") +
 
 Perhaps we are interested in just the last couple of years of the simulation? We can subset a single year of interest or dataframe from the list using the normal R syntax.  
 
-The following graph also highlights a flaw in the earlier generation of the deterioration model which just considerd the `unit_area` of a building component and ignored the building component `element`, `sub_element` or `const_type` type in its calculations. The blockbuster model considers this when estimating repair costs. In the figure below we aggregate across building `element` the total `unit_area` and `cost` of repairs and plot using the extra dimensions afforded by point area and colour.  
+The following graph also highlights a flaw in the earlier generation of the deterioration model which just considered the `unit_area` of a building component and ignored the building component `element`, `sub_element` or `const_type` type in its calculations. The blockbuster model considers this when estimating repair costs. In the figure below we aggregate across building `element` the total `unit_area` and `cost` of repairs and plot using the extra dimensions afforded by point area and colour. In short this identifies an interaction term between `element` and `grade` for `cost` of repairs (the trajectory of gradient is different between building components as you go between condition grades).    
 
 ```{r fig.width=9, fig.height=6}
 p6 <- my_block_10years[11] %>%

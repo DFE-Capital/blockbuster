@@ -10,8 +10,13 @@ library(tidyverse)
 library(reshape2)
 
 # costs_pre_tidy <- readr::read_csv("data-raw/repair_costs_pre_tidy.csv")  #  this is redundant as we had missing building components
-costs_pre_tidy <- readr::read_csv("data-raw/repair_costs_pre_tidy_with_missing_appended.csv")  #  see costs tests for how we worked out what was missing
+#  see costs tests for how we worked out what was missing, for the step below
+costs_pre_tidy <- readr::read_csv("data-raw/repair_costs_pre_tidy_with_missing_appended.csv") %>%  
+  dplyr::mutate(E = D + (D*0.05))  #  E = 105% of D
 
+
+# COSTING E ---------------------------------------------------------------
+#  Need to create an E variable which is the cost of D plus 5% according to AB
 
 
 # The element, sub-element and const_type have numbers prefixed, let's remove those
@@ -30,7 +35,7 @@ costs_tidy <- dplyr::mutate(costs_pre_tidy,
                 sub_element = stringr::str_trim(sub_element),
                 const_type = stringr::str_trim(const_type)) %>%  #  https://www.r-bloggers.com/melt/
   melt(id.vars = c("element", "sub_element", "const_type"),
-       measure.vars = c("D", "C", "B", "A"),
+       measure.vars = c("E", "D", "C", "B", "A"),  #  Added E here with 105% of D change
        value.name = "repair_cost") %>%
   mutate(concated_costs = paste(element, sub_element,
                                                    const_type,

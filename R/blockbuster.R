@@ -24,7 +24,10 @@
 #' cost of the whole block (not just that one building component)
 #'  based on the argument \code{rebuild_cost_rate} (£ per m^2). The  \code{rebuild_cost_rate}
 #'  is also used to quantify the cost of decommissioned \code{unit_area}, creating the new variable
-#'  \code{cost_decommissioned} (zero cost for condition grades not E).  
+#'  \code{cost_decommissioned} (zero cost for condition grades not E).  This ideas is being developed
+#'  and may be introduced into later versions of blockbuster. For the moment we simplify
+#'  by adding a costing for E grade to the \code{\link{blockcoster_lookup}}, this simply
+#'  takes the D grade costing and adds 5% to it (based on expert domain knowledge of AB).
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
 #' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
@@ -82,10 +85,11 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon, rebuild_cost_rate 
     blockbusted[[i + 1]] <- dplyr::mutate(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
                                                                              data = x, FUN = sum)),
                                           cost = unit_area * blockcoster_lookup(element, sub_element, const_type, grade),
-                                          block_rebuild_cost = rebuild_cost_rate[i] * gifa,
-                                          cost_decommissioned = ifelse(grade == "E",
-                                                                       yes = rebuild_cost_rate[i] * unit_area,
-                                                                       0))  #  method to quantify E grade component cost, as it can't be repaired
+                                          block_rebuild_cost = rebuild_cost_rate[i] * gifa)
+                                          # ,
+                                          # cost_decommissioned = ifelse(grade == "E",
+                                          #                              yes = rebuild_cost_rate[i] * unit_area,
+                                          #                              0)  #  method to quantify E grade component cost, as it can't be repaired
     # We ignore non-critical building elements
     
     #  REBUILDING ----

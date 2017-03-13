@@ -22,7 +22,8 @@ blockbuster_pds_repair_costs
 A dataframe containing all repair costs per unit area by grade for each building component. 
 This is used in the blockbuster function to multiply the building components and its unit_area by
 the appropriate constant to estimate the expected repair costs to get the building component from
-grade D, C or B to grade A. Due to discrepancies in the spelling of the building components
+grade D, C or B to grade A (grade E has been added based on user feedback (E = D plus 5%)).
+ Due to discrepancies in the spelling of the building components
 and the original Excel Costs model, these have been fixed and matched to that of the PDS here, to ensure
 compatability. For details of the process see \code{04_read_tidy_costs_data.R} in the \code{data-raw}
 directory; also see the associated \code{tests}.
