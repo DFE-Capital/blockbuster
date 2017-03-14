@@ -7,9 +7,12 @@ x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingi
 
 # TESTS -------------------------------------------------------------------
 test_that("Zero investment in rebuild results in no change", {
-  expect_equal(rebuild(x, rebuild_monies = 0), x)
+  expect_equal(rebuild(x, rebuild_monies = 0),
+               x)
 })
 
 test_that("rebuilding produces all grade N", {
-  expect_equal(sum(rebuild(x, rebuild_monies = 5e6)$grade == "N"), nrow(x))
+  expect_equal(sum(rebuild(x, rebuild_monies = 5e6)$grade == "N",
+                   block_rebuild_cost = 1274),
+               nrow(x))
 })

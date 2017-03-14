@@ -17,7 +17,6 @@
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
 #' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon} or one.
-#' @param rebuild_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
 #' @return A \code{blockbuster_tibble} that has had blocks rebuilt (or not if \code{rebuild_monies} are 0).
 #' 
 #' @importFrom dplyr %>%
@@ -25,7 +24,7 @@
 #' @examples 
 #' 
 #' rebuild_two_blocks <- rebuild(dplyr::filter(blockbuster_pds,
-#'  buildingid == 4382 | buildingid == 4472), rebuild_cost_rate = 1274, rebuild_monies = 5e6)
+#'  buildingid == 4382 | buildingid == 4472), rebuild_monies = 5e6)
 #' 
 rebuild <- function(blockbuster_tibble, rebuild_cost_rate, rebuild_monies) {
   
