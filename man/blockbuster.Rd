@@ -4,14 +4,19 @@
 \alias{blockbuster}
 \title{The deterioration of a blockbuster_tibble through time.}
 \usage{
-blockbuster(blockbuster_tibble, forecast_horizon, rebuild_cost_rate = 1274)
+blockbuster(blockbuster_tibble, forecast_horizon, rebuild_monies = 0,
+  repair_monies = 0, rebuild_cost_rate = 1274)
 }
 \arguments{
 \item{blockbuster_tibble}{a blockbuster dataframe or tibble.}
 
 \item{forecast_horizon}{an integer for the number of timesteps to model deterioration over.}
 
-\item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon} or 1.}
+\item{rebuild_monies}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+
+\item{repair_monies}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+
+\item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
 }
 \value{
 A list of n plus one tibbles (where n is the \code{forecast_horizon}). 
@@ -45,7 +50,8 @@ cost of the whole block (not just that one building component)
 }
 \examples{
 
-two_year_later <- blockbuster(dplyr::filter(blockbuster_pds, buildingid == 127617), 2)
+two_yrs_counterfactual <- blockbuster(dplyr::filter(blockbuster_pds,
+ buildingid == 127617), 2)
 
 }
 
