@@ -11,15 +11,16 @@
 #' number of blocks. Rebuilding a block converts all it's building components
 #' back to grade N, making it as new. The rebuilding decision making is based on
 #' a summarised sorted list of blocks, sorted by the ratio of the total cost of repairs
-#' divided by the rebuild cost of the block. As this ratio approaches one it suggests the
+#' divided by the rebuild cost of the block (this is calculated in \code{\link{blockbuster}}).
+#'  As this ratio approaches one it suggests the
 #' cost of repairs are equivalent to building a new block! Using the available funding
 #' or \code{rebuild_monies} we systematically work through and rebuild each block based
 #' on our sorted list until all the money is used up. If a block is to expensive to rebuild,
 #' we move on and attempt to rebuild the next one. If our \code{rebuild_monies} is less than
 #' the cheapest block to repair we stop trying to rebuild.
 #'
-#' @param blockbuster_tibble a blockbuster dataframe or tibble. 
-#' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon} or one.
+#' @param blockbuster_tibble a blockbuster dataframe or tibble.
+#' @param rebuild_monies a vector of length one. 
 #' @return A \code{blockbuster_tibble} that has had blocks rebuilt (or not if \code{rebuild_monies} are 0).
 #' 
 #' @importFrom dplyr %>%
@@ -29,7 +30,7 @@
 #' rebuild_two_blocks <- rebuild(dplyr::filter(blockbuster_pds,
 #'  buildingid == 4382 | buildingid == 4472), rebuild_monies = 5e6)
 #' 
-rebuild <- function(blockbuster_tibble, rebuild_cost_rate, rebuild_monies) {
+rebuild <- function(blockbuster_tibble, rebuild_monies) {
   
   if (rebuild_monies <= 0) {
     
@@ -79,15 +80,19 @@ rebuild <- function(blockbuster_tibble, rebuild_cost_rate, rebuild_monies) {
     }
     
   }
-  
+  #  OUTPUT VECTOR of blocks to rebuild 
   to_be_rebuilt <- to_be_rebuilt[which( to_be_rebuilt != 0 )]  #  remove zeroes
     #  efficiency thing we prespecified the length of the to_be_rebuilt list
     
-    #  OUTPUT VECTOR of blocks to rebuild
+  #  ASSIGN REBUILD STATUS TO EACH TIBBLE ROW
+    
   #to_be_rebuilt <- rebuilding
   
   #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
   rebuilt <- to_be_rebuilt
+  # rebuilt$initial_blockbuster_tibble <- blockbuster_tibble
+  # rebuild$money_leftover <- money_leftover
+  # rebuild$output <- NULL
   
-  return(to_be_rebuilt)
+  return(rebuilt)
 }
