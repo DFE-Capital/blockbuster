@@ -81,15 +81,22 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
     
   }
   #  OUTPUT VECTOR of blocks to rebuild 
-  to_be_rebuilt <- to_be_rebuilt[which( to_be_rebuilt != 0 )]  #  remove zeroes
+  to_be_rebuilt <- to_be_rebuilt[which(to_be_rebuilt != 0)]  #  remove zeroes
     #  efficiency thing we prespecified the length of the to_be_rebuilt list
     
   #  ASSIGN REBUILD STATUS TO EACH TIBBLE ROW
     
-  #to_be_rebuilt <- rebuilding
+  rebuild_tibble <- blockbuster_tibble %>%
+    dplyr::mutate(rebuild_status = dplyr::if_else(
+      condition = buildingid %in% to_be_rebuilt,
+      true = 1,
+      false = 0 
+    )
+                    )
+  
   
   #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
-  rebuilt <- to_be_rebuilt
+  rebuilt <- rebuild_tibble
   # rebuilt$initial_blockbuster_tibble <- blockbuster_tibble
   # rebuild$money_leftover <- money_leftover
   # rebuild$output <- NULL
