@@ -4,12 +4,15 @@
 \alias{areafy2}
 \title{Estimate the unit_area for an observation for a blockbuster tibble with readable code.}
 \usage{
-areafy2(blockbuster_initial_state, unit_area_methods = "PDS")
+areafy2(blockbuster_initial_state, unit_area_methods = "PDS",
+  input_checks = TRUE)
 }
 \arguments{
 \item{blockbuster_initial_state}{a blockbuster dataframe or tibble without \code{unit_area}.}
 
 \item{unit_area_methods}{a string to specify whether "PDS" or "CDC". Currently only "PDS" supported.}
+
+\item{input_checks}{logical to specify whether to check inputs or not for speed in blockbuster.}
 }
 \value{
 a blockbuster tibble with the unit_area estimated for each row.
@@ -17,7 +20,7 @@ a blockbuster tibble with the unit_area estimated for each row.
 \description{
 This should be used to provide the initial estimates of the unit_area
 of each element-sub-element construction type in the dataframe found in the
-R script 01_read_and_tidy_data.R.
+R script 01_read_and_tidy_data.R. Input tibble is checked by default.
 }
 \details{
 It may be preferred over the deprecated \code{areafy} as its easier to read,
@@ -29,7 +32,8 @@ As most unit area calculation methods are to use the gifa,
 calculations or estimation methods. A window or door is assumed to have an area of one 
 square metre. See the data-raw file blockbuster_unit_quantity_method.csv for method details.
 The first areafy function used nested ifelse statements and was difficult to read. This version is
-an attempt to tidy that and make the code more human readable for debugging.
+an attempt to tidy that and make the code more human readable for debugging. Set the 
+\code{input_checks} to FALSE if it has already been checked.
 }
 \examples{
 pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 

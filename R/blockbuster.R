@@ -117,13 +117,12 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
     # We ignore non-critical building elements for now
     
     #  REBUILDING ---- in blockbuster_tibble, out rebuilt blockbuster_tibble
-    # blockbusted[[i + 1]] <- rebuild(blockbusted[[i + 1]], rebuild_monies[i])  
+    blockbusted[[i + 1]] <- rebuild(blockbusted[[i + 1]], rebuild_monies = rebuild_monies[i])  
     # don't need rebuild_cost_rate[i] as block_rebuild_cost calculated above in costing
     #  REPAIRS ----
     # blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies)
   }
   # GATHER and TIDY ----
-  
   return(blockbusted)
   # tidyr::nest(data, ..., .key = data)
 }

@@ -106,13 +106,15 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   #  Remove duplicates based on siteid, buildingid, elementid
     #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
   rebuilt <- df[!duplicated(df[, c("lano", "siteid", "buildingid", "elementid")]), ] %>%
-    dplyr::mutate(grade = "N") %>%
-    blockbuster::areafy2()  #  need option to disable messages, output looks correct
+    dplyr::mutate(grade = factor("N", levels = list(N = "N", A = "A", B = "B",
+                                                    C = "C", D = "D", E = "E"))
+                  ) %>%
+    blockbuster::areafy2(input_checks = FALSE)  #  need option to disable messages, output looks correct
     
   # APPEND ROWS FROM REBUILT TO NOT REBUILT TIBBLE
   # drop temp variables, if rebuilt Grade is N
   output <- dplyr::bind_rows(rebuilt, rebuild_tibble_not) %>%
-    select(-rebuild_status)
+    dplyr::select(-rebuild_status)
   
   return(output)
 }
