@@ -114,7 +114,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
                                           # cost_decommissioned = ifelse(grade == "E",
                                           #                              yes = rebuild_cost_rate[i] * unit_area,
                                           #                              0)  #  method to quantify E grade component cost, as it can't be repaired
-    # We ignore non-critical building elements
+    # We ignore non-critical building elements for now
     
     #  REBUILDING ---- in blockbuster_tibble, out rebuilt blockbuster_tibble
     # blockbusted[[i + 1]] <- rebuild(blockbusted[[i + 1]], rebuild_monies[i])  

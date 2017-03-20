@@ -10,8 +10,6 @@ rebuild(blockbuster_tibble, rebuild_cost_rate, rebuild_monies)
 \item{blockbuster_tibble}{a blockbuster dataframe or tibble.}
 
 \item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
-
-\item{rebuild_monies}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
 }
 \value{
 A \code{blockbuster_tibble} that has had blocks rebuilt (or not if \code{rebuild_monies} are 0).
@@ -28,12 +26,15 @@ back to grade N, making it as new. The rebuilding decision making is based on
 a summarised sorted list of blocks, sorted by the ratio of the total cost of repairs
 divided by the rebuild cost of the block. As this ratio approaches one it suggests the
 cost of repairs are equivalent to building a new block! Using the available funding
-the
+or \code{rebuild_monies} we systematically work through and rebuild each block based
+on our sorted list until all the money is used up. If a block is to expensive to rebuild,
+we move on and attempt to rebuild the next one. If our \code{rebuild_monies} is less than
+the cheapest block to repair we stop trying to rebuild.
 }
 \examples{
 
 rebuild_two_blocks <- rebuild(dplyr::filter(blockbuster_pds,
- buildingid == 4382 | buildingid == 4472), rebuild_cost_rate = 1274, rebuild_monies = 5e6)
+ buildingid == 4382 | buildingid == 4472), rebuild_monies = 5e6)
 
 }
 
