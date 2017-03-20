@@ -84,8 +84,7 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   to_be_rebuilt <- to_be_rebuilt[which(to_be_rebuilt != 0)]  #  remove zeroes
     #  efficiency thing we prespecified the length of the to_be_rebuilt list
     
-  #  ASSIGN REBUILD STATUS TO EACH TIBBLE ROW
-    
+  #  ASSIGN REBUILD STATUS TO EACH INITIAL TIBBLE ROW
   rebuild_tibble <- blockbuster_tibble %>%
     dplyr::mutate(rebuild_status = dplyr::if_else(
       condition = buildingid %in% to_be_rebuilt,
@@ -94,12 +93,26 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
     )
                     )
   
+  #  fine as is, not getting rebuilt so no change to these rows
+  rebuild_tibble_not <- rebuild_tibble %>%
+    dplyr::filter(rebuild_status == 0)
   
-  #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
-  rebuilt <- rebuild_tibble
-  # rebuilt$initial_blockbuster_tibble <- blockbuster_tibble
-  # rebuild$money_leftover <- money_leftover
-  # rebuild$output <- NULL
+  #  Getting rebuilt need change grade to N and reareafy unit_area
+  rebuild_tibble_to_rebuild <- rebuild_tibble %>%
+    dplyr::filter(rebuild_status == 1)
   
-  return(rebuilt)
+  df <- rebuild_tibble_to_rebuild  #  easier to read
+  #  Collapse, as we will recalculate unit area and set all grade to N
+  #  Remove duplicates based on siteid, buildingid, elementid
+    #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
+  rebuilt <- df[!duplicated(df[, c("lano", "siteid", "buildingid", "elementid")]), ] %>%
+    dplyr::mutate(grade = "N") %>%
+    blockbuster::areafy2()  #  need option to disable messages, output looks correct
+    
+  # APPEND ROWS FROM REBUILT TO NOT REBUILT TIBBLE
+  # drop temp variables, if rebuilt Grade is N
+  output <- dplyr::bind_rows(rebuilt, rebuild_tibble_not) %>%
+    select(-rebuild_status)
+  
+  return(output)
 }
