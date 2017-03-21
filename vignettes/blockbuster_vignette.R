@@ -14,10 +14,10 @@ library(ggthemes)  #  Make pretty output with little effort.
 dplyr::glimpse(blockbuster_pds)
 
 ## ------------------------------------------------------------------------
-blockbuster_det_data[1, ]
+blockbuster_det_data[2, ]
 
 ## ------------------------------------------------------------------------
-blockbuster_mc_list@markovchains[[1]]
+blockbuster_mc_list@markovchains[[2]]
 # isS4(blockbuster_mc_list@markovchains[[1]])  #  TRUE
 
 ## ------------------------------------------------------------------------
@@ -121,13 +121,14 @@ p2 <- my_block_10years %>%
   ) %>%
   dplyr::group_by("timestep") %>%
   ggplot2::ggplot(aes(x = grade, y = cost)) +
-  ggplot2::geom_boxplot() +
+  ggplot2::geom_boxplot(outlier.colour = "red") +  #  Set to NA to avoid double plot
   ggplot2::facet_wrap(
     ~timestep
   )
 
 p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
-  govstyle::theme_gov() 
+  govstyle::theme_gov() + geom_point(position = position_jitter(width = 0.05),
+                                     alpha = 0.15)
 
 
 ## ----fig.width=9, fig.height=6-------------------------------------------
@@ -161,8 +162,9 @@ p4 <- my_block_10years %>%
   
 
 p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
-  # theme_Publication()  +
-  ggthemes::theme_hc() + ggthemes::scale_colour_hc() +
+  govstyle::theme_gov() +
+  theme(legend.position = "bottom") +
+  # ggthemes::theme_hc() + ggthemes::scale_colour_hc() +
   ggtitle("Cost of repairs through time for our example block")
 
 
@@ -221,6 +223,32 @@ p6 + ylab("Cost of repairs (£)") + xlab("Condition grade")  +
   theme_economist() + 
   scale_size_continuous(breaks = c(1000, 2000, 3000), range = c(3,10))
 
+
+## ----fig.width=9, fig.height=9-------------------------------------------
+#  We filter our PDS sample for just three blocks to keep things simple
+x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
+                   | buildingid == 4487)
+#  Rebuild spending profile
+y <- blockbuster(x, forecast_horizon = 3, rebuild_monies = c(0, 5e6, 0),  #  five million
+                 rebuild_cost_rate = c(1274, 1274 + 0, 1274 + 12.74))  #  £/m^2
+
+p7 <- y %>%
+  purrr::map_df(
+    ~ .x ,
+    .id = NULL
+  ) %>%
+  dplyr::group_by(timestep, element, grade) %>%
+  dplyr::summarise(sum_cost = sum(cost, na.rm = TRUE)) %>%
+  ggplot2::ggplot(aes(x = element, y = sum_cost, fill = grade)) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_wrap(
+    ~timestep
+  ) + scale_fill_discrete(drop = FALSE) + scale_x_discrete(drop = FALSE)  #  gives E a colour
+
+p7 + ylab("Total cost of repairs (£)") + xlab("Building element") +
+  govstyle::theme_gov() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme(plot.margin = unit(c(20,10,10,10),"mm")) +
+  theme(legend.position = "top") 
 
 ## ------------------------------------------------------------------------
 sessionInfo()

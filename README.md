@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/mammykins/blockbuster.svg?branch=master)](https://travis-ci.org/mammykins/blockbuster)
+[![Build Status](https://travis-ci.com/mammykins/blockbuster.svg?token=sGXpJU3xjdpxsRrMLhKy&branch=master)](https://travis-ci.com/mammykins/blockbuster)
 [![codecov.io](http://codecov.io/github/mammykins/blockbuster/coverage.svg?branch=master)](http://codecov.io/github/mammykins/blockbuster?branch=master)
 [![GitHub tag](https://img.shields.io/github/tag/mammykins/blockbuster.svg)]()
 
@@ -12,7 +12,9 @@ This R package allows you to simulate the deterioration of School buildings thro
 |Data inputs|Description|
 |---|---|
 |building condition|Input data for time zero. A sample simulated from the PDS condition data table.|
-|transition matrices|Deterioration rates based on estimates of expected lifetime of a building element-sub-element-construction-type|
+|transition matrices|Deterioration rates based on estimates of expected lifetime of a building element-sub-element-construction-type.|
+|repair costs|Repair costs of building components from condition grades D-B back to A.|
+|rebuild costs|Rebuild cost in pounds per metre squared per unit of gross internal floor area to be rebuilt.|
 
 ## Installing the package
 
@@ -37,10 +39,10 @@ Some documentation and vignettes will be added during package development to aid
 
 ```
 
-## Project goal
+### Project goal
 
 To simulate the deterioration of the School Estate into the future under various maintenance and rebuilding spending policies. This will provide a data driven approach to improving the management of the School Estate saving public money. The models predictions should be evaluated with the next Condition Data Collection due in 2017 and beyond.
 
-## Improvements
+### Improvements
 
 Raise an issue.

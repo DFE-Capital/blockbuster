@@ -10,23 +10,27 @@
 
 #' Estimate the unit_area for an observation for a blockbuster tibble with readable code.
 #' 
-#' This should be used to provide the initial estimates of the unit_area
-#' of each element-sub-element construction type in the dataframe found in the
-#' R script 01_read_and_tidy_data.R. 
+#' This should be used to provide the initial estimates of the \code{unit_area}
+#' of each element-sub-element construction type (aka building component) in
+#'  the dataframe found in the
+#' R script 01_read_and_tidy_data.R. Input tibble is checked by default can be skipped.
 #' 
-#' It may be preferred over the deprecated \code{areafy} as its easier to read,
+#' It may be preferred over the deprecated \code{areafy} as it's easier to read,
 #' however as \code{\link[dplyr]{case_when}} is experimental, areafy may be preferred.  
 #' It will not need to be called after deterioration and different grades of the elementid appear,
-#' as the unit_area will be calculated by the transition from the superior grade condition.
+#' as the \code{unit_area} will be calculated by the transition from the superior grade condition.
 #' As most unit area calculation methods are to use the gifa,
 #'  we do this first and then specify the rarer \code{unit_area}
 #' calculations or estimation methods. A window or door is assumed to have an area of one 
 #' square metre. See the data-raw file blockbuster_unit_quantity_method.csv for method details.
-#' The first areafy function used nested ifelse statements and was difficult to read. This version is
-#' an attempt to tidy that and make the code more human readable for debugging.
+#' The first areafy function used nested \code{ifelse()} statements and was difficult to read.
+#'  This version is
+#' an attempt to tidy that and make the code more human readable for debugging. Set the 
+#' \code{input_checks} to FALSE if it has already been checked for speed.
 #'
 #' @param blockbuster_initial_state a blockbuster dataframe or tibble without \code{unit_area}.
 #' @param unit_area_methods a string to specify whether "PDS" or "CDC". Currently only "PDS" supported.
+#' @param input_checks logical to specify whether to check inputs or not for speed in blockbuster.
 #' @return a blockbuster tibble with the unit_area estimated for each row.
 #' @importFrom dplyr %>%
 #' @export
@@ -34,7 +38,7 @@
 #' pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 
 #' pds_data == blockbuster_pds[1, ]$unit_area  
 
-areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
+areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS", input_checks = TRUE) {
   # This function is an improvement on the original areafy which was found to contain some errors.
   # This areafy2 will use the dplyr case_when approach to improve ease of reading.
   # We should go from the most specific (element, sub_element, const_type) required to assign
@@ -42,6 +46,7 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
   # case_when is still experimental so we may prefer to keep areafy() and fix.
   # The unit_area methods are based on expert opinion used to help quantify cost of repairs in PDS buildings.
   
+  if (input_checks == TRUE) {
   # INPUT CHECKS ------------------------------------------------------------
   if (unit_area_methods != "PDS") stop("This function currently only supports unit area estimation methods
                                         from the Property Data Survey.")
@@ -72,7 +77,7 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
                           "number_lifts")
   lapply(variables_to_check, f)
 
-
+} #  if input_checks = FALSE skip to here
 # CALL DPLYR --------------------------------------------------------------
 # require(tidyverse)  
   
@@ -140,9 +145,10 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS") {
 
 # CONSIDER COMPOSITION ----------------------------------------------------
   areafyed <- areafyed %>%
-    dplyr::mutate(unit_area = unit_area * composition)
+    dplyr::mutate(unit_area = unit_area * composition)  #  composition relates to const_type not grade
 
   return(areafyed)
   
 }
+
 
