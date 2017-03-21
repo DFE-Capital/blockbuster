@@ -17,7 +17,11 @@
 #' or \code{rebuild_monies} we systematically work through and rebuild each block based
 #' on our sorted list until all the money is used up. If a block is to expensive to rebuild,
 #' we move on and attempt to rebuild the next one. If our \code{rebuild_monies} is less than
-#' the cheapest block to repair we stop trying to rebuild.
+#' the cheapest block to repair we stop trying to rebuild. Thus money can be wasted. Upon 
+#' rebuilding the \code{unit_area} must be re-estimated for each building component thus the 
+#' \code{\link{areafy2}} function is called internally. If \code{rebuild_monies} are zero
+#' (the default) then the rebuilding is skipped and the \code{blockbuster_tibble} argument
+#' is the output.
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble.
 #' @param rebuild_monies a vector of length one. 
@@ -27,8 +31,9 @@
 #' @export
 #' @examples 
 #' 
-#' rebuild_two_blocks <- rebuild(dplyr::filter(blockbuster_pds,
-#'  buildingid == 4382 | buildingid == 4472), rebuild_monies = 5e6)
+#' jackpot <- blockbuster(dplyr::filter(blockbuster_pds,
+#'   buildingid == 4382 | buildingid == 4472 | buildingid == 4487), 
+#'   forecast_horizon = 2, rebuild_monies = 5e6)
 #' 
 rebuild <- function(blockbuster_tibble, rebuild_monies) {
   
@@ -104,7 +109,8 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   df <- rebuild_tibble_to_rebuild  #  easier to read
   #  Collapse, as we will recalculate unit area and set all grade to N
   #  Remove duplicates based on siteid, buildingid, elementid
-    #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
+  #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
+  #  there will be 
   rebuilt <- df[!duplicated(df[, c("lano", "siteid", "buildingid", "elementid")]), ] %>%
     dplyr::mutate(grade = factor("N", levels = list(N = "N", A = "A", B = "B",
                                                     C = "C", D = "D", E = "E")),
