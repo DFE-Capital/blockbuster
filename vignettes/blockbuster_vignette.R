@@ -224,13 +224,14 @@ p6 + ylab("Cost of repairs (£)") + xlab("Condition grade")  +
   scale_size_continuous(breaks = c(1000, 2000, 3000), range = c(3,10))
 
 
-## ----fig.width=9, fig.height=9-------------------------------------------
+## ----fig.width=10, fig.height=12-----------------------------------------
 #  We filter our PDS sample for just three blocks to keep things simple
 x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
                    | buildingid == 4487)
 #  Rebuild spending profile
-y <- blockbuster(x, forecast_horizon = 3, rebuild_monies = c(0, 5e6, 0),  #  five million
-                 rebuild_cost_rate = c(1274, 1274 + 0, 1274 + 12.74))  #  £/m^2
+y <- blockbuster(x, forecast_horizon = 8, rebuild_monies = c(0, 5e6, 0, 0, 0, 0, 0, 0),  #  five million
+                 rebuild_cost_rate = c(1274, 1274 + 0, 1274 + 12.74, 1286.74, 1286.74,
+                                       1286.74, 1286.74, 1286.74))  #  £/m^2
 
 p7 <- y %>%
   purrr::map_df(

@@ -392,13 +392,14 @@ Rebuilding is carried out by the `rebuild` function which is internal to `blockb
 
 We inspect the effect of rebuilding on the cost of repairs of three buildings with a non-constant rebuilding investment profile and `rebuild_cost_rate` adjusted for 0% (year 2) then 1% inflation (year 3) (you can pass this as a vector rather than typing it manually of course). We inspect the effect of the rebuild on total repair costs using a faceted stacked bar chart for the different building elements in all the blocks (try increasing the `rebuild_monies` by one pound, what happens?).
 
-```{r fig.width=9, fig.height=9}
+```{r fig.width=10, fig.height=12}
 #  We filter our PDS sample for just three blocks to keep things simple
 x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
                    | buildingid == 4487)
 #  Rebuild spending profile
-y <- blockbuster(x, forecast_horizon = 3, rebuild_monies = c(0, 5e6, 0),  #  five million
-                 rebuild_cost_rate = c(1274, 1274 + 0, 1274 + 12.74))  #  £/m^2
+y <- blockbuster(x, forecast_horizon = 8, rebuild_monies = c(0, 5e6, 0, 0, 0, 0, 0, 0),  #  five million
+                 rebuild_cost_rate = c(1274, 1274 + 0, 1274 + 12.74, 1286.74, 1286.74,
+                                       1286.74, 1286.74, 1286.74))  #  £/m^2
 
 p7 <- y %>%
   purrr::map_df(
@@ -419,7 +420,7 @@ p7 + ylab("Total cost of repairs (£)") + xlab("Building element") +
   theme(legend.position = "top") 
 ```
 
-This also provides a sense check. The rebuild happens during `timestep 2` (because `rebuild_monies = c(0, 5e6, 0)`), all building components are rebuilt to `grade = N` thus have  zero `cost`. During the next timestep there will be some deterioration to `grade = A`, however all building components of excellent condition do not contribute to the repair costs of a block, hence no cost of repairs in `timestep 3`.
+This also provides a sense check. The rebuild happens during `timestep 2` (because `rebuild_monies = c(0, 5e6, 0)`), all building components are rebuilt to `grade = N` thus have  zero `cost`. During the next timestep there will be some deterioration to `grade = A`, however all building components of excellent condition do not contribute to the repair costs of a block, hence no cost of repairs in `timestep 3`. We start to see condition `grade = B & D` at `timestep 5` as expected given our working knowledge of the model.  
 
 ## Repairs
 
