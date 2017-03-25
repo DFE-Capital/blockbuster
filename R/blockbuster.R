@@ -120,7 +120,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
     blockbusted[[i + 1]] <- rebuild(blockbusted[[i + 1]], rebuild_monies = rebuild_monies[i])  
     # don't need rebuild_cost_rate[i] as block_rebuild_cost calculated above in costing
     #  REPAIRS ----
-    # blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies)
+    # blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies = repair_monies[i])
   }
   # GATHER and TIDY ----
   return(blockbusted)
