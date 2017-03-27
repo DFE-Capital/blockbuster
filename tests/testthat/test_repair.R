@@ -12,3 +12,10 @@ test_that("Zero investment results in no change", {
   expect_false(isTRUE(all.equal(repair(x, repair_monies = 2e6),
                                 x)))  #  should not be equal due to repairs
 })
+
+test_that("what_needs_repair_within_block skips zero cost and repairs what it can afford.", {
+  expect_equal(what_needs_repair_within_block(
+    tibble::tibble(cost = seq(from = 0, to = 4500, by = 500))
+    ,1e4)$repair_status,
+    c(0, rep(1, 5), rep(0, 4)))
+})

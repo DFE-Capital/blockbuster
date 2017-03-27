@@ -86,12 +86,15 @@ repair <- function(blockbuster_tibble, repair_monies) {
     
   } else {
     
-    #  MONEY PER BLOCK ----
-    per_block_spend <- repair_monies / nrow(blockbuster_tibble)
-    
+
     #  REPAIR DECISION MAKING ----
     repairing <- blockbuster_tibble %>%
       dplyr::arrange_(~ buildingid, ~ dplyr::desc(grade), ~ dplyr::desc(cost))
+    
+    #  MONEY PER BLOCK ----
+    number_of_blocks <-  nrow(dplyr::distinct_(repairing, ~ buildingid,
+                                        .keep_all = FALSE))
+    per_block_spend <- repair_monies / number_of_blocks
     
     #  GO THROUGH EACH BLOCK MARKING "TO REPAIR" UNTIL MONEY RUNS OUT
     #  define helper function to identify repair_status
@@ -102,11 +105,16 @@ repair <- function(blockbuster_tibble, repair_monies) {
     
     # Split repairing into pieces by buildingid, repair_status update
     # what_needs_repair_within_block can be applied to this
+    by_block_list <- vector(mode = "list", length = number_of_blocks)  #  pre-allocate
     by_block_list <- repairing %>%
       split(.$buildingid)
     
+
+    # ERROR HERE
+    
     by_block <- lapply(names(by_block_list),  #  go through each block
-                       what_needs_repair_within_block())  #  and use internal function
+                       blockbuster::what_needs_repair_within_block(
+                         per_block_spend = per_block_spend))  #  and use internal function
     
     # mods <- by_block %>%
     #   map(~ lm(mpg ~ wt, data = .))
