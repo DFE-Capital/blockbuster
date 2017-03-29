@@ -93,7 +93,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   
   for (i in 1:forecast_horizon) {
     #  the input tibble is at timestep zero, not included in the output list of tibbles
-    #  Need to remove the cost variables, as it will be incorrect and misleading for non zero timestep
+    #  Need to zero the cost variables, as it will be incorrect and misleading for non zero timestep
     x <- dplyr::mutate(blockbust(blockbusted[[i]]),
                        cost = 0,  #  get repair costs constant, causes failure if done before aggregate
                        cost_sum = 0,

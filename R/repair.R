@@ -10,7 +10,8 @@
 #'
 #' @param block_tibble a block dataframe or tibble with a \code{costs}variable.
 #' @param per_block_spend a scalar calculated from \code{repair_monies} / number of blocks. 
-#' @return A \code{block_tibble} that has had building components repaired or not indicated
+#' @return A \code{block_tibble} that has had building components ready to be
+#'  repaired or not indicated
 #' by the new variable \code{repair_status}.
 #' 
 #' @examples 
@@ -89,7 +90,7 @@ repair <- function(blockbuster_tibble, repair_monies) {
   
   if (repair_monies <= 0) {
     
-    return(blockbuster_tibble)  #  save time, only repair if there's money
+    return(blockbuster_tibble)  #  save time, only repair if there's money!
     
   } else {
     
@@ -106,9 +107,6 @@ repair <- function(blockbuster_tibble, repair_monies) {
     # print(paste("Per block spend is, £", per_block_spend))
     
     #  GO THROUGH EACH BLOCK MARKING "TO REPAIR" UNTIL MONEY RUNS OUT
-    #  define helper function to identify repair_status
-    # input list of block_tibbles
-    # output list of block_tibbles with repair_status added
 
     #  REPAIR STATUS
     # Split repairing into pieces by buildingid, repair_status update
@@ -119,19 +117,44 @@ repair <- function(blockbuster_tibble, repair_monies) {
       lapply(function(x) {  #  Apply helper function over a list of dataframes
         what_needs_repair_within_block(x,
                                        per_block_spend)
-      })
+      }) %>%
+      dplyr::bind_rows()  #  is unsplit or data.table option faster?
     
     #  CARRY OUT REPAIRS
+    #  Create a list of 2 dataframes, one for repair_status 0 and two for repair_status 1
+    by_repair_status_list <- vector(mode = "list", length = 2)  #  pre-allocate
+    by_repair_status_list <- by_block_list %>%
+      split(.$repair_status)
 
-    # tibble_to_repair <- repairing %>%
-    #   dplyr::filter(repair_status == 1)
+    #  Getting repaired need change grade to A, aggregate then reareafy unit_area
+    #  repair_status is true or positive, or repaired, hence name of df within list is "1"
+    by_repair_status_list[["1"]]$grade <- factor("A")
     
-    #  Getting repaired need change grade to A and reareafy unit_area
+    # Add correct levels to grade, N for new, E for decommisioned
+    # should this be ordered rather than factor?
+    levels(by_repair_status_list[["1"]]$grade) <- list(N = "N", A = "A", B = "B",
+                                                  C = "C", D = "D", E = "E")
+    #  TIDY ----
     #  Remove repair status column? or not for speed, PROBABLY BETTER TO LEAVE IT, time it?
+    repaired <- dplyr::bind_rows(by_repair_status_list)
+    #  Do we need areafy2 here? QA by tracking an elementid total area through time
+    #  RESHAPE ---- merge repeated rows unit_area e.g. same buildingid, elementid and grade A
+    #  print(repaired)
+    df_tidied <- tibble::as_tibble(stats::aggregate(unit_area ~ ., 
+                           data = repaired, FUN = sum))
+    ###########
+    ########### HERE
+    #  Needs QA, don't want to aggregate by cost!
     
+    # md <- reshape2::melt(data = repaired,
+    #                      id.vars = (c("buildingid", "elementid",
+    #                                   "grade"
+    #                                        )),
+    #                      measure.vars = "unit_area"
+    #                      )
     #  OUTPUT ----
     
-    output <- dplyr::bind_rows(by_block_list)  #  datatable likely faster
+    output <- df_tidied   #  datatable likely faster
     #  https://www.r-bloggers.com/concatenating-a-list-of-data-frames/
   }
   return(output)
