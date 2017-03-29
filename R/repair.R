@@ -22,7 +22,7 @@ what_needs_repair_within_block <- function(block_tibble, per_block_spend) {
   
   #  money counter
   money2spend <- per_block_spend
-  #  add placeholder column, defaultto no rebuild
+  #  add placeholder column, default to no rebuild
   the_block <- dplyr::mutate_(block_tibble, repair_status = 0)
   
   if (max(the_block$cost) == 0) {  #  if new build block or all grade A
@@ -58,12 +58,19 @@ what_needs_repair_within_block <- function(block_tibble, per_block_spend) {
 #'  the \code{blockbuster_tibble}, passed as an arguement to the function. 
 #'  The \code{repair_monies} is distributed evenly to each \code{buildingid} 
 #'  included in the \code{blockbuster_tibble}. Grade D, C and B condition 
-#'  building components are repaired in that order.
+#'  building components are repaired to A in that order. Partial repairs does not happen
+#'  and any overspend is discarded (spent by the school on other things).
 #' 
 #' Outputs a blockbuster_tibble after spending \code{repair_monies} on a finite
 #' number of blocks. Repairing a block attempts to convert some 
 #' (depending on \code{repair_monies} available) of it's building components
-#' back to grade A, making it Excellent condition. 
+#' back to grade A, making it Excellent condition. If the building components have
+#' zero cost they are assumed to be grade N or A (this is not always true) and are not
+#' repaired (the cost model is the issue not the assumption). The input is seperated into
+#' a list of dataframes by block and then \code{repair_status} binary variable added using 
+#' the internal helper function \code{\link{what_needs_repair_within_block}}. The repairs are 
+#' then carried out an additional helper function called ...
+#' 
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble.
 #' @param repair_monies a vector of length one. 
@@ -94,41 +101,38 @@ repair <- function(blockbuster_tibble, repair_monies) {
     #  MONEY PER BLOCK ----
     number_of_blocks <-  nrow(dplyr::distinct_(repairing, ~ buildingid,
                                         .keep_all = FALSE))
+    # print(paste("Number of blocks is ", number_of_blocks))
     per_block_spend <- repair_monies / number_of_blocks
+    # print(paste("Per block spend is, £", per_block_spend))
     
     #  GO THROUGH EACH BLOCK MARKING "TO REPAIR" UNTIL MONEY RUNS OUT
     #  define helper function to identify repair_status
-    
     # input list of block_tibbles
     # output list of block_tibbles with repair_status added
 
-    
+    #  REPAIR STATUS
     # Split repairing into pieces by buildingid, repair_status update
     # what_needs_repair_within_block can be applied to this
     by_block_list <- vector(mode = "list", length = number_of_blocks)  #  pre-allocate
     by_block_list <- repairing %>%
-      split(.$buildingid)
+      split(.$buildingid) %>%  #  split into a list of dataframes by block
+      lapply(function(x) {  #  Apply helper function over a list of dataframes
+        what_needs_repair_within_block(x,
+                                       per_block_spend)
+      })
     
+    #  CARRY OUT REPAIRS
 
-    # ERROR HERE
-    
-    by_block <- lapply(names(by_block_list),  #  go through each block
-                       blockbuster::what_needs_repair_within_block(
-                         per_block_spend = per_block_spend))  #  and use internal function
-    
-    # mods <- by_block %>%
-    #   map(~ lm(mpg ~ wt, data = .))
-    # map2(mods, by_cyl, predict)
-    
     # tibble_to_repair <- repairing %>%
     #   dplyr::filter(repair_status == 1)
     
     #  Getting repaired need change grade to A and reareafy unit_area
-    #  Remove repair status column? or not for speed
-    
+    #  Remove repair status column? or not for speed, PROBABLY BETTER TO LEAVE IT, time it?
     
     #  OUTPUT ----
-    output <- repairing
+    
+    output <- dplyr::bind_rows(by_block_list)  #  datatable likely faster
+    #  https://www.r-bloggers.com/concatenating-a-list-of-data-frames/
   }
-  return(by_block)
+  return(output)
 }

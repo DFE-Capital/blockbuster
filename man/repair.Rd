@@ -20,13 +20,19 @@ A given amount of money (\code{repair_monies}) is invested in repairing
  the \code{blockbuster_tibble}, passed as an arguement to the function. 
  The \code{repair_monies} is distributed evenly to each \code{buildingid} 
  included in the \code{blockbuster_tibble}. Grade D, C and B condition 
- building components are repaired in that order.
+ building components are repaired to A in that order. Partial repairs does not happen
+ and any overspend is discarded (spent by the school on other things).
 }
 \details{
 Outputs a blockbuster_tibble after spending \code{repair_monies} on a finite
 number of blocks. Repairing a block attempts to convert some 
 (depending on \code{repair_monies} available) of it's building components
-back to grade A, making it Excellent condition.
+back to grade A, making it Excellent condition. If the building components have
+zero cost they are assumed to be grade N or A (this is not always true) and are not
+repaired (the cost model is the issue not the assumption). The input is seperated into
+a list of dataframes by block and then \code{repair_status} binary variable added using 
+the internal helper function \code{\link{what_needs_repair_within_block}}. The repairs are 
+then carried out an additional helper function called ...
 }
 \examples{
 
