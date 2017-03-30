@@ -424,6 +424,58 @@ This also provides a sense check. The rebuild happens during `timestep 2` (becau
 
 ## Repairs
 
+Repairs are carried out by the `repair` function which is internal to `blockbuster`. The repairing of the `blockbuster_tibble` you pass as an argument is dependent on the other argument; `repair_monies`. The latter can be passed as a vector equal in length to the number of years you are simulating (`forecast_horizon`) or as a number. This allows you to control for inflation in the construction industry and variable repairs spending from year to year. Technically the `blockbuster` function makes use of the `repair_monies` by dividing it up evenly between each block in the input `blockbuster_tibble`.  
+
+All the blocks (unique based on `buildingid`) in the `blockbuster_tibble` are ranked in descending order by `buildingid`, `grade` (from E to N) and `cost` (expensive to cheapest repairs within `grade`). Each block is repaired with `repair_monies` divided by the number of blocks in the `blockbuster_tibble`. Money is spent on worse condition grade (ignoring E as it cannot be repaired [ignoring N and A also]) and most expensive repairs first until the remaining money is less than the cheapest building component to repair, at which point it is discarded (NOT passed to `rebuild_monies`; assumed spent by the school on other things) (see the help function `what_needs_repair_within_block()` for details on the decision making).
+
+### Example - compare different spending profiles on condition of blocks
+
+The purpose of this package is to inform policy decision making to determine which out of competing spending profiles will better meet the assessment criteria. Here we aim to minimise the total condition cost of repairs in the 3 school blocks. We develop to spending profiles using the same amount of money (ignoring inflation for simplicity). The user is free to develop their own assessment criteria given the flexibility of the model output.  
+
+Again we could compare using some graphics already demonstrated in the vignette. Instead we prefer to reorganise to answer our specific question: which of our competing spending profiles produces the lowest estimated total repairs cost in year 5? We use arbitary blocks and total repair spend profile (this is not intended to be realistic but instead demonstrative).   
+
+* Drip - consistent amount spent each year.
+* Sooner rather than later - spending more sooner.
+
+#### Run the simulations
+
+```{r fig.width=10, fig.height=12}
+#  We filter our PDS sample for just three blocks to keep things simple
+#  using identical blocks to our rebuild example above.
+
+x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
+                   | buildingid == 4487)
+#  Repair spending profile of different strategies
+drip_repairs <- blockbuster(x, forecast_horizon = 5,  #  sum(rep(3e4, 5))
+                            repair_monies = rep(3e4, 5))  #  £10k / block / year = £ 15e5
+
+flood_repairs <- blockbuster(x, forecast_horizon = 5,
+                             repair_monies = c(6e4, 6e4,
+                                               1e4, 1e4, 1e4))  
+#  (20k, 20k, 5k, 5k, 5k)* 3 blocks = £ 10.5e5
+
+```
+
+#### Manipulate data for assessment statistic of interest (total cost of repairs)
+
+This consistent repair spend profile can be visually compared by the user to a spending profile that invests more heavily sooner rather than later. However, we need to organise the data into a convenient form for comparison.  
+
+First we convert our list of dataframes into one dataframe (for each spending profile).
+
+```{r}
+drip <- dplyr::bind_rows(drip_repairs)
+flood <- dplyr::bind_rows(flood_repairs)
+
+```
+
+Then we group by timestep and sum the total cost of repairs to prepare the data as a timeseries.  
+
+
+
+#### Visualise
+
+
+
 ## Summary
 
 * This modelling approach has the potential to make use of all the data.  
@@ -432,6 +484,7 @@ This also provides a sense check. The rebuild happens during `timestep 2` (becau
 * The model can be iteratively improved as more data is collected.  
 * There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.
 * The writing of a package allows us to enshrine business knowledge into a corpus of code that is inseparable from the documentation of that code.
+* Quality assurance is built in through the use of continuous integration and the test driven development.  
 
 ```{r}
 sessionInfo()
