@@ -134,13 +134,22 @@ repair <- function(blockbuster_tibble, repair_monies) {
     # should this be ordered rather than factor?
     levels(by_repair_status_list[["1"]]$grade) <- list(N = "N", A = "A", B = "B",
                                                   C = "C", D = "D", E = "E")
+    #  ZERO COST after repair ----
+    by_repair_status_list[["1"]]$cost <- as.double(0)
+    
     #  TIDY ----
     #  Remove repair status column? or not for speed, PROBABLY BETTER TO LEAVE IT, time it?
+    #  but need to drop for the aggregate step!
     repaired <- dplyr::bind_rows(by_repair_status_list)
+    repaired$repair_status <- NULL
+    
+    #  https://www.r-bloggers.com/concatenating-a-list-of-data-frames/
     #  Do we need areafy2 here? QA by tracking an elementid total area through time
+    #  Seems OK
     #  RESHAPE ---- merge repeated rows unit_area e.g. same buildingid, elementid and grade A
     #  print(repaired)
-    df_tidied <- tibble::as_tibble(stats::aggregate(unit_area ~ ., 
+    df_tidied <- tibble::as_tibble(stats::aggregate(unit_area ~ .
+                                                      ,
                            data = repaired, FUN = sum))
     ###########
     ########### HERE
@@ -152,10 +161,12 @@ repair <- function(blockbuster_tibble, repair_monies) {
     #                                        )),
     #                      measure.vars = "unit_area"
     #                      )
+    # 
+    # df_tidied <- reshape2::dcast(md, unit_area ~ ., sum)
     #  OUTPUT ----
     
     output <- df_tidied   #  datatable likely faster
-    #  https://www.r-bloggers.com/concatenating-a-list-of-data-frames/
+    
   }
   return(output)
 }

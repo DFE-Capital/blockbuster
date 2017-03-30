@@ -5,6 +5,9 @@ context("repair - test internal function of blockbuster")
 x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
                    | buildingid == 4487)
 y <- repair(x, 1e6)  #  £333k each block should repair all
+z <- blockbuster(x[1:5, ], 1)[[2]]  #  smaller for QA that unit_area is behaving as expected
+z_new <- blockbuster(x, 1, rebuild_monies = 10e6)[[2]]  #  all 3 blocks rebuilt
+e <- blockbuster(x[6, ], 3)[[3]]
 
 # TESTS -------------------------------------------------------------------
 test_that("Zero investment results in no change", {
@@ -19,10 +22,15 @@ test_that("what_needs_repair_within_block skips zero cost and repairs what it ca
     tibble::tibble(cost = seq(from = 0, to = 4500, by = 500)),
     1e4)$repair_status,
     c(0, rep(1, 5), rep(0, 4)))  #  we predict what output vector should look like if correct
+  expect_equal(as.character(repair(e, 1050)$grade), c("A", "C", "E"))  # shouldn't repair E
 })
 
-test_that("repair_status added and is zero for zero costs and A grade", {
-  expect_equal(ncol(x) + 1, ncol(y))
-  expect_equal(sum(y$cost == 0), sum(y$repair_status == 0))
+test_that("repair aggregates the rows correctly on repair", {
+  expect_equal(nrow(repair(z, 20e3)), 5)  #  one year deterioration followed by full repairs, all A
+  expect_equal(as.character(repair(z, 20e3)$grade),
+               rep("A", 5))
 })
 
+test_that("repair ignores N and E, does not repair", {
+  expect_equal(z_new, repair(z_new, repair_monies = 1e6))
+})
