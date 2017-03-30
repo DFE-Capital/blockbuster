@@ -4,9 +4,18 @@
 #' 
 #' Outputs a block_tibble after spending \code{per_block_spend} on one block. Used in the 
 #' \code{\link{repair}} function. A new binary variable is created of the \code{repair_status} 
-#' of each building component within the block. The building components are sorted by 
+#' of each building component within the block (later dropped in the \code{\link{repair}} function).
+#'  The building components are sorted by 
 #' descending grade and then descending cost in the \code{\link{repair}} function prior to 
 #' being passed to this helper function.
+#' 
+#' This function works by first checking if there's anything to repair in the block. If not,
+#' it returns the input argument \code{block_tibble}. Only building components of \code{grade} 
+#' B, C or D are considered for repair. If a building component has a repair cost of zero
+#' it is also ignored for repair (these two logical tests are applied using an "OR"). As the
+#' passed tibble would have been sorted by grade and then cost the function proceeds through
+#' the sorted dataframe repairing what building components it can until all the money is spent. 
+#' Money is divided evenly between each \code{buildingid} or block based on the \code{\link{repair}} function.
 #'
 #' @param block_tibble a block dataframe or tibble with a \code{costs}variable.
 #' @param per_block_spend a scalar calculated from \code{repair_monies} / number of blocks. 
@@ -16,9 +25,11 @@
 #' 
 #' @examples 
 #' 
-#' example <- what_needs_repair_within_block(tibble::tibble(
-#' cost = seq(from = 0, to = 10000, by = 500)),
-#'  1e4)
+#' example <- what_needs_repair_within_block(
+#' tibble::tibble(cost = seq(from = 0, to = 4500, by = 500),
+#'                grade = c("A", "B", "C", "D", "E", "B", "C", "N", "D", "B")),
+#'                1e4)$repair_status
+#'                
 what_needs_repair_within_block <- function(block_tibble, per_block_spend) {
   
   #  money counter
@@ -37,7 +48,8 @@ what_needs_repair_within_block <- function(block_tibble, per_block_spend) {
     
     for (i in 1:nrow(the_block)) {
       
-      if (the_block[i, "cost"] == 0) {  #  ignore zero costs, don't repair
+      if (the_block[i, "cost"] == 0 || the_block[[i, "grade"]] %in% c("N", "A", "E")) {  
+        #  ignore zero costs and N or E Grade, don't repair
         next
       }
       

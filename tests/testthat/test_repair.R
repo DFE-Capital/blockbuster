@@ -17,11 +17,12 @@ test_that("Zero investment results in no change", {
                                 x)))  #  should not be equal due to repairs
 })
 
-test_that("what_needs_repair_within_block skips zero cost and repairs what it can afford.", {
+test_that("what_needs_repair_within_block skips zero cost (and E grade) and repairs what it can afford.", {
   expect_equal(what_needs_repair_within_block(
-    tibble::tibble(cost = seq(from = 0, to = 4500, by = 500)),
+    tibble::tibble(cost = seq(from = 0, to = 4500, by = 500),
+                   grade = c("A", "B", "C", "D", "E", "B", "C", "N", "D", "B")),
     1e4)$repair_status,
-    c(0, rep(1, 5), rep(0, 4)))  #  we predict what output vector should look like if correct
+    c(0, rep(1, 3), 0, 1, 1, rep(0, 3)))  #  we predict what output vector should look like if correct
   expect_equal(as.character(repair(e, 1050)$grade), c("A", "C", "E"))  # shouldn't repair E
 })
 
@@ -29,6 +30,7 @@ test_that("repair aggregates the rows correctly on repair", {
   expect_equal(nrow(repair(z, 20e3)), 5)  #  one year deterioration followed by full repairs, all A
   expect_equal(as.character(repair(z, 20e3)$grade),
                rep("A", 5))
+  expect_equal(sum(repair(z, 20e3)$unit_area), sum(z$unit_area))
 })
 
 test_that("repair ignores N and E, does not repair", {
