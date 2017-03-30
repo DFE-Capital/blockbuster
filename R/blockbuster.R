@@ -1,25 +1,27 @@
 
 # BLOCKBUSTER -------------------------------------------------------------
 
-#' The deterioration of a blockbuster_tibble through time.
+#' The deterioration of a \code{blockbuster_tibble} through time.
 #' 
 #' High level modelling of a blockbuster_tibble through time that considers
-#' maintenance and rebuilding interventions on the condition of the modelled building components.
-#' It is composed of many smaller functions.
+#' repairs and rebuilding interventions on the condition of the modelled building components.
+#' It is composed of many smaller functions that deteriorate, rebuild and repair the \code{blockbuster_tibble}.
 
 #' Outputs a list of blockbuster_tibbles with each tibble containing
 #' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
-#' combination at a given timestep while also duplicating all
+#' combination at a given \code{timestep} while also duplicating all
 #'  other variables and values from the input tibble. This is not as expensive as it sounds
 #'  because modifying a list no longer makes a deep copy; modifying a list efficiently reuses
 #'  existing vectors (R >= 3.1.0).  
-#' After each timestep is simulated the \code{unit_area} are aggregated by identifying features, e.g.
+#' After each \code{timestep} is simulated the \code{unit_area} are aggregated by identifying features, e.g.
 #' \code{buildingid}, \code{elementid} and \code{grade}. 
-#' Then repair cost estimates are calculated using \code{\link{blockcoster_lookup}} to find the correct constant which
+#' Then repair cost estimates are calculated using \code{\link{blockcoster_lookup}}
+#'  to find the correct constant which
 #' is multiplied by the \code{unit_area} to give the expected repair \code{cost} (the initial
 #' \code{unit_area} at time zero is estimated using \code{\link{areafy2}}). Grade E building
-#' components don't have a repair cost (they can't be repaired and must be rebuilt) thus
-#' a seperate variable \code{block_rebuild_cost} is needed to quantify their cost.
+#' components have a repair cost of 5% on Grade D, see
+#' \code{\link{blockbuster_pds_repair_costs}} for repair cost details.
+#'  A seperate variable \code{block_rebuild_cost} is created to help quantify Grade E cost.
 #'  This cost value applies to the estimated rebuild
 #' cost of the whole block (not just that one building component)
 #'  based on the argument \code{rebuild_cost_rate} (£ per m^2). The  \code{rebuild_cost_rate}
@@ -27,7 +29,8 @@
 #'  \code{cost_decommissioned} (zero cost for condition grades not E).  This ideas is being developed
 #'  and may be introduced into later versions of blockbuster. For the moment we simplify
 #'  by adding a costing for E grade to the \code{\link{blockcoster_lookup}}, this simply
-#'  takes the D grade costing and adds 5% to it (based on expert domain knowledge of AB).
+#'  takes the D grade costing and adds 5% to it 
+#'  (based on expert domain knowledge of @@adam.bray@education.gov.uk).
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
 #' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
@@ -120,7 +123,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
     blockbusted[[i + 1]] <- rebuild(blockbusted[[i + 1]], rebuild_monies = rebuild_monies[i])  
     # don't need rebuild_cost_rate[i] as block_rebuild_cost calculated above in costing
     #  REPAIRS ----
-    # blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies = repair_monies[i])
+    blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies = repair_monies[i])
   }
   # GATHER and TIDY ----
   return(blockbusted)

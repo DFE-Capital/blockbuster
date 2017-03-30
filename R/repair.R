@@ -23,6 +23,7 @@
 #'  repaired or not indicated
 #' by the new variable \code{repair_status}.
 #' 
+#' @export
 #' @examples 
 #' 
 #' example <- what_needs_repair_within_block(
@@ -163,21 +164,10 @@ repair <- function(blockbuster_tibble, repair_monies) {
     df_tidied <- tibble::as_tibble(stats::aggregate(unit_area ~ .
                                                       ,
                            data = repaired, FUN = sum))
-    ###########
-    ########### HERE
-    #  Needs QA, don't want to aggregate by cost!
-    
-    # md <- reshape2::melt(data = repaired,
-    #                      id.vars = (c("buildingid", "elementid",
-    #                                   "grade"
-    #                                        )),
-    #                      measure.vars = "unit_area"
-    #                      )
-    # 
-    # df_tidied <- reshape2::dcast(md, unit_area ~ ., sum)
+
     #  OUTPUT ----
     
-    output <- df_tidied   #  datatable likely faster
+    output <- df_tidied   #  data.table likely faster?
     
   }
   return(output)
