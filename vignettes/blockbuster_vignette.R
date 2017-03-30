@@ -252,5 +252,94 @@ p7 + ylab("Total cost of repairs (£)") + xlab("Building element") +
   theme(legend.position = "top") 
 
 ## ------------------------------------------------------------------------
+#  We filter our PDS sample for just three blocks to keep things simple
+#  using identical blocks to our rebuild example above.
+
+x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
+                   | buildingid == 4487)
+#  Repair spending profile of different strategies
+drip_repairs <- blockbuster(x, forecast_horizon = 5,  #  sum(rep(3e4, 5))
+                            repair_monies = rep(3e4, 5))  #  £10k / block / year = £ 15e5
+
+flood_repairs <- blockbuster(x, forecast_horizon = 5,
+                             repair_monies = c(6e4, 6e4,
+                                               1e4, 1e4, 1e4))  
+#  (20k, 20k, 5k, 5k, 5k)* 3 blocks = £ 10.5e5
+
+
+## ------------------------------------------------------------------------
+drip <- dplyr::bind_rows(drip_repairs)
+flood <- dplyr::bind_rows(flood_repairs)
+
+
+## ------------------------------------------------------------------------
+dripping <- drip %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost))
+
+flooding <- flood %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost))
+
+#  we can join them and create an ID variable
+spending_profile_ts <- dplyr::bind_rows("drip" = dripping, "flood" = flooding,
+                                        .id = "spend_profiles")
+
+spending_profile_ts
+
+## ------------------------------------------------------------------------
+p8 <- ggplot(spending_profile_ts, aes(timestep,
+                                total_cost,
+                                colour = spend_profiles,
+                                group = spend_profiles)) +
+  geom_line(size = 2)
+
+  p8 <- p8 + ylab("Total cost of repairs (£)") + xlab("Years") +
+  govstyle::theme_gov() + 
+  theme(plot.margin = unit(c(20,10,10,10),"mm")) +
+  theme(legend.position = "top")
+
+
+## ----fig.width=10, fig.height=12-----------------------------------------
+print(p8)
+
+## ------------------------------------------------------------------------
+#  Repair spending profile of different strategies
+
+#  rebuild most expensive block in first year
+rebuild_once <- blockbuster(x, forecast_horizon = 5,  
+                            rebuild_monies = c(2440984, rep(0, 4))) %>%
+  dplyr::bind_rows() %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost, na.rm = TRUE))
+
+#  repair funding using same funds spread over five years
+drip_fix <- blockbuster(x, forecast_horizon = 5,
+                             repair_monies = rep(2440984/5, 5)) %>% 
+  dplyr::bind_rows() %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost, na.rm = TRUE))
+
+#  we can join them and create an ID variable
+spending_profile_ts <- dplyr::bind_rows("Repairs only" = drip_fix,
+                                        "Rebuild only" = rebuild_once,
+                                        .id = "spend_profiles")
+
+p9 <- ggplot(spending_profile_ts, aes(timestep,
+                                total_cost,
+                                colour = spend_profiles,
+                                group = spend_profiles)) + geom_line(size = 2)
+
+  p9 <- p9 + ylab("Total cost of repairs (£)") + xlab("Years") +
+  govstyle::theme_gov() + 
+  theme(plot.margin = unit(c(20,10,10,10),"mm")) +
+  theme(legend.position = "top")
+  
+  
+
+## ----fig.width=10, fig.height=12-----------------------------------------
+print(p9)
+
+## ------------------------------------------------------------------------
 sessionInfo()
 
