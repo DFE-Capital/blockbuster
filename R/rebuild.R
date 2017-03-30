@@ -56,7 +56,7 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   #  Order to rebuild blocks that need it most
   #  rebuilding_priority <- rebuilding$buildingid
   #  Stopping criteria for rebuild
-  cheapest_rebuild <- min(rebuilding$block_rebuild_cost)
+  cheapest_rebuild <- min(rebuilding$block_rebuild_cost)  #  is pmin() faster?
   max_i <- nrow(rebuilding) + 1
   #  Money to spend
   money_leftover <- rebuild_monies

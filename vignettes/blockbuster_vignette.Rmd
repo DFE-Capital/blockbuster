@@ -392,13 +392,14 @@ Rebuilding is carried out by the `rebuild` function which is internal to `blockb
 
 We inspect the effect of rebuilding on the cost of repairs of three buildings with a non-constant rebuilding investment profile and `rebuild_cost_rate` adjusted for 0% (year 2) then 1% inflation (year 3) (you can pass this as a vector rather than typing it manually of course). We inspect the effect of the rebuild on total repair costs using a faceted stacked bar chart for the different building elements in all the blocks (try increasing the `rebuild_monies` by one pound, what happens?).
 
-```{r fig.width=9, fig.height=9}
+```{r fig.width=10, fig.height=12}
 #  We filter our PDS sample for just three blocks to keep things simple
 x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
                    | buildingid == 4487)
 #  Rebuild spending profile
-y <- blockbuster(x, forecast_horizon = 3, rebuild_monies = c(0, 5e6, 0),  #  five million
-                 rebuild_cost_rate = c(1274, 1274 + 0, 1274 + 12.74))  #  £/m^2
+y <- blockbuster(x, forecast_horizon = 8, rebuild_monies = c(0, 5e6, 0, 0, 0, 0, 0, 0),  #  five million
+                 rebuild_cost_rate = c(1274, 1274 + 0, 1274 + 12.74, 1286.74, 1286.74,
+                                       1286.74, 1286.74, 1286.74))  #  £/m^2
 
 p7 <- y %>%
   purrr::map_df(
@@ -419,9 +420,148 @@ p7 + ylab("Total cost of repairs (£)") + xlab("Building element") +
   theme(legend.position = "top") 
 ```
 
-This also provides a sense check. The rebuild happens during `timestep 2` (because `rebuild_monies = c(0, 5e6, 0)`), all building components are rebuilt to `grade = N` thus have  zero `cost`. During the next timestep there will be some deterioration to `grade = A`, however all building components of excellent condition do not contribute to the repair costs of a block, hence no cost of repairs in `timestep 3`.
+This also provides a sense check. The rebuild happens during `timestep 2` (because `rebuild_monies = c(0, 5e6, 0)`), all building components are rebuilt to `grade = N` thus have  zero `cost`. During the next timestep there will be some deterioration to `grade = A`, however all building components of excellent condition do not contribute to the repair costs of a block, hence no cost of repairs in `timestep 3`. We start to see condition `grade = B & D` at `timestep 5` as expected given our working knowledge of the model.  
 
 ## Repairs
+
+Repairs are carried out by the `repair` function which is internal to `blockbuster`. The repairing of the `blockbuster_tibble` you pass as an argument is dependent on the other argument; `repair_monies`. The latter can be passed as a vector equal in length to the number of years you are simulating (`forecast_horizon`) or as a number. This allows you to control for inflation in the construction industry and variable repairs spending from year to year. Technically the `blockbuster` function makes use of the `repair_monies` by dividing it up evenly between each block in the input `blockbuster_tibble`.  
+
+All the blocks (unique based on `buildingid`) in the `blockbuster_tibble` are ranked in descending order by `buildingid`, `grade` (from E to N) and `cost` (expensive to cheapest repairs within `grade`). Each block is repaired with `repair_monies` divided by the number of blocks in the `blockbuster_tibble`. Money is spent on worse condition grade (ignoring E as it cannot be repaired [ignoring N and A also]) and most expensive repairs first until the remaining money is less than the cheapest building component to repair, at which point it is discarded (NOT passed to `rebuild_monies`; assumed spent by the school on other things) (see the help function `what_needs_repair_within_block()` for details on the decision making).
+
+### Example - compare different spending profiles on condition of blocks
+
+The purpose of this package is to inform policy decision making to determine which out of competing spending profiles will better meet the assessment criteria. Here we aim to minimise the total condition cost of repairs in the 3 school blocks. We develop two spending profiles using the same amount of money over five years (ignoring inflation for simplicity). Remember, the user is free to develop their own assessment criteria given the flexibility of the model output (e.g. you could use the `unit_area` of critical building components).  
+
+We could compare using some graphics already demonstrated in the vignette. Instead we prefer to reorganise the data to answer our specific question: which of our competing spending profiles produces the lowest estimated total repairs cost in year 5? We use arbitary blocks and total repair spend profile (this is not intended to be realistic but instead demonstrative). Inspect the code chunk, specifically the `repair_monies` argument for each spending profile, as it is where they differ.  
+
+* Drip - slow and steady - consistent amount spent each year.
+* Flood - sooner rather than later - spending more sooner, less later.
+
+#### Run the simulations
+
+```{r }
+#  We filter our PDS sample for just three blocks to keep things simple
+#  using identical blocks to our rebuild example above.
+
+x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
+                   | buildingid == 4487)
+#  Repair spending profile of different strategies
+drip_repairs <- blockbuster(x, forecast_horizon = 5,  #  sum(rep(3e4, 5))
+                            repair_monies = rep(3e4, 5))  #  £10k / block / year = £ 15e5
+
+flood_repairs <- blockbuster(x, forecast_horizon = 5,
+                             repair_monies = c(6e4, 6e4,
+                                               1e4, 1e4, 1e4))  
+#  (20k, 20k, 5k, 5k, 5k)* 3 blocks = £ 10.5e5
+
+```
+
+#### Manipulate data for assessment statistic of interest (total cost of repairs)
+
+This consistent repair spend profile can be visually compared by the user to a spending profile that invests more heavily sooner rather than later. However, we need to organise the data into a convenient form for comparison.  
+
+First we convert our list of dataframes into one dataframe (for each spending profile).  
+
+```{r}
+drip <- dplyr::bind_rows(drip_repairs)
+flood <- dplyr::bind_rows(flood_repairs)
+
+```
+
+Then we group by timestep and sum the total cost of repairs across all the blocks. We pretend you might want to compare many spending profiles here and thus demonstrate an approach that can be scaled. The model comparison of spending profiles suggests that the flood approach is slightly better when judged by the year 5 `total_cost` of repairs statistic generated using simple data manipulation and aggregation by the analyst. Not much difference at year 1 suggests that the "spend early" strategy may have over spent at year 1. This could be explored by further investigation or even automation to optimise the problem, given enough time or computation power.  
+
+```{r}
+dripping <- drip %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost))
+
+flooding <- flood %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost))
+
+#  we can join them and create an ID variable
+spending_profile_ts <- dplyr::bind_rows("drip" = dripping, "flood" = flooding,
+                                        .id = "spend_profiles")
+
+spending_profile_ts
+```
+
+#### Visualise
+
+```{r}
+p8 <- ggplot(spending_profile_ts, aes(timestep,
+                                total_cost,
+                                colour = spend_profiles,
+                                group = spend_profiles)) +
+  geom_line(size = 2)
+
+  p8 <- p8 + ylab("Total cost of repairs (£)") + xlab("Years") +
+  govstyle::theme_gov() + 
+  theme(plot.margin = unit(c(20,10,10,10),"mm")) +
+  theme(legend.position = "top")
+
+```
+
+```{r fig.width=10, fig.height=12}
+print(p8)
+```
+
+The simulations suggest that on average investing sooner rather than later with the "flood" strategy is slightly superior at reducing total repair costs in five years time.  
+
+## Rebuilding versus repairing - how to best invest?
+
+Now we have both the `rebuild` and `repair` functions we can assess spending profiles that prioritise rebuilding over repairing or vice versa. Again to compare meaningfully we need an assessment criteria to compare our different approaches.  
+
+Let's use all our money to rebuild one of the blocks or use all the money to repair each block over the five years instead.  
+
+* Rebuild one block at year one then do nothing  
+* Repair each block over the five years using block rebuild investment  
+
+We use the same arbitary grouping of blocks to demonstrate. We do our analysis in one code chunk this now that you are familiar.  
+
+```{r }
+#  Repair spending profile of different strategies
+
+#  rebuild most expensive block in first year
+rebuild_once <- blockbuster(x, forecast_horizon = 5,  
+                            rebuild_monies = c(2440984, rep(0, 4))) %>%
+  dplyr::bind_rows() %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost, na.rm = TRUE))
+
+#  repair funding using same funds spread over five years
+drip_fix <- blockbuster(x, forecast_horizon = 5,
+                             repair_monies = rep(2440984/5, 5)) %>% 
+  dplyr::bind_rows() %>%
+  group_by(timestep) %>%
+  summarise(total_cost = sum(cost, na.rm = TRUE))
+
+#  we can join them and create an ID variable
+spending_profile_ts <- dplyr::bind_rows("Repairs only" = drip_fix,
+                                        "Rebuild only" = rebuild_once,
+                                        .id = "spend_profiles")
+
+p9 <- ggplot(spending_profile_ts, aes(timestep,
+                                total_cost,
+                                colour = spend_profiles,
+                                group = spend_profiles)) + geom_line(size = 2)
+
+  p9 <- p9 + ylab("Total cost of repairs (£)") + xlab("Years") +
+  govstyle::theme_gov() + 
+  theme(plot.margin = unit(c(20,10,10,10),"mm")) +
+  theme(legend.position = "top")
+  
+  
+```
+
+```{r fig.width=10, fig.height=12}
+print(p9)
+```
+
+
+The rebuild takes care of the one rebuilt block but not the other two! As a result the costs of repair begin to accelerate without any money invested in repairing the blocks. The repair focused spending profile quickly brings the condition cost down to zero after two years. The repair profile is probably overspending in the subsequent years and funding could be reduced further with some investigation.  
+
+CAVEAT: this is just a demonstration and should not be considered a general rule. The best strategy will depend on your assessment criteria and the blocks of interest.  
 
 ## Summary
 
@@ -431,6 +571,7 @@ This also provides a sense check. The rebuild happens during `timestep 2` (becau
 * The model can be iteratively improved as more data is collected.  
 * There is flexibility in the transition matrices that are used that should be estimated empirically in the future, data collection permitting.
 * The writing of a package allows us to enshrine business knowledge into a corpus of code that is inseparable from the documentation of that code.
+* Quality assurance is built in through the use of continuous integration and the test driven development.  
 
 ```{r}
 sessionInfo()
