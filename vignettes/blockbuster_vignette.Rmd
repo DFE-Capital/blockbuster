@@ -472,7 +472,9 @@ Then we group by timestep and sum the total cost of repairs across all the block
 
 ```{r}
 dripping <- drip %>%  #  extracat::visna(drip, sort = "b")
-  group_by(timestep) %>%
+  group_by(timestep) %>%  #  drip_missing <- drip %>% filter(!complete.cases(.))
+  #  table(drip_missing$timestep)  #  the originals rows are not being given this variable
+  #  maybe this is OK and makes sense, block can't be rebuilt at timestep 0, therefore NA cost
   summarise(total_cost = sum(cost))
 
 flooding <- flood %>%
