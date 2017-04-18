@@ -471,7 +471,7 @@ flood <- dplyr::bind_rows(flood_repairs)
 Then we group by timestep and sum the total cost of repairs across all the blocks. We pretend you might want to compare many spending profiles here and thus demonstrate an approach that can be scaled. The model comparison of spending profiles suggests that the flood approach is slightly better when judged by the year 5 `total_cost` of repairs statistic generated using simple data manipulation and aggregation by the analyst. Not much difference at year 1 suggests that the "spend early" strategy may have over spent at year 1. This could be explored by further investigation or even automation to optimise the problem, given enough time or computation power.  
 
 ```{r}
-dripping <- drip %>%
+dripping <- drip %>%  #  extracat::visna(drip, sort = "b")
   group_by(timestep) %>%
   summarise(total_cost = sum(cost))
 
