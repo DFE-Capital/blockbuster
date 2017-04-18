@@ -273,8 +273,10 @@ flood <- dplyr::bind_rows(flood_repairs)
 
 
 ## ------------------------------------------------------------------------
-dripping <- drip %>%
-  group_by(timestep) %>%
+dripping <- drip %>%  #  extracat::visna(drip, sort = "b")
+  group_by(timestep) %>%  #  drip_missing <- drip %>% filter(!complete.cases(.))
+  #  table(drip_missing$timestep)  #  the originals rows are not being given this variable
+  #  maybe this is OK and makes sense, block can't be rebuilt at timestep 0, therefore NA cost
   summarise(total_cost = sum(cost))
 
 flooding <- flood %>%

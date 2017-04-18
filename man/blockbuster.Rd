@@ -43,10 +43,7 @@ components have a repair cost of 5% on Grade D, see
  A seperate variable \code{block_rebuild_cost} is created to help quantify Grade E cost.
  This cost value applies to the estimated rebuild
 cost of the whole block (not just that one building component)
- based on the argument \code{rebuild_cost_rate} (£ per m^2). The  \code{rebuild_cost_rate}
- is also used to quantify the cost of decommissioned \code{unit_area}, creating the new variable
- \code{cost_decommissioned} (zero cost for condition grades not E).  This ideas is being developed
- and may be introduced into later versions of blockbuster. For the moment we simplify
+ based on the argument \code{rebuild_cost_rate} (£ per m^2). For the moment we simplify
  by adding a costing for E grade to the \code{\link{blockcoster_lookup}}, this simply
  takes the D grade costing and adds 5% to it 
  (based on expert domain knowledge of @adam.bray@education.gov.uk).
