@@ -22,12 +22,12 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   if (!tibble::is.tibble(blockbuster_initial_state_row) && !is.data.frame(blockbuster_initial_state_row)) stop("'blockbuster_initial_state_row' must be a single row of a blockbuster tibble")
   
   #  Create new variable to match against 
-  blockbuster_initial_state_row <- dplyr::mutate(blockbuster_initial_state_row,
-                                               concated = paste(element, sub_element, const_type,
+  blockbuster_initial_state_row <- dplyr::mutate_(blockbuster_initial_state_row,
+                                               concated = ~paste(element, sub_element, const_type,
                                                              sep = "_"))
   #  Match new variable and get index of match, this provide mc reference, see 02_read_det_data
   #  Note how we ignore case due to differences in caps from  Excel and SQL files
-  pos <- as.integer()
+  pos <- integer(length = 1)
   #  Match on alphanumeric, see 
   pos <- grep(gsub("[^[:alnum:] ]", "", blockbuster_initial_state_row$concated),
               gsub("[^[:alnum:] ]", "", blockbuster_det_data$concated_det),
@@ -37,6 +37,7 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   if (length(pos) == 0) stop("Transition matrix of deterioration rates not found by name!")
   
   #  Use pos to provide transition matrix
+  #  benchmarked as fast
   det_dtmc <- blockbuster_mc_list@markovchains[[pos]]
   
   # Test that det_dtmc is NULL
