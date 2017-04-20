@@ -28,16 +28,17 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   #  Match new variable and get index of match, this provide mc reference, see 02_read_det_data
   #  Note how we ignore case due to differences in caps from  Excel and SQL files
   pos <- integer(length = 1)
-  #  Match on alphanumeric, see 
+  #  Match on alphanumeric
+  #  benchmarked, perl option as TRUE is faster
   pos <- grep(gsub("[^[:alnum:] ]", "", blockbuster_initial_state_row$concated),
               gsub("[^[:alnum:] ]", "", blockbuster_det_data$concated_det),
-              ignore.case = TRUE)
+              ignore.case = TRUE, perl = TRUE)
  
   # Test that length pos is not zero, therefore it has been matched
   if (length(pos) == 0) stop("Transition matrix of deterioration rates not found by name!")
   
   #  Use pos to provide transition matrix
-  #  benchmarked as fast
+  #  benchmarked as fast, we are not growing a list or vector
   det_dtmc <- blockbuster_mc_list@markovchains[[pos]]
   
   # Test that det_dtmc is NULL
@@ -70,36 +71,55 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   
   #  Use switch to select appropriate transition rate for 
   #  same grade, from x to x
-   mc_stay_same <- switch(EXPR = as.character(blockbuster_initial_state_row$grade), 
-                        "N" = mc@transitionMatrix[1, 1],
-                        "A" = mc@transitionMatrix[2, 2],
-                        "B" = mc@transitionMatrix[3, 3],
-                        "C" = mc@transitionMatrix[4, 4],
-                        "D" = mc@transitionMatrix[5, 5],
-                        "E" = mc@transitionMatrix[6, 6])
+  #  .subset2 benchmarked as faster than the vestigial alternative below
+   mc_stay_same <- switch(EXPR = as.character(blockbuster_initial_state_row$grade),
+                          "N" = .subset2(mc@transitionMatrix, 1, 1),
+                          "A" = .subset2(mc@transitionMatrix, 2, 2),
+                          "B" = .subset2(mc@transitionMatrix, 3, 3),
+                          "C" = .subset2(mc@transitionMatrix, 4, 4),
+                          "D" = .subset2(mc@transitionMatrix, 5, 5),
+                          "E" = .subset2(mc@transitionMatrix, 6, 6))
+     #  more familiar method but a little bit slower
+     # mc_stay_same <- switch(EXPR = as.character(blockbuster_initial_state_row$grade),
+     #                    "N" = mc@transitionMatrix[1, 1],
+     #                    "A" = mc@transitionMatrix[2, 2],
+     #                    "B" = mc@transitionMatrix[3, 3],
+     #                    "C" = mc@transitionMatrix[4, 4],
+     #                    "D" = mc@transitionMatrix[5, 5],
+     #                    "E" = mc@transitionMatrix[6, 6])
   
   #  Deteriorate unit_area through one timestep at same grade
   #  output should be same grade but reduced unit_area as some decays
-  same_grade <- dplyr::mutate(blockbuster_initial_state_row,
-                unit_area = unit_area*mc_stay_same, 
-                timestep = timestep + 1, 
-                grade = grade
+  same_grade <- dplyr::mutate_(blockbuster_initial_state_row,
+                unit_area = ~(unit_area*mc_stay_same), 
+                timestep = ~(timestep + 1), 
+                grade = ~(grade)
                 )
   
   #  Use switch to select appropriate transition rate for 
   #  worse grade, from x to y
-  mc_get_worse <- switch(EXPR = as.character(blockbuster_initial_state_row$grade), 
-                        "N" = mc@transitionMatrix[1, 2],
-                        "A" = mc@transitionMatrix[2, 3],
-                        "B" = mc@transitionMatrix[3, 4],
-                        "C" = mc@transitionMatrix[4, 5],
-                        "D" = mc@transitionMatrix[5, 6],
-                        "E" = 0)
+  #  benchmark says this is slightly faster
+  mc_get_worse <- switch(EXPR = as.character(blockbuster_initial_state_row$grade),
+                         "N" = .subset2(mc@transitionMatrix, 1, 2),
+                         "A" = .subset2(mc@transitionMatrix, 2, 3),
+                         "B" = .subset2(mc@transitionMatrix, 3, 4),
+                         "C" = .subset2(mc@transitionMatrix, 4, 5),
+                         "D" = .subset2(mc@transitionMatrix, 5, 6),
+                         "E" = 0)
+    
+  # old method, easier to intepret the above code
+  # mc_get_worse <- switch(EXPR = as.character(blockbuster_initial_state_row$grade), 
+  #                       "N" = mc@transitionMatrix[1, 2],
+  #                       "A" = mc@transitionMatrix[2, 3],
+  #                       "B" = mc@transitionMatrix[3, 4],
+  #                       "C" = mc@transitionMatrix[4, 5],
+  #                       "D" = mc@transitionMatrix[5, 6],
+  #                       "E" = 0)
   
-  worse_grade <- dplyr::mutate(blockbuster_initial_state_row,
-                               unit_area = unit_area*mc_get_worse, 
-                               timestep = timestep + 1, 
-                               grade = dplyr::if_else(grade == "E",
+  worse_grade <- dplyr::mutate_(blockbuster_initial_state_row,
+                               unit_area = ~(unit_area*mc_get_worse), 
+                               timestep = ~(timestep + 1), 
+                               grade = ~(dplyr::if_else(grade == "E",
                                                       true = grade, #  E stays as E, the rest decay
                                                       false = switch(as.character(grade), 
                                                                      "N" = factor("A", levels(blockbuster_initial_state_row$grade)),
@@ -107,7 +127,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
                                                                      "B" = factor("C", levels(blockbuster_initial_state_row$grade)),
                                                                      "C" = factor("D", levels(blockbuster_initial_state_row$grade)),
                                                                      "D" = factor("E", levels(blockbuster_initial_state_row$grade))
-                                                      ))
+                                                      )))
   )
   
   output <- dplyr::bind_rows(same_grade, worse_grade)
