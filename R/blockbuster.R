@@ -19,14 +19,14 @@
 #'  to find the correct constant which
 #' is multiplied by the \code{unit_area} to give the expected repair \code{cost} (the initial
 #' \code{unit_area} at time zero is estimated using \code{\link{areafy2}}). Grade E building
-#' components have a repair cost of 5% on Grade D, see
+#' components have a repair cost of 5 per cent on Grade D, see
 #' \code{\link{blockbuster_pds_repair_costs}} for repair cost details.
 #'  A seperate variable \code{block_rebuild_cost} is created to help quantify Grade E cost.
 #'  This cost value applies to the estimated rebuild
 #' cost of the whole block (not just that one building component)
 #'  based on the argument \code{rebuild_cost_rate} (£ per m^2). For the moment we simplify
 #'  by adding a costing for E grade to the \code{\link{blockcoster_lookup}}, this simply
-#'  takes the D grade costing and adds 5% to it 
+#'  takes the D grade costing and adds 5 per cent to it 
 #'  (based on expert domain knowledge of @@adam.bray@education.gov.uk).
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
