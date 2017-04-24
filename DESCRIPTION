@@ -23,7 +23,8 @@ Imports:
     purrr,
     stringr,
     tibble,
-    readr
+    readr,
+    data.table
 URL: https://github.com/mammykins/blockbuster
 BugReports: https://github.com/mammykins/blockbuster/issues
 Suggests:

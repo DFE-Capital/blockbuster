@@ -94,7 +94,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   for (i in 1:forecast_horizon) {
     #  the input tibble is at timestep zero, not included in the output list of tibbles
     #  Need to zero the cost variables, as it will be incorrect and misleading for non zero timestep
-    x <- dplyr::mutate(blockbust(blockbusted[[i]]),
+    x <- dplyr::mutate_(blockbust(blockbusted[[i]]),
                        cost = 0,  #  get repair costs constant, causes failure if done before aggregate
                        cost_sum = 0)  #  having this here avoids aggregation errors, likely sub-optimal 
     #  composition should also be set to zero as it is now redundant given unit_area estimates
@@ -104,10 +104,10 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
 
     #  Sum unit_area over each row, keep all other variables
     #  then mutate the cost, needs to happen here after aggregation but before rebuild / maintenance
-    blockbusted[[i + 1]] <- dplyr::mutate(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
+    blockbusted[[i + 1]] <- dplyr::mutate_(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
                                                                              data = x, FUN = sum)),
-                                          cost = unit_area * blockcoster_lookup(element, sub_element, const_type, grade),
-                                          block_rebuild_cost = rebuild_cost_rate[i] * gifa)
+                                          cost = ~(unit_area * blockcoster_lookup(element, sub_element, const_type, grade)),
+                                          block_rebuild_cost = ~(rebuild_cost_rate[i] * gifa))
                                           # ,
                                           # cost_decommissioned = ifelse(grade == "E",
                                           #                              yes = rebuild_cost_rate[i] * unit_area,

@@ -46,10 +46,10 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
     #  REBUILD DECISION MAKING ----
     rebuilding <- blockbuster_tibble %>%  #  prepare for rebuild if there's money
       dplyr::group_by(buildingid) %>%
-      dplyr::summarise(cost_sum = sum(cost),
-                       block_rebuild_cost = max(block_rebuild_cost),
-                       cost_to_rebuild_ratio = cost_sum / block_rebuild_cost) %>%
-      dplyr::arrange(desc(cost_to_rebuild_ratio))
+      dplyr::summarise_(cost_sum = ~sum(cost),
+                       block_rebuild_cost = ~max(block_rebuild_cost),
+                       cost_to_rebuild_ratio = ~(cost_sum / block_rebuild_cost)) %>%
+      dplyr::arrange_(~desc(cost_to_rebuild_ratio))
     
   }
   
@@ -100,11 +100,11 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   
   #  fine as is, not getting rebuilt so no change to these rows
   rebuild_tibble_not <- rebuild_tibble %>%
-    dplyr::filter(rebuild_status == 0)
+    dplyr::filter_(~(rebuild_status == 0))
   
   #  Getting rebuilt need change grade to N and reareafy unit_area
   rebuild_tibble_to_rebuild <- rebuild_tibble %>%
-    dplyr::filter(rebuild_status == 1)
+    dplyr::filter_(~(rebuild_status == 1))
   
   df <- rebuild_tibble_to_rebuild  #  easier to read
   #  Collapse, as we will recalculate unit area and set all grade to N

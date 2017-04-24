@@ -172,13 +172,13 @@ blockbust <- function(blockbuster_tibble) {
   
   #  http://winvector.github.io/Accumulation/Accum.html
   for (i in seq_len(nRow)) {
-    blockbuster_initial_state_row <- dplyr::slice(blockbuster_initial_state, i)
+    blockbuster_initial_state_row <- dplyr::slice_(blockbuster_initial_state, ~(i))
     di <- blockbuster::det_eriorate(blockbuster_initial_state_row)
     d[[i]] <- di
     }
   
   d <- data.table::rbindlist(d)
-  #  all.equal(blockbust(blockbuster_pds[1:10, ]), d)  # same as original
+  #  all.equal(blockbust(blockbuster_pds[1:10, ]), d)  # same as the original slower version
   
     output <- tibble::as_tibble(d)
     
