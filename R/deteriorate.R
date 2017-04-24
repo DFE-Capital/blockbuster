@@ -154,8 +154,10 @@ det_eriorate <- function(blockbuster_initial_state_row) {
 #' The timestep also increases by one. The output tibble can be up to twice the number
 #' of rows of the input tibble. Accordingly this function merges to reduce the number of rows
 #' if possible, whereby there should be a max of six (one for each grade state) rows
-#' per \code{elementid}. This function is built using a for loop and the \code{\link{det_eriorate}} function.
+#' per \code{elementid}. This function is built using a for loop
+#'  and the \code{\link{det_eriorate}} function.
 #' @export
+#' @importFrom data.table rbindlist
 #' @examples 
 #' \dontrun{
 #' one_year_later <- blockbust(dplyr::filter(blockbuster_pds, buildingid == 127617))
@@ -168,14 +170,15 @@ blockbust <- function(blockbuster_tibble) {
   nRow <- nrow(blockbuster_tibble)
   d <- as.list(seq_len(nRow))
   
-  #  http://www.win-vector.com/blog/2015/07/efficient-accumulation-in-r/
+  #  http://winvector.github.io/Accumulation/Accum.html
   for (i in seq_len(nRow)) {
     blockbuster_initial_state_row <- dplyr::slice(blockbuster_initial_state, i)
     di <- blockbuster::det_eriorate(blockbuster_initial_state_row)
     d[[i]] <- di
     }
   
-  d <- do.call(rbind, d)  #  all.equal(blockbust(blockbuster_pds[1:10, ]), d)  # same as original
+  d <- data.table::rbindlist(d)
+  #  all.equal(blockbust(blockbuster_pds[1:10, ]), d)  # same as original
   
     output <- tibble::as_tibble(d)
     
