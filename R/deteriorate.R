@@ -116,23 +116,28 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   #                       "D" = mc@transitionMatrix[5, 6],
   #                       "E" = 0)
   
+  #  store as object rather than running levels() function five times, see if_else below
+  cache_levels <- levels(blockbuster_initial_state_row$grade)
+  
+  
   worse_grade <- dplyr::mutate_(blockbuster_initial_state_row,
                                unit_area = ~(unit_area*mc_get_worse), 
                                timestep = ~(timestep + 1), 
                                grade = ~(dplyr::if_else(grade == "E",
                                                       true = grade, #  E stays as E, the rest decay
                                                       false = switch(as.character(grade), 
-                                                                     "N" = factor("A", levels(blockbuster_initial_state_row$grade)),
-                                                                     "A" = factor("B", levels(blockbuster_initial_state_row$grade)),
-                                                                     "B" = factor("C", levels(blockbuster_initial_state_row$grade)),
-                                                                     "C" = factor("D", levels(blockbuster_initial_state_row$grade)),
-                                                                     "D" = factor("E", levels(blockbuster_initial_state_row$grade))
+                                                                     "N" = factor("A", cache_levels),
+                                                                     "A" = factor("B", cache_levels),
+                                                                     "B" = factor("C", cache_levels),
+                                                                     "C" = factor("D", cache_levels),
+                                                                     "D" = factor("E", cache_levels)
                                                       )))
   )
   
+  # growing a dataframe? No binding two rows.
   output <- dplyr::bind_rows(same_grade, worse_grade)
   #  Drop duplicate row for "E" grade.
-  output <- dplyr::filter(output, unit_area != 0)
+  output <- dplyr::filter_(output, ~(unit_area != 0))
   output <- tibble::as_tibble(output)
   
   return(output)
@@ -160,7 +165,7 @@ blockbust <- function(blockbuster_tibble) {
   #  Initiate placeholder
   # blockbuster_tibble <- blockbuster_pds[1:10, ]  #  for testing
   det_eriorated <- blockbuster_tibble
-  det_eriorated <- dplyr::slice(det_eriorated, -(1:n()))  #  keep attributes, drop values
+  det_eriorated <- dplyr::slice_(det_eriorated, ~(-(1:n())) )  #  keep attributes, drop values
 
   for (i in seq_len(nrow(blockbuster_tibble))) {
     #  create single row tibble for det_eriorate function
