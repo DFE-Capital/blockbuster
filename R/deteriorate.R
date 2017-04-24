@@ -162,21 +162,22 @@ det_eriorate <- function(blockbuster_initial_state_row) {
 #' }
 blockbust <- function(blockbuster_tibble) {
   
-  #  Initiate placeholder
+  #  Initiate placeholders, cache variable, preallocate space
   # blockbuster_tibble <- blockbuster_pds[1:10, ]  #  for testing
-  det_eriorated <- blockbuster_tibble
-  det_eriorated <- dplyr::slice_(det_eriorated, ~(-(1:n())) )  #  keep attributes, drop values
-
-  for (i in seq_len(nrow(blockbuster_tibble))) {
-    #  create single row tibble for det_eriorate function
-    blockbuster_initial_state_row <- dplyr::slice(blockbuster_tibble, i)
-    #  bind rows of previously det_eriorated with this iterations det_eriorated
-    det_eriorated <- dplyr::bind_rows(det_eriorated, det_eriorate(blockbuster_initial_state_row))
-    
-  }
+  blockbuster_initial_state <- blockbuster_tibble
+  nRow <- nrow(blockbuster_tibble)
+  d <- as.list(seq_len(nRow))
   
-    output <- tibble::as_tibble(det_eriorated)
+  #  http://www.win-vector.com/blog/2015/07/efficient-accumulation-in-r/
+  for (i in seq_len(nRow)) {
+    blockbuster_initial_state_row <- dplyr::slice(blockbuster_initial_state, i)
+    di <- blockbuster::det_eriorate(blockbuster_initial_state_row)
+    d[[i]] <- di
+    }
+  
+  d <- do.call(rbind, d)  #  all.equal(blockbust(blockbuster_pds[1:10, ]), d)  # same as original
+  
+    output <- tibble::as_tibble(d)
     
     return(output)
-  
-}
+  }
