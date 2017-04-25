@@ -56,7 +56,7 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   #  Order to rebuild blocks that need it most
   #  rebuilding_priority <- rebuilding$buildingid
   #  Stopping criteria for rebuild
-  cheapest_rebuild <- min(rebuilding$block_rebuild_cost)  #  is pmin() faster?
+  cheapest_rebuild <- min(rebuilding$block_rebuild_cost)
   max_i <- nrow(rebuilding) + 1
   #  Money to spend
   money_leftover <- rebuild_monies
@@ -91,11 +91,11 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
     
   #  ASSIGN REBUILD STATUS TO EACH INITIAL TIBBLE ROW
   rebuild_tibble <- blockbuster_tibble %>%
-    dplyr::mutate(rebuild_status = dplyr::if_else(
+    dplyr::mutate_(rebuild_status = ~(dplyr::if_else(
       condition = buildingid %in% to_be_rebuilt,
       true = 1,
       false = 0 
-    )
+    ))
                     )
   
   #  fine as is, not getting rebuilt so no change to these rows
@@ -121,7 +121,7 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   # APPEND ROWS FROM REBUILT TO NOT REBUILT TIBBLE
   # drop temp variables, if rebuilt Grade is N
   output <- dplyr::bind_rows(rebuilt, rebuild_tibble_not) %>%
-    dplyr::select(-rebuild_status)
+    dplyr::select_(~(-rebuild_status))
   
   return(output)
 }
