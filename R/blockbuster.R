@@ -19,14 +19,14 @@
 #'  to find the correct constant which
 #' is multiplied by the \code{unit_area} to give the expected repair \code{cost} (the initial
 #' \code{unit_area} at time zero is estimated using \code{\link{areafy2}}). Grade E building
-#' components have a repair cost of 5% on Grade D, see
+#' components have a repair cost of 5 per cent on Grade D, see
 #' \code{\link{blockbuster_pds_repair_costs}} for repair cost details.
 #'  A seperate variable \code{block_rebuild_cost} is created to help quantify Grade E cost.
 #'  This cost value applies to the estimated rebuild
 #' cost of the whole block (not just that one building component)
 #'  based on the argument \code{rebuild_cost_rate} (£ per m^2). For the moment we simplify
 #'  by adding a costing for E grade to the \code{\link{blockcoster_lookup}}, this simply
-#'  takes the D grade costing and adds 5% to it 
+#'  takes the D grade costing and adds 5 per cent to it 
 #'  (based on expert domain knowledge of @@adam.bray@education.gov.uk).
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
@@ -94,7 +94,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   for (i in 1:forecast_horizon) {
     #  the input tibble is at timestep zero, not included in the output list of tibbles
     #  Need to zero the cost variables, as it will be incorrect and misleading for non zero timestep
-    x <- dplyr::mutate(blockbust(blockbusted[[i]]),
+    x <- dplyr::mutate_(blockbust(blockbusted[[i]]),
                        cost = 0,  #  get repair costs constant, causes failure if done before aggregate
                        cost_sum = 0)  #  having this here avoids aggregation errors, likely sub-optimal 
     #  composition should also be set to zero as it is now redundant given unit_area estimates
@@ -104,10 +104,10 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
 
     #  Sum unit_area over each row, keep all other variables
     #  then mutate the cost, needs to happen here after aggregation but before rebuild / maintenance
-    blockbusted[[i + 1]] <- dplyr::mutate(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
+    blockbusted[[i + 1]] <- dplyr::mutate_(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
                                                                              data = x, FUN = sum)),
-                                          cost = unit_area * blockcoster_lookup(element, sub_element, const_type, grade),
-                                          block_rebuild_cost = rebuild_cost_rate[i] * gifa)
+                                          cost = ~(unit_area * blockcoster_lookup(element, sub_element, const_type, grade)),
+                                          block_rebuild_cost = ~(rebuild_cost_rate[i] * gifa))
                                           # ,
                                           # cost_decommissioned = ifelse(grade == "E",
                                           #                              yes = rebuild_cost_rate[i] * unit_area,

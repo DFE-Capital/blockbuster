@@ -90,8 +90,8 @@ what_needs_repair_within_block <- function(block_tibble, per_block_spend) {
 #' @param repair_monies a vector of length one. 
 #' @return A \code{blockbuster_tibble} that has had building components repaired
 #'  (or not if \code{repair_monies} are 0).
-#' 
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% 
+#' @importFrom data.table rbindlist
 #' @export
 #' @examples 
 #' 
@@ -116,7 +116,7 @@ repair <- function(blockbuster_tibble, repair_monies) {
     number_of_blocks <-  nrow(dplyr::distinct_(repairing, ~ buildingid,
                                         .keep_all = FALSE))
     # print(paste("Number of blocks is ", number_of_blocks))
-    per_block_spend <- repair_monies / number_of_blocks
+    per_block_spend <- (repair_monies / number_of_blocks)
     # print(paste("Per block spend is, £", per_block_spend))
     
     #  GO THROUGH EACH BLOCK MARKING "TO REPAIR" UNTIL MONEY RUNS OUT
@@ -131,7 +131,7 @@ repair <- function(blockbuster_tibble, repair_monies) {
         what_needs_repair_within_block(x,
                                        per_block_spend)
       }) %>%
-      dplyr::bind_rows()  #  is unsplit or data.table option faster?
+      data.table::rbindlist()  #  changed from dplyr::bind_rows
     
     #  CARRY OUT REPAIRS
     #  Create a list of 2 dataframes, one for repair_status 0 and two for repair_status 1
@@ -167,7 +167,7 @@ repair <- function(blockbuster_tibble, repair_monies) {
 
     #  OUTPUT ----
     
-    output <- df_tidied   #  data.table likely faster?
+    output <- df_tidied   
     
   }
   return(output)

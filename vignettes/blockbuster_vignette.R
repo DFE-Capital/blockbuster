@@ -14,6 +14,17 @@ library(ggthemes)  #  Make pretty output with little effort.
 dplyr::glimpse(blockbuster_pds)
 
 ## ------------------------------------------------------------------------
+#  output demonstration
+dplyr::glimpse(  #  this function makes the output nicer to read
+  blockbuster(blockbuster_tibble = blockbuster_pds[1:10, ],  #  ten rows for demo
+                           forecast_horizon = 1)  #  We deteriorate through one year
+               [[2]])  #  The initial data at timestep 0 is held in [[1]]
+
+
+## ------------------------------------------------------------------------
+formals(blockbuster)
+
+## ------------------------------------------------------------------------
 blockbuster_det_data[2, ]
 
 ## ------------------------------------------------------------------------

@@ -22,7 +22,7 @@ Markov chains represent a class of stochastic processes of great interest for th
 
 ### Business questions it can answer
 
-This package is useful for decision makers as it provides a modelling approach for predicting the average condition of an individual building component (`elementid`) through time. This modelling approach can be scaled through a decision making hierarchy, with modelling the deterioration at the level of a School block (`buildingid`), for each site (`siteid`), the School (which may be made of many blocks, `urn`), at the Local Authority (LA) level (`lano`) and at the National level given suitable input data (filter desired rows using the `dplyr` package is recommended).  
+This package is useful for decision makers as it provides a modelling approach for predicting the average condition of an individual building component (`elementid`) through time. This modelling approach can be scaled through a decision making hierarchy, with modelling the deterioration at the level of a School block (`buildingid`), for each site (`siteid`), the School (which may be made of many blocks, `urn`; omitted for anonymity), at the Local Authority (LA) level (`lano`) and at the National level given suitable input data (filter desired rows using the `dplyr` package is recommended).  
 
 The `blockbuster` function can be used on more than one row of what I call a `blockbuster_tibble` through more than one year, storing all the data of intermediary years. This flexibility allows decision makers to ask many and varied questions of the output data.  
 
@@ -43,17 +43,50 @@ library(ggthemes)  #  Make pretty output with little effort.
 
 ```
 
-## The initial state data
+## Inputs and Outputs Overview
 
-Provided with this package is some sampled data with identifying features removed. We suggest loading the `tidyverse` package when handling this data. This object is a tibble called by `blockbuster_pds`. For creating a subset of this data to make it manageable for simulation, use the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html).  
+Remember to use the R help for all of the functions and data mentioned in the vignette for extra detail (e.g. try typing `?blockbuster` and `?blockbuster_pds` into the console).  
 
-The `areafy2` function was used on data queried from the Department for Education Education Funding Authority Property Data Survey SQL data tables (see 01_read_and_tidy_data.R for details). This provides estimates for the `unit_area` (a quantification of how much of a buildign component there is) variable. This is crucial for the DTMC methodology and for quantifying the costs of repairs.  
+### Input variables of each building component
 
-We take a look at the transpose of the data table which describes the dimensions of our sample data and the type of variables found therein.  
+Provided with this package is ten percent sampled data with identifying features removed (the school Unique Reference Number). We suggest loading the `tidyverse` package when handling this data. This object is a tibble called by `blockbuster_pds`. For creating a subset of this data to make it manageable for simulation, use the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html).  
+
+The `areafy2` function was used on data queried from the Department for Education Education Funding Authority Property Data Survey SQL data tables (see 01_read_and_tidy_data.R for details). This provides estimates for the `unit_area` (a quantification of how much of a building component there is) variable. This is crucial for the DTMC methodology and for quantifying the costs of repairs.  
+
+We take a look at the transpose of the data table which describes the dimensions of our sample data and the type of variables found therein. Note the `cost_sum` variable which is an aggregation of the initial costs estimated in the block or `buildingid` that that row is associated with (this variable is set to zero for `timestep` greater than zero).  
 
 ```{r}
 dplyr::glimpse(blockbuster_pds)
 ```
+
+### The output variables compared to the input
+
+The output of the `blockbuster` function is a list of dataframes. The number of dataframes is equivalent to the number of years simulated plus one. The output contains all the variables from the input initial `blockbuster_tibble`. Here we simulate the deterioration of ten building components through one year. We are interested in the variables of a simulated PDS produced by our `blockbuster` model using default arguments.    
+
+```{r}
+#  output demonstration
+dplyr::glimpse(  #  this function makes the output nicer to read
+  blockbuster(blockbuster_tibble = blockbuster_pds[1:10, ],  #  ten rows for demo
+                           forecast_horizon = 1)  #  We deteriorate through one year
+               [[2]])  #  The initial data at timestep 0 is held in [[1]]
+
+```
+
+This output has foreign key variables with the suffix -id, that could be joined to other data from relevant SQL data tables (e.g. the user could find the `urn` by joining on `siteid` from an appropriate data table). The `urn` is omitted to maintain the anonymity of each school's condition included in the sample.  
+
+Importantly the simulated PDS output has an additional variable called `block_rebuild_cost`; that is the expected cost of rebuild for the whole `buildingid` associated with that building component given the expected `rebuild_cost_rate` argument passed to the `blockbuster` function (we use the default here which is £ 1274 / metre squared).  
+
+### The default arguments
+
+In the example above we passed the `blockbuster` function only two arguments and it still worked! That is because if you do not explicitly state some of the arguments it will assume default values for these. We can look at the defaults using the `formals` function.  
+
+```{r}
+formals(blockbuster)
+```
+
+The arguments `blockbuster_tibble` and `forecast_horizon` do not have defaults thus we must pass them to the blockbuster function.  
+
+For more detail try typing `?blockbuster` into the console.  
 
 ## The transition probability data
 
