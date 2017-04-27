@@ -22,15 +22,16 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   if (!tibble::is.tibble(blockbuster_initial_state_row) && !is.data.frame(blockbuster_initial_state_row)) stop("'blockbuster_initial_state_row' must be a single row of a blockbuster tibble")
   
   #  Create new variable to match against 
-  blockbuster_initial_state_row <- dplyr::mutate_(blockbuster_initial_state_row,
-                                               concated = ~paste(element, sub_element, const_type,
-                                                             sep = "_"))
+  #  This is now cached before the for loop in blockbuster
+  # blockbuster_initial_state_row <- dplyr::mutate_(blockbuster_initial_state_row,
+  #                                              concated = ~paste(element, sub_element, const_type,
+  #                                                            sep = "_"))
   #  Match new variable and get index of match, this provide mc reference, see 02_read_det_data
   #  Note how we ignore case due to differences in caps from  Excel and SQL files
   pos <- integer(length = 1)
   #  Match on alphanumeric
   #  benchmarked, perl option as TRUE is faster
-  pos <- grep(gsub("[^[:alnum:] ]", "", blockbuster_initial_state_row$concated),
+  pos <- grep(blockbuster_initial_state_row[["concated"]],
               gsub("[^[:alnum:] ]", "", blockbuster_det_data$concated_det),
               ignore.case = TRUE, perl = TRUE)
  

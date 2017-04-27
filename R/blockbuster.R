@@ -89,7 +89,14 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   blockbusted <- rep(list(blockbusted), forecast_horizon + 1)
   
   #  Provide initial tibble at timestep zero
-  blockbusted[[1]] <- blockbuster_tibble
+  blockbusted[[1]] <- blockbuster_tibble %>%
+    #  Need to cache variable before for loop, only do this once to speed up code
+    #  This was originally carried out in det_what_tm()
+    #  Should also do for the blockcoster_lookup() also
+    dplyr::mutate_(concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                    replacement = "",
+                                    paste(element, sub_element, const_type,
+                                     sep = "")))
   
   for (i in 1:forecast_horizon) {
     #  the input tibble is at timestep zero, not included in the output list of tibbles
