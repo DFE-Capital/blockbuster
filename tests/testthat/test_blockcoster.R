@@ -7,16 +7,18 @@ context("Looking up and estimating repair costs for a row in a blockbuster tibbl
 # INPUT to test -----------------------------------------------------------
 
 x <- dplyr::select(blockbuster_pds[1, ], element, sub_element, const_type, grade)
+x <- dplyr::mutate(x, concated = gsub(pattern = "[^[:alnum:] ]",
+                         replacement = "",
+                         paste(element, sub_element, const_type,
+                               sep = "")))
 z_test <- blockbuster(blockbuster_pds[1:10, ], 1)
 
 # TEST NEW DESIGN different input ---------------------------------------------------------
-test_that("blockcoster_lookup no longer receives tibble, takes in the four variables it needs only.", {
-  expect_true(is.numeric(blockcoster_lookup(blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element,
-                                  blockbuster_pds[3, ]$const_type, blockbuster_pds[3, ]$grade)))
-  expect_true(is.numeric(blockcoster_lookup(x$element, x$sub_element, x$const_type, x$grade)))
+test_that("blockcoster_lookup no longer receives tibble, receives the cached concated and grade.", {
+  expect_true(is.numeric(blockcoster_lookup(x$concated, x$grade)))
 })
 
-blockcoster_lookup(blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, blockbuster_pds[3, ]$const_type, blockbuster_pds[3, ]$grade)
+#  blockcoster_lookup(blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, blockbuster_pds[3, ]$const_type, blockbuster_pds[3, ]$grade)
 
 # TEST USE OF THIS FUNCTION IN BLOCKBUSTER --------------------------------
 test_that("blockbuster_lookup is not implemented in blockbuster function as expected", {
@@ -32,14 +34,12 @@ test_that("blockbuster_lookup is not implemented in blockbuster function as expe
 # for now, However
 # Users requested a costing of E in the same variable
 # Adam Bray suggested same cost as D plus 5% for extras
-test_that("blockbuster_lookup returns NA when grade is E", {
-  expect_equal(blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
-                                  const_type = "Flat roof - Flexible sheet; single ply or built up",
+test_that("blockbuster_lookup vectorised and E is 105% of D", {
+  expect_equal(blockcoster_lookup(concated = z_test[[2]]$concated,
                                   grade = "E"),
-               blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
-                                  const_type = "Flat roof - Flexible sheet; single ply or built up",
-                                  grade = "D") + blockcoster_lookup(element = "Roofs", sub_element = "Coverings and insulation",
-                                                                    const_type = "Flat roof - Flexible sheet; single ply or built up",
+               blockcoster_lookup(concated = z_test[[2]]$concated,
+                                  grade = "D") + 
+                 blockcoster_lookup(concated = z_test[[2]]$concated,
                                                                     grade = "D") * 0.05)
 })
 

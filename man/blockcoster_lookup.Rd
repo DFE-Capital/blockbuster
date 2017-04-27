@@ -5,15 +5,12 @@
 \title{An internal function in \code{\link{blockbuster}} to select the correct repair cost constant for a building component and its condition grade. 
 It works by matching strings from the concatenated \code{element}, \code{sub_element}, \code{const_type} and \code{grade}.}
 \usage{
-blockcoster_lookup(element, sub_element, const_type, grade,
+blockcoster_lookup(concated, grade,
   costs_lookup = blockbuster_pds_repair_costs)
 }
 \arguments{
-\item{element}{the element of a blockbuster tibble single row.}
-
-\item{sub_element}{the sub_element of a blockbuster tibble single row}
-
-\item{const_type}{the const_type of a blockbuster tibble single row}
+\item{concated}{the pasted \code{element}, \code{sub_element} and \code{const_type}
+of a blockbuster tibble single row as shown in the example.}
 
 \item{grade}{the grade of a blockbuster tibble single row}
 
@@ -31,8 +28,10 @@ improvements of the \code{\link{blockbuster}}.
 }
 \examples{
 cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(
-blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_element, 
-blockbuster_pds[3, ]$const_type, blockbuster_pds[3, ]$grade)
+dplyr::mutate_(blockbuster_pds[3, ], 
+concated = ~gsub(pattern = "[^[:alnum:] ]", replacement = "",
+paste(element, sub_element, const_type, sep = "")))$concated,
+blockbuster_pds[3, ]$grade)
 }
 \seealso{
 \code{\link{blockbuster_pds_repair_costs}}
