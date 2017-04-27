@@ -51,8 +51,9 @@
 #'   \item{element}{Building taxonomic classification}
 #'   \item{sub_element}{}
 #'   \item{const_type}{Construction type}
-#'   \item{concated_det}{A pasting together of the element sub-element and const_type.}
 #'   \item{transition rates}{From a to b, b to c, c to d and d to e.}
+#'   \item{concated_det}{A pasting together of the element sub-element and const_type; 
+#'   keeping alphanumeric and spaces only.}
 #'   ...
 #' }
 "blockbuster_det_data"

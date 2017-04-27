@@ -60,6 +60,9 @@
 # we already have the data it seems. Most recent four are added
 # to the bottom of the det_rates tsv
 
+# 2017-04-27
+# at the extra mutation step to the concated_det variable by removing
+
 
 # GET DATA ----------------------------------------------------------------
 # this should be replaced later by getting the det rates from
@@ -71,8 +74,9 @@ library(tidyverse)
 
 det_data <- read_tsv(file  = "./data-raw/det_data_ajj_cf.txt",
                        col_names = TRUE) %>%
-  mutate(concated_det = paste(element, sub_element, const_type,
-                          sep = "_")) %>%
+  mutate(concated_det =  gsub("[^[:alnum:] ]", "",
+                              paste(element, sub_element, const_type,
+                          sep = "_"))) %>%
   filter(complete.cases(.)) %>%  # NA are getting removed
   filter(!duplicated(.[["concated_det"]])) #  remove duplicates from Excel
 

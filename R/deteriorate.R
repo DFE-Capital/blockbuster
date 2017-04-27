@@ -44,8 +44,8 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   pos <- integer(length = 1)
   #  Match on alphanumeric
   #  benchmarked, perl option as TRUE is faster
-  pos <- grep(blockbuster_initial_state_row[["concated"]],
-              gsub("[^[:alnum:] ]", "", blockbuster_det_data$concated_det),
+  pos <- grep(pattern = blockbuster_initial_state_row[["concated"]],
+              x = blockbuster_det_data$concated_det,
               ignore.case = TRUE, perl = TRUE)
  
   # Test that length pos is not zero, therefore it has been matched
