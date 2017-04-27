@@ -34,6 +34,7 @@
 #' @return a blockbuster tibble with the unit_area estimated for each row.
 #' @importFrom dplyr %>%
 #' @export
+#' @seealso \url{http://www.machinegurning.com/rstats/case_when/}
 #' @examples 
 #' pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 
 #' pds_data == blockbuster_pds[1, ]$unit_area  
@@ -84,7 +85,7 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS", input_
 # INSPECT BUILDING COMPONENT THEN CALCULATE UNIT AREA ---------------------------------------------------------------
 
   areafyed <- blockbuster_initial_state %>%
-    dplyr::mutate(unit_area = dplyr::case_when(
+    dplyr::mutate_(unit_area = ~dplyr::case_when(
       
       # External Areas and five distinctions
       .$sub_element == "Boundary walls and fences" ~ .$boundary_length,
@@ -145,7 +146,7 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS", input_
 
 # CONSIDER COMPOSITION ----------------------------------------------------
   areafyed <- areafyed %>%
-    dplyr::mutate(unit_area = unit_area * composition)  #  composition relates to const_type not grade
+    dplyr::mutate_(unit_area = ~(unit_area * composition))  #  composition relates to const_type not grade
 
   return(areafyed)
   

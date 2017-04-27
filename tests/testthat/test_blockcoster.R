@@ -21,7 +21,9 @@ blockcoster_lookup(blockbuster_pds[3, ]$element, blockbuster_pds[3, ]$sub_elemen
 # TEST USE OF THIS FUNCTION IN BLOCKBUSTER --------------------------------
 test_that("blockbuster_lookup is not implemented in blockbuster function as expected", {
   expect_equal(z_test[[1]][[3, "cost"]], 3910.23)  #  check the initial costs remain the same for year zero
-  expect_equal(round(z_test[[2]][[3, "cost"]]), 4117)  #  check after deterioration of one year costs are produced
+  expect_equal(round(sum(z_test[[2]]$cost)), 56121)  #  check after deterioration of one year costs are produced
+  #  not the best test, this seemed to change position with cache variable rework
+  #  changed to sum of the vector, rather than position dependence
 })
 
 

@@ -38,7 +38,11 @@ dplyr::select(x, element, sub_element, const_type, grade, unit_area)
 
 
 ## ------------------------------------------------------------------------
-mc1 <- det_what_tm(x)
+mc1 <- det_what_tm(dplyr::mutate_(x, 
+                                  concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                    replacement = "",
+                                    paste(element, sub_element, const_type,
+                                     sep = ""))))
 mc1
 
 ## ------------------------------------------------------------------------

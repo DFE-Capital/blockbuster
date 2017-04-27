@@ -1,5 +1,5 @@
 library(blockbuster)
-context("det_eriorate blockbuster PDS tibble through one timestep")
+context("det_eriorate blockbuster PDS tibble through one timestep after blockbuster cache variable changes")
 
 
 
@@ -7,16 +7,40 @@ context("det_eriorate blockbuster PDS tibble through one timestep")
 
 w <- head(dplyr::filter(blockbuster_pds, const_type == "No mechanical ventilation or air conditioning"),
           n = 1L)  #  no det rates for this
-x <- blockbuster_pds[255, ]
-y <- blockbuster_pds[1337, ]
+x <- dplyr::mutate_(blockbuster_pds[255,],
+                    concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                     replacement = "",
+                                     paste(element,
+                                           sub_element,
+                                           const_type,
+                                           sep = "")))
+y <- dplyr::mutate_(blockbuster_pds[1337,],
+                    concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                     replacement = "",
+                                     paste(element,
+                                           sub_element,
+                                           const_type,
+                                           sep = "")))
 ye <- y
 ye$grade <- factor("E", levels(y$grade))  #  grade set to "E"
-z <- blockbuster_pds[40000, ]
+z <- dplyr::mutate_(blockbuster_pds[40000,],
+                    concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                     replacement = "",
+                                     paste(element,
+                                           sub_element,
+                                           const_type,
+                                           sep = "")))
 
 # TESTS -------------------------------------------------------------------
 
 test_that("det_what_tm finds the correct markov chain", {
-  expect_equal(det_what_tm(blockbuster_pds[1,]),
+  expect_equal(det_what_tm(dplyr::mutate_(blockbuster_pds[1,],
+                                          concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                                           replacement = "",
+                                                           paste(element,
+                                                                 sub_element,
+                                                                 const_type,
+                                                                 sep = "")))),
                blockbuster_mc_list@markovchains[[117]])
   #expect_(det_what_tm(w),  blockbuster_mc_list@markovchains[[]])
   #expect_equal(det_what_tm(x),  blockbuster_mc_list@markovchains[[]])
@@ -44,7 +68,13 @@ test_that("det_eriorate outputs correct grades", {
   expect_equal(as.character(tail(det_eriorate(ye)$grade, 1)), "E")
 })
 
-v <- blockbuster_pds[1:5, ]
+v <- dplyr::mutate_(blockbuster_pds[1:5,],
+                    concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                     replacement = "",
+                                     paste(element,
+                                           sub_element,
+                                           const_type,
+                                           sep = "")))
 
 test_that("blockbust() produces correct row number", {
   expect_equal(nrow(blockbust(v)), nrow(v)*2)  #  if grade not E, then row number doubles

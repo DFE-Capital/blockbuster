@@ -5,7 +5,14 @@
 # unit_area through time. 
 
 
-#' Select the correct markovchain object for deterioration of a row.
+#' Internal function that selects the correct markovchain object for deterioration of a row.
+#' 
+#' Since caching of the concated variable in the blockbuster function to improve 
+#' code speed, this function will no longer work on an unmutated blockbuster_tibble.
+#' 
+#' The \code{concated} variable can be created by pasting together the \code{element},
+#'  \code{sub_element} and \code{const_type} then replacing any non alpha numeric characters
+#'  with "". For details see the example.
 #'
 #' @param blockbuster_initial_state_row a blockbuster dataframe or tibble single row.
 #' @return a markovchain object containing the appropriate transition matrix
@@ -14,7 +21,13 @@
 #' @import markovchain
 #' @export
 #' @examples 
-#' dtmc_a <- det_what_tm(blockbuster_pds[1, ])
+#' dtmc_a <- det_what_tm(
+#' dplyr::mutate_(blockbuster_pds[1, ], 
+#' concated = ~gsub(pattern = "[^[:alnum:] ]",
+#' replacement = "",
+#' paste(element, sub_element, const_type,
+#'       sep = ""))))
+#'       
 det_what_tm <- function(blockbuster_initial_state_row) {
   
   # Test that we are passing a blockbuster-like dataframe or tibble to the function
@@ -50,6 +63,9 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 }
 
 #' The deterioration of one blockbuster row through one time period.
+#' 
+#' Since changes to how the internal \code{concated} variable is created
+#' the function requires this variable to be part of the input dataframe row.
 #'
 #' @param blockbuster_initial_state_row a blockbuster dataframe or tibble single row. 
 #' Can only accept one row at a time due to how \code{grep} works
@@ -64,7 +80,11 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 #' @import markovchain
 #' @export
 #' @examples 
-#' one_year_later <- det_eriorate(blockbuster_pds[1, ])
+#' one_year_later <- det_eriorate(dplyr::mutate_(blockbuster_pds[1, ],
+#' concated = ~gsub(pattern = "[^[:alnum:] ]",
+#' replacement = "",
+#' paste(element, sub_element, const_type,
+#'       sep = ""))))
 det_eriorate <- function(blockbuster_initial_state_row) {
   
   #  Get appropriate markovchain

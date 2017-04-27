@@ -2,7 +2,7 @@
 % Please edit documentation in R/deteriorate.R
 \name{det_what_tm}
 \alias{det_what_tm}
-\title{Select the correct markovchain object for deterioration of a row.}
+\title{Internal function that selects the correct markovchain object for deterioration of a row.}
 \usage{
 det_what_tm(blockbuster_initial_state_row)
 }
@@ -14,10 +14,22 @@ a markovchain object containing the appropriate transition matrix
 for the input blockbuster tibble row. Can only accept one row at a time due to how grep works.
 }
 \description{
-Select the correct markovchain object for deterioration of a row.
+Since caching of the concated variable in the blockbuster function to improve 
+code speed, this function will no longer work on an unmutated blockbuster_tibble.
+}
+\details{
+The \code{concated} variable can be created by pasting together the \code{element},
+ \code{sub_element} and \code{const_type} then replacing any non alpha numeric characters
+ with "". For details see the example.
 }
 \examples{
-dtmc_a <- det_what_tm(blockbuster_pds[1, ])
+dtmc_a <- det_what_tm(
+dplyr::mutate_(blockbuster_pds[1, ], 
+concated = ~gsub(pattern = "[^[:alnum:] ]",
+replacement = "",
+paste(element, sub_element, const_type,
+      sep = ""))))
+      
 }
 \seealso{
 \code{\link{blockbuster_det_data}}

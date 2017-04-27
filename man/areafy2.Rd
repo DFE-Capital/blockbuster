@@ -41,4 +41,7 @@ an attempt to tidy that and make the code more human readable for debugging. Set
 pds_data <- areafy2(blockbuster_pds[1, ])$unit_area 
 pds_data == blockbuster_pds[1, ]$unit_area  
 }
+\seealso{
+\url{http://www.machinegurning.com/rstats/case_when/}
+}
 
