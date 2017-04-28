@@ -130,5 +130,6 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   }
   # GATHER and TIDY ----
   return(blockbusted)
+  # could remove concated variable from each dataframe but let's save time by not
   # tidyr::nest(data, ..., .key = data)
 }
