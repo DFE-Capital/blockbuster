@@ -75,11 +75,10 @@ blockcoster_lookup <- function(
     
     # If grade is "N" it gives NA
     # The user might prefer a zero cost similar to how grade A is costed
-    # Need to keep the attributes
+    # If NA replace with zero, vectorised
     
-    # if (is.na(repair_costs_constant$repair_cost) == TRUE) {
-    #   repair_costs_constant$repair_cost <- tibble::tibble(repair_cost = 0)
-    # }
+    # This could be a problem if matching lookup not found
+    repair_costs_constant[is.na(repair_costs_constant)] <- 0
     
     # Return for use in nested design
     return(repair_costs_constant$repair_cost)
