@@ -46,8 +46,8 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
     #  REBUILD DECISION MAKING ----
     rebuilding <- blockbuster_tibble %>%  #  prepare for rebuild if there's money
       dplyr::group_by(buildingid) %>%
-      dplyr::summarise_(cost_sum = ~sum(cost),
-                       block_rebuild_cost = ~max(block_rebuild_cost),
+      dplyr::summarise_(cost_sum = ~sum(cost, na.rm = TRUE),
+                       block_rebuild_cost = ~max(block_rebuild_cost, na.rm = TRUE),
                        cost_to_rebuild_ratio = ~(cost_sum / block_rebuild_cost)) %>%
       dplyr::arrange_(~desc(cost_to_rebuild_ratio))
     
@@ -56,7 +56,7 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   #  Order to rebuild blocks that need it most
   #  rebuilding_priority <- rebuilding$buildingid
   #  Stopping criteria for rebuild
-  cheapest_rebuild <- min(rebuilding$block_rebuild_cost)
+  cheapest_rebuild <- min(rebuilding$block_rebuild_cost, na.rm = TRUE)
   max_i <- nrow(rebuilding) + 1
   #  Money to spend
   money_leftover <- rebuild_monies

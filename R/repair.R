@@ -39,6 +39,7 @@ what_needs_repair_within_block <- function(block_tibble, per_block_spend) {
   the_block <- dplyr::mutate_(block_tibble, repair_status = 0)
   
   if (max(the_block$cost, na.rm = TRUE) == 0) {  #  if new build block or all grade A
+    #  Need na.rm = TRUE as 
     
     return(the_block)  #  i.e. if there's nothing to repair!
     
