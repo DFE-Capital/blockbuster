@@ -4,7 +4,7 @@
 \name{blockbuster_pds_repair_costs}
 \alias{blockbuster_pds_repair_costs}
 \title{A dataframe of repair costs at 2016 prices.}
-\format{A dataframe of 640 rows and 8 variables to be used for cost estimation in blockbuster. 
+\format{A dataframe of 800 rows and 8 variables to be used for cost estimation in blockbuster. 
 \describe{
   \item{element}{The top level of the quantity surveyors' building component hierarchy.}
   \item{sub_element}{The mid level of the quantity surveyors' building component hierarchy.}
