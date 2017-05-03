@@ -89,7 +89,14 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   blockbusted <- rep(list(blockbusted), forecast_horizon + 1)
   
   #  Provide initial tibble at timestep zero
-  blockbusted[[1]] <- blockbuster_tibble
+  blockbusted[[1]] <- blockbuster_tibble %>%
+    #  Need to cache variable before for loop, only do this once to speed up code
+    #  This was originally carried out in det_what_tm()
+    #  Should also do for the blockcoster_lookup() also
+    dplyr::mutate_(concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                    replacement = "",
+                                    paste(element, sub_element, const_type,
+                                     sep = "")))
   
   for (i in 1:forecast_horizon) {
     #  the input tibble is at timestep zero, not included in the output list of tibbles
@@ -106,7 +113,8 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
     #  then mutate the cost, needs to happen here after aggregation but before rebuild / maintenance
     blockbusted[[i + 1]] <- dplyr::mutate_(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
                                                                              data = x, FUN = sum)),
-                                          cost = ~(unit_area * blockcoster_lookup(element, sub_element, const_type, grade)),
+                                          cost = ~(unit_area * blockcoster_lookup(concated = concated,
+                                                                                  grade = grade)),
                                           block_rebuild_cost = ~(rebuild_cost_rate[i] * gifa))
                                           # ,
                                           # cost_decommissioned = ifelse(grade == "E",
@@ -122,5 +130,6 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   }
   # GATHER and TIDY ----
   return(blockbusted)
+  # could remove concated variable from each dataframe but let's save time by not
   # tidyr::nest(data, ..., .key = data)
 }

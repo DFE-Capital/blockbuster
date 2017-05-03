@@ -20,10 +20,15 @@ by creating two intermediary objects; same grade and different grade.
 The timestep also needs to increase by one given deterioration has occurred.
 }
 \description{
-The deterioration of one blockbuster row through one time period.
+Since changes to how the internal \code{concated} variable is created
+the function requires this variable to be part of the input dataframe row.
 }
 \examples{
-one_year_later <- det_eriorate(blockbuster_pds[1, ])
+one_year_later <- det_eriorate(dplyr::mutate_(blockbuster_pds[1, ],
+concated = ~gsub(pattern = "[^[:alnum:] ]",
+replacement = "",
+paste(element, sub_element, const_type,
+      sep = ""))))
 }
 \seealso{
 \code{\link{blockbuster_det_data}}

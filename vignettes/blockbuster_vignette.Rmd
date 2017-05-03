@@ -118,10 +118,14 @@ dplyr::select(x, element, sub_element, const_type, grade, unit_area)
 
 ## Inspecting the associated deterioration rates
 
-To determine which transition matrix is associated with each row we use the `det_what_tm()` function. This produces an error if the `markovchain` object does not exist. This works by concatenating the `element`, `sub_elment` and `const_type` and matching with the `concated_det` we saw earlier.  
+To determine which transition matrix is associated with each row we use the `det_what_tm()` function. This produces an error if the `markovchain` object does not exist. This used to work by concatenating the `element`, `sub_elment` and `const_type` and matching with the `concated_det` we saw earlier. However, to speed up the efficiency of the code, the `concated` variable is now cached before the for loop in the `blockbuster` function. This requires a modified input for this function prior to look up of the associated deterioration rates.  
 
 ```{r}
-mc1 <- det_what_tm(x)
+mc1 <- det_what_tm(dplyr::mutate_(x, 
+                                  concated = ~gsub(pattern = "[^[:alnum:] ]",
+                                    replacement = "",
+                                    paste(element, sub_element, const_type,
+                                     sep = ""))))
 mc1
 ```
 

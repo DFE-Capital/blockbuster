@@ -44,10 +44,11 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   } else {
     
     #  REBUILD DECISION MAKING ----
+    #  na.rm = FALSE for speed, also blockcoster should not produce any NAs now
     rebuilding <- blockbuster_tibble %>%  #  prepare for rebuild if there's money
       dplyr::group_by(buildingid) %>%
-      dplyr::summarise_(cost_sum = ~sum(cost),
-                       block_rebuild_cost = ~max(block_rebuild_cost),
+      dplyr::summarise_(cost_sum = ~sum(cost, na.rm = FALSE),
+                       block_rebuild_cost = ~max(block_rebuild_cost, na.rm = FALSE),
                        cost_to_rebuild_ratio = ~(cost_sum / block_rebuild_cost)) %>%
       dplyr::arrange_(~desc(cost_to_rebuild_ratio))
     
@@ -92,7 +93,7 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
   #  ASSIGN REBUILD STATUS TO EACH INITIAL TIBBLE ROW
   rebuild_tibble <- blockbuster_tibble %>%
     dplyr::mutate_(rebuild_status = ~(dplyr::if_else(
-      condition = buildingid %in% to_be_rebuilt,
+      condition = buildingid %in% to_be_rebuilt,  # p.359 Advanced R, could be faster
       true = 1,
       false = 0 
     ))

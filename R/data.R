@@ -51,8 +51,9 @@
 #'   \item{element}{Building taxonomic classification}
 #'   \item{sub_element}{}
 #'   \item{const_type}{Construction type}
-#'   \item{concated_det}{A pasting together of the element sub-element and const_type.}
 #'   \item{transition rates}{From a to b, b to c, c to d and d to e.}
+#'   \item{concated_det}{A pasting together of the element sub-element and const_type; 
+#'   keeping alphanumeric and spaces only.}
 #'   ...
 #' }
 "blockbuster_det_data"
@@ -88,7 +89,7 @@
 #' compatability. For details of the process see \code{04_read_tidy_costs_data.R} in the \code{data-raw}
 #' directory; also see the associated \code{tests}.
 #'
-#' @format A dataframe of 640 rows and 8 variables to be used for cost estimation in blockbuster. 
+#' @format A dataframe of 800 rows and 8 variables to be used for cost estimation in blockbuster. 
 #' \describe{
 #'   \item{element}{The top level of the quantity surveyors' building component hierarchy.}
 #'   \item{sub_element}{The mid level of the quantity surveyors' building component hierarchy.}
