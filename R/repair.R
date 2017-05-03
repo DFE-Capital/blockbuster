@@ -38,8 +38,9 @@ what_needs_repair_within_block <- function(block_tibble, per_block_spend) {
   #  add placeholder column, default to no rebuild
   the_block <- dplyr::mutate_(block_tibble, repair_status = 0)
   
-  if (max(the_block$cost, na.rm = TRUE) == 0) {  #  if new build block or all grade A
-    #  Need na.rm = TRUE as 
+  if (max(the_block$cost, na.rm = FALSE) == 0) {  #  if new build block or all grade A
+    #  No longer need na.rm = TRUE as this was fixed in blockcoster, no NAs produced for N grade
+    #  this is faster*
     
     return(the_block)  #  i.e. if there's nothing to repair!
     
