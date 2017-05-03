@@ -34,8 +34,9 @@
 #' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon} or one.
 #' @param rebuild_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
 #' @param repair_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
-#' @return A list of n plus one tibbles (where n is the \code{forecast_horizon}). 
-#' The first tibble is the initial \code{blockbuster_tibble}.
+#' @return An object of class \code{blockbuster_list};
+#'  list of n plus one tibbles (where n is the \code{forecast_horizon}). 
+#' The first tibble is the initial \code{blockbuster_tibble}. 
 #' 
 #' @importFrom stats aggregate
 #' @export
@@ -128,7 +129,10 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
     #  REPAIRS ----
     blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies = repair_monies[i])
   }
-  # GATHER and TIDY ----
+  # CUSTOM CLASS FOR GENERIC METHODS
+  class(blockbusted) <- c("blockbuster_list", "list")
+  
+    # GATHER and TIDY ----
   return(blockbusted)
   # could remove concated variable from each dataframe but let's save time by not
   # tidyr::nest(data, ..., .key = data)
