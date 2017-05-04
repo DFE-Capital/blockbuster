@@ -19,7 +19,8 @@ blockbuster(blockbuster_tibble, forecast_horizon, rebuild_monies = 0,
 \item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
 }
 \value{
-A list of n plus one tibbles (where n is the \code{forecast_horizon}). 
+An object of class \code{blockbuster_list};
+ list of n plus one tibbles (where n is the \code{forecast_horizon}). 
 The first tibble is the initial \code{blockbuster_tibble}.
 }
 \description{

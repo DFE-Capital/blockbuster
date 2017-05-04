@@ -61,7 +61,7 @@ dplyr::glimpse(blockbuster_pds)
 
 ### The output variables compared to the input
 
-The output of the `blockbuster` function is a list of dataframes. The number of dataframes is equivalent to the number of years simulated plus one. The output contains all the variables from the input initial `blockbuster_tibble`. Here we simulate the deterioration of ten building components through one year. We are interested in the variables of a simulated PDS produced by our `blockbuster` model using default arguments.    
+The output of the `blockbuster` function is a list of dataframes. The number of dataframes is equivalent to the number of years simulated plus one. The output is of the custom class `blockbuster_list` (derivative to list) and  contains all the variables from the input initial `blockbuster_tibble`. Here we simulate the deterioration of ten building components through one year. We are interested in the variables of a simulated PDS produced by our `blockbuster` model using default arguments.    
 
 ```{r}
 #  output demonstration
@@ -75,6 +75,10 @@ dplyr::glimpse(  #  this function makes the output nicer to read
 This output has foreign key variables with the suffix -id, that could be joined to other data from relevant SQL data tables (e.g. the user could find the `urn` by joining on `siteid` from an appropriate data table). The `urn` is omitted to maintain the anonymity of each school's condition included in the sample.  
 
 Importantly the simulated PDS output has an additional variable called `block_rebuild_cost`; that is the expected cost of rebuild for the whole `buildingid` associated with that building component given the expected `rebuild_cost_rate` argument passed to the `blockbuster` function (we use the default here which is £ 1274 / metre squared).  
+
+#### Generic methods
+
+The generic functions `plot()`, `boxplot()` and `summary()` can be used on the ouput object of class `blockbuster_list`. These are detailed later in the vignette.  
 
 ### The default arguments
 
@@ -295,6 +299,8 @@ p2 + ylab("Cost of repairs (£)") + xlab("Condition grade") +
 
 ```
 
+The same plot is produced using the generic method of `boxplot()`.
+
 ### Total Blockcosting
 
 We take our hypothetical building and plot the total costs year on year by condition grade. Notice how the costs to repair the hypothetical block increases, accelerating as more and more `unit_area` gets into grade E.
@@ -343,6 +349,8 @@ p4 + ylab("Total cost of repairs (£)") + xlab("Years after PDS") +
   ggtitle("Cost of repairs through time for our example block")
 
 ```
+
+The same plot is produced using the generic method of `plot()` on the `blockbuster_list` object.
 
 ### Digging down
 
