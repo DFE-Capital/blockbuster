@@ -1,0 +1,228 @@
+---
+title: "Blockbuster for R Newbies"
+author: "Matthew Gregory"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+> I'm trying to free your mind, Neo. But I can only show you the door. You're the one that has to walk through it. 
+([via](http://www.imdb.com/title/tt0133093/quotes))
+
+## A Beginner's Guide to blockbusteR
+
+This vignette focuses on providing a user with all the skills necessary to provide the blockbuster function with the desired inputs, thus asking it the right question. This will produce an output of the class `blockbuster_list`. The user will be shown how to handle this object for basic business questions.  
+
+* What will the total cost of repairs be in the three blocks with `buildingid`'s 4382, 4472 and 4487 after five years?  
+
+The `tidyverse` is a bunch of useful packages all rolled into one. We rely on it throughout this vignette as it provides a more beginner friendly approach to R. We load it now.  
+
+```{r}
+require(tidyverse)  #  if not already loaded, load it
+require(blockbuster)  #  we need this for obvious reasons
+```
+
+### blockbuster basics
+
+How to get started? `blockbuster()` is the main function from the blockbuster package that we will use to carry out the deterioration, rebuild and repair of the school blocks of interest. We can inspect the help using a `?` prefix.  
+
+```{r eval=FALSE}
+? blockbuster
+```
+
+Remember, our business question above? How do we solve this using this function? We can get the formal arugments of the function using the `formals` function. This tells us that there are default values for three of the five arguments but two need us to set the values.  
+
+```{r}
+formals(blockbuster)
+```
+
+If we don't provide these two arguments, what happens?  
+
+```{r eval = FALSE}
+blockbuster(blockbuster_pds[1, ], )
+blockbuster(, 1)
+```
+Given our question, the second argument `forecast_horizon` should be obvious. Using the help what format should this argument take?
+
+```{r eval=FALSE}
+blockbuster(, forecast_horizon = 1)
+```
+
+Now we need to provide the first argument which is the `blockbuster_tibble`. What form might this take? Look at the example in the help.  
+
+### blockbuster_pds, the data
+
+Our `blockbuster_tibble` can either be all of the `blockbuster_pds` or a subset thereof (how many rows and columns are there in this dataset?).
+
+```{r eval = FALSE}
+?blockbuster_pds
+```
+
+Using R it's important to expand your basic vocabulary. A useful function is `str`. What does it do and what does it reveal about the `blockbuster_pds` object. 
+
+```{r}
+str(blockbuster_pds)
+```
+
+Using the above or any other functions;  
+* What is the class of the `blockbuster_pds` object?  
+* What do you think each variable means? (use `?blockbuster_pds` if you get stuck)  
+* What does each row represent?  
+
+### filtering the data to answer the question
+
+Given our findings above we can run a simple simulation using `blockbuster`. Be careful in how you subset as simulating all the rows takes a long time! What have I done below?
+
+```{r eval = FALSE}
+one_yr_later_a <- blockbuster(blockbuster_tibble = blockbuster_pds[1, ],
+                            forecast_horizon = 1)
+
+one_yr_later_b <- blockbuster(blockbuster_tibble = blockbuster_pds[1:2, ],
+                            forecast_horizon = 1)
+
+one_yr_later_c <- blockbuster(blockbuster_tibble = blockbuster_pds[c(1, 3, 3, 7), ],
+                            forecast_horizon = 1)
+```
+
+[Standard subsetting](http://adv-r.had.co.nz/Subsetting.html) has its place but the [dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) package provides a readily interpretable and beginner friendly system of verbs to manipulate dataframes. We use it here to `filter` for rows associated with our `buildingid` of interest.  
+
+Using the dplyr vignette, `filter` the `blockbuster_pds` dataframe object (I call it a `blockbuster_tibble`, as it's a tibble with the variables necessary for use in the blockbuster function) for the correct blocks. What do you think the pipe (`|`) operator does? Using the dplyr help how might I  filter for just these blocks' roofs?   
+
+```{r}
+dplyr::filter(blockbuster::blockbuster_pds,  (buildingid == 4382 |
+                buildingid == 4472 |
+                buildingid == 4487) #  & element == "Roofs"
+              )
+```
+
+#### Practice
+
+* What if I wanted to filter for blocks that were in the Camden Local Authority of interest, how might I do that? (you need to Google)  
+* Filter for all the blocks in Camden except `buildingid` 124480? (not equal to 124480)
+* How would I filter for school blocks from a particular building era? (e.g. pre-1976)  
+* How would I filter for just critical building components such as Roofs and Walls?  
+
+#### Caveat
+
+Remember `blockbuster_pds` represents a ten percent sample of the entire Property Data Survey. Details of the SQL query used to produce the sample are found within the package at `blockbuster/inst/sql/blockbuster_ten_pc_sample.sql`.  
+
+### Running a simulation
+
+Now we are familiar with subsetting the `blockbuster_pds` dataframe we can go back to answering the original business question.
+
+* What will the total cost of repairs be in the three blocks with `buildingid`'s 4382, 4472 and 4487 after five years?  
+
+It's good practice to manipulate your data and then check it looks rights. Here we assign it to object `x`. Assigning stuff is useful as it saves time if you are likely to use the object again (particularly true for objects that take a long time to create).
+
+```{r}
+  #  We filter our PDS sample for just three blocks to keep things simple			
+  x <- dplyr::filter(blockbuster::blockbuster_pds,
+                     buildingid == 4382 |
+                       buildingid == 4472 | buildingid == 4487)			
+
+```
+
+Now we can run our simulation using `x` as our `blockbuster_tibble` argument and `5` for our `forecast_horizon` argument for the `blockbuster` function. Note that the arguments don't need to be named if they are in the correct order as shown using `formals` earlier. See Hadley's chapter on [functions](http://adv-r.had.co.nz/Functions.html) for more detail.
+
+```{r}
+y <- blockbuster(blockbuster_tibble = x, forecast_horizon = 5)
+#  z <- blockbuster(x, 5) 
+#  identical(y, z)  #  TRUE
+class(y)
+```
+
+### Using generic methods on output
+
+The `blockbuster` functions produces a custom output object of class "blockbuster_list" (deriviative to "list"). This informs the generic methods (for which I have coded a method) to handle this object in a certain way. This helps users to quickly visualise and summarise the output without needing much coding expertise.   
+
+The underlying code and details can be found in the other vignette. You can just copy and paste from there replacing the output with your blockbuster ouput of interest.  
+
+#### Line plot
+
+```{r eval=FALSE}
+plot(y)
+```
+
+#### Boxplot
+
+```{r eval=FALSE}
+boxplot(y)
+```
+
+#### Summary
+
+```{r eval=FALSE}
+summary(y)
+```
+
+### Handling a list
+
+The `blockbuster` function produces a list of dataframes with `timestep == 0` at index 1 and the last year in the simulation at index `forecast_horizon + 1`.  
+
+```{r}
+#  y[[1]]  #  timestep 0
+
+final_year <- y[[6]]
+final_year
+```
+
+You can manipulate the dataframes within the list as you please. For example, calculating Tukey's five number summary of `cost` for the `final_year`.
+
+```{r}
+fivenum(final_year$cost)
+```
+
+#### Practice
+
+* What was the average cost at each timestep of the simulation?  
+* Describe the trend using data.  
+* Which block had the most expensive building component in the final year?  
+* Was that tedious? (there's a better way...)  
+
+The dataframes are stored in a list for code efficiency and also because the dataframes after timestep zero have additional variables preventing straightforward binding. This isn't a problem for an experienced R user. For more sophisticated methods to handle a list of dataframes see the `blockbuster_vignette`.  
+
+### Additional inputs
+
+Thus far we have simulated just the counterfactual. This package is interested in comparing different spending profiles on the rebuilding and repairing of the School Estate and its impact on those school buildings condition.  
+
+Use `?blockbuster` and the `formals` function to remind yourself of the other arguments we can provide the `blockbuster` function with. 
+
+Notice how the help says the other arguments must be "a numeric vector of length equal to the forecast_horizon or one." What does this mean? What are the default values (the default is adopted if left blank)?
+
+#### More than one way to skin a cat
+
+If you provide an input of length one then it is converted into a [vector](http://adv-r.had.co.nz/Data-structures.html#vectors) using `rep(input, forecast_horizon)` (type `?rep()`). Alternatively you can provide a vector of length equal to the `forecast_horizon` using any of the [standard methods](https://cran.r-project.org/doc/manuals/r-devel/R-intro.html#Vectors-and-assignment) that a Google search will reveal.  
+
+Here we demonstrate three different ways to provide the other arguments to `blockbuster`. The following code errors, use the error information to fix the input and re-run it.
+
+```{r eval = FALSE}
+z <- blockbuster(blockbuster_tibble = x, forecast_horizon = 5,
+            rebuild_monies = c(0, 9e4, 0, 0),
+            repair_monies = 5e3,
+            rebuild_cost_rate = c(rep(1280, 4), 1285))
+```
+
+#### Practice
+
+Upon fixing:  
+
+* Use the generic methods to describe what happens to the blocks.
+* Do you think rebuilding in the 2nd year was sensible? What happens if you rebuild in the last year? Does that reduce the total cost of repairs?
+* How many thousands of pounds are spent on the repair of each block per year?  
+* Are you sure? Use `?repair` to check your assumption.
+* What is the rebuild_cost_rate in the final year?
+* What is it in the third year?  
+* How would you extract the dataframe from z that contains `grade == N` building components for the first time?    
+
+### Case study
+
+Made-up numbers and purely hypothetical.  
+
+Doncaster (LA code 371) are interested in improving their spending on rebuilding and repairs on their schools over the next three year period (imagine question was posed as data was collected). They are particularly interested in keeping all building components associated with their roofs in good working condition.  
+
+Currently they don't rebuild and just spend £1,000,000 a year on reparations. They want to know if they would be better off with a different spending profile to reduce the overall cost by using that money to rebuild some of the worst off schools. As part of the projections they also want to know the total roof repairs costs for different approaches. You must also consider how inflation will affect the `rebuild_cost_rate` which is predicted to rise one percent each year.  
+

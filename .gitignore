@@ -4,9 +4,7 @@
 .Rhistory
 .RData
 .Ruserdata
-
 # Data files
-
 data-raw/blockbuster_data.txt
 blockbuster_data
 .xlsx
@@ -22,15 +20,11 @@ Final_PDSP_Cost_model_4Q16.xlsx
 data-raw/repair_costs_pre_tidy.csv
 data-raw/repair_costs_tidy.csv
 data-raw/missing_repair_costs.csv
-data-raw/repair_costs_pre_tidy.csv
 data-raw/repair_costs_pre_tidy_with_missing_appended.csv
 data-raw/building_component_lookup.csv
 tests/testthat/repair_costs_pre_tidy_with_missing_appended.csv
 tests/testthat/repair_costs_tidy.csv 
-
 #benchmarking
 data-raw/06_inferno_optimising_code.R
-
 # Packrat files
-
 packrat/lib*/
