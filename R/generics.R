@@ -7,14 +7,14 @@
 #' Produces a line plot of total cost of repairs by grade through time.
 #'
 #'
-#' @param blockbuster_list output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.
+#' @param x output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.
 #' @return A ggplot object (lineplot).
 #' @importFrom dplyr %>%
 #' @examples 
-#' plot(blockbuster(dplyr::filter(blockbuster_pds,
-#'  buildingid == 127617), 5))
+#' # plot(blockbuster(dplyr::filter(blockbuster_pds,
+#'  # buildingid == 127617), 5))
 #' 
-plot.blockbuster_list <- function(x, ...) {
+plot.blockbuster_list <- function(x) {
   
   p1 <- x %>%
     purrr::map_df(
@@ -42,14 +42,14 @@ plot.blockbuster_list <- function(x, ...) {
 #' Assigns a new method to the generic \code{boxplot} function.
 #'
 #'
-#' @param blockbuster_list output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.
+#' @param x output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.
 #' @return A ggplot (boxplot) object.
 #' @importFrom dplyr %>%
 #' @examples 
-#' boxplot(blockbuster(dplyr::filter(blockbuster_pds,
-#'  buildingid == 127617), 5))
+#' # boxplot(blockbuster(dplyr::filter(blockbuster_pds,
+#' # buildingid == 127617), 5))
 #' 
-boxplot.blockbuster_list <- function(x, ...) {
+boxplot.blockbuster_list <- function(x) {
   p1 <- x %>%
     purrr::map_df(
       ~ .x ,
@@ -77,14 +77,14 @@ boxplot.blockbuster_list <- function(x, ...) {
 #' the different grades for the final year of the simulation. 
 #'
 #'
-#' @param blockbuster_list output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.
+#' @param x output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.
 #' @return A list containing some descriptive text and 
 #' @importFrom dplyr %>%
 #' @examples 
-#' summary(blockbuster(dplyr::filter(blockbuster_pds,
-#'  buildingid == 127617), 5))
+#' # summary(blockbuster(dplyr::filter(blockbuster_pds,
+#'  # buildingid == 127617), 5))
 #' 
-summary.blockbuster_list <- function(x, ...) {
+summary.blockbuster_list <- function(x) {
   y1 <- paste0(paste0("This simulation predicts the deterioration of the input blockbuster_tibble through  ", 
                length(x) - 1, " years."))
   

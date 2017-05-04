@@ -4,10 +4,10 @@
 \alias{boxplot.blockbuster_list}
 \title{The default box-plotting of a \code{blockbuster_list} object.}
 \usage{
-\method{boxplot}{blockbuster_list}(x, ...)
+\method{boxplot}{blockbuster_list}(x)
 }
 \arguments{
-\item{blockbuster_list}{output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.}
+\item{x}{output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.}
 }
 \value{
 A ggplot (boxplot) object.
@@ -16,8 +16,8 @@ A ggplot (boxplot) object.
 Assigns a new method to the generic \code{boxplot} function.
 }
 \examples{
-boxplot(blockbuster(dplyr::filter(blockbuster_pds,
- buildingid == 127617), 5))
+# boxplot(blockbuster(dplyr::filter(blockbuster_pds,
+# buildingid == 127617), 5))
 
 }
 

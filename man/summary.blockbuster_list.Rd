@@ -4,10 +4,10 @@
 \alias{summary.blockbuster_list}
 \title{The default summary of a \code{blockbuster_list} object.}
 \usage{
-summary.blockbuster_list(x, ...)
+summary.blockbuster_list(x)
 }
 \arguments{
-\item{blockbuster_list}{output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.}
+\item{x}{output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.}
 }
 \value{
 A list containing some descriptive text and
@@ -20,8 +20,8 @@ Provides an overview of total costs by year and the proportion of the unit_area 
 the different grades for the final year of the simulation.
 }
 \examples{
-summary(blockbuster(dplyr::filter(blockbuster_pds,
- buildingid == 127617), 5))
+# summary(blockbuster(dplyr::filter(blockbuster_pds,
+ # buildingid == 127617), 5))
 
 }
 

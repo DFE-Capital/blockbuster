@@ -4,10 +4,10 @@
 \alias{plot.blockbuster_list}
 \title{The default plotting of a \code{blockbuster_list} object.}
 \usage{
-plot.blockbuster_list(x, ...)
+plot.blockbuster_list(x)
 }
 \arguments{
-\item{blockbuster_list}{output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.}
+\item{x}{output from \code{\link{blockbuster}} function; an object of class \code{blockbuster_list}.}
 }
 \value{
 A ggplot object (lineplot).
@@ -19,8 +19,8 @@ Assigns a new method to the generic \code{plot} function.
 Produces a line plot of total cost of repairs by grade through time.
 }
 \examples{
-plot(blockbuster(dplyr::filter(blockbuster_pds,
- buildingid == 127617), 5))
+# plot(blockbuster(dplyr::filter(blockbuster_pds,
+ # buildingid == 127617), 5))
 
 }
 
