@@ -26,5 +26,7 @@ tests/testthat/repair_costs_pre_tidy_with_missing_appended.csv
 tests/testthat/repair_costs_tidy.csv 
 #benchmarking
 data-raw/06_inferno_optimising_code.R
+#tutorial
+07_blockbuster_output_for_tutorial.R
 # Packrat files
 packrat/lib*/

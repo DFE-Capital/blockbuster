@@ -4,7 +4,7 @@ author: "Matthew Gregory"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{blockbuster-newbies}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,7 +13,7 @@ vignette: >
 > I'm trying to free your mind, Neo. But I can only show you the door. You're the one that has to walk through it. 
 ([via](http://www.imdb.com/title/tt0133093/quotes))
 
-## A Beginner's Guide to blockbusteR
+## A BeginneR's Guide to blockbuster
 
 This vignette focuses on providing a user with all the skills necessary to provide the blockbuster function with the desired inputs, thus asking it the right question. This will produce an output of the class `blockbuster_list`. The user will be shown how to handle this object for basic business questions.  
 
@@ -224,5 +224,5 @@ Made-up numbers and purely hypothetical.
 
 Doncaster (LA code 371) are interested in improving their spending on rebuilding and repairs on their schools over the next three year period (imagine question was posed as data was collected). They are particularly interested in keeping all building components associated with their roofs in good working condition.  
 
-Currently they don't rebuild and just spend £1,000,000 a year on reparations. They want to know if they would be better off with a different spending profile to reduce the overall cost by using that money to rebuild some of the worst off schools. As part of the projections they also want to know the total roof repairs costs for different approaches. You must also consider how inflation will affect the `rebuild_cost_rate` which is predicted to rise one percent each year.  
+Currently they don't rebuild and just spend £1,000,000 a year on reparations. They want to know if they would be better off with a different spending profile to reduce the overall cost by using that money to rebuild some of the worst off schools. As part of the projections they also want to know the total roof repairs costs for different approaches. You must also consider how construction inflation will affect the `rebuild_cost_rate` which is predicted to rise one percent each year.  
 
