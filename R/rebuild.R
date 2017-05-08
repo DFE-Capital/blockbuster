@@ -45,12 +45,12 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
     
     #  REBUILD DECISION MAKING ----
     #  na.rm = FALSE for speed, also blockcoster should not produce any NAs now
-    rebuilding <- blockbuster_tibble %>%  #  prepare for rebuild if there's money
-      dplyr::group_by(buildingid) %>%
-      dplyr::summarise_(cost_sum = ~sum(cost, na.rm = FALSE),
+    rebuilding <- blockbuster_tibble  #  prepare for rebuild if there's money
+    rebuilding <- dplyr::group_by_(rebuilding, "buildingid")
+    rebuilding <- dplyr::summarise_(rebuilding, cost_sum = ~sum(cost, na.rm = FALSE),
                        block_rebuild_cost = ~max(block_rebuild_cost, na.rm = FALSE),
-                       cost_to_rebuild_ratio = ~(cost_sum / block_rebuild_cost)) %>%
-      dplyr::arrange_(~desc(cost_to_rebuild_ratio))
+                       cost_to_rebuild_ratio = ~(cost_sum / block_rebuild_cost))
+    rebuilding <- dplyr::arrange_(rebuilding, ~desc(cost_to_rebuild_ratio))
     
   }
   
@@ -91,8 +91,9 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
     #  efficiency thing we prespecified the length of the to_be_rebuilt list
     
   #  ASSIGN REBUILD STATUS TO EACH INITIAL TIBBLE ROW
-  rebuild_tibble <- blockbuster_tibble %>%
-    dplyr::mutate_(rebuild_status = ~(dplyr::if_else(
+  rebuild_tibble <- blockbuster_tibble
+  rebuild_tibble <- dplyr::mutate_(rebuild_tibble, 
+                                   rebuild_status = ~(dplyr::if_else(
       condition = buildingid %in% to_be_rebuilt,  # p.359 Advanced R, could be faster
       true = 1,
       false = 0 
@@ -100,29 +101,29 @@ rebuild <- function(blockbuster_tibble, rebuild_monies) {
                     )
   
   #  fine as is, not getting rebuilt so no change to these rows
-  rebuild_tibble_not <- rebuild_tibble %>%
-    dplyr::filter_(~(rebuild_status == 0))
+  rebuild_tibble_not <- dplyr::filter_(rebuild_tibble,
+                                       ~(rebuild_status == 0))
   
   #  Getting rebuilt need change grade to N and reareafy unit_area
-  rebuild_tibble_to_rebuild <- rebuild_tibble %>%
-    dplyr::filter_(~(rebuild_status == 1))
+  rebuild_tibble_to_rebuild <- dplyr::filter_(rebuild_tibble, ~(rebuild_status == 1))
   
   df <- rebuild_tibble_to_rebuild  #  easier to read
   #  Collapse, as we will recalculate unit area and set all grade to N
   #  Remove duplicates based on siteid, buildingid, elementid
   #  CHANGE APPROPRIATE VARIABLE VALUES AND TIDY
   #  there will be 
-  rebuilt <- df[!duplicated(df[, c("lano", "siteid", "buildingid", "elementid")]), ] %>%
-    dplyr::mutate(grade = factor("N", levels = list(N = "N", A = "A", B = "B",
-                                                    C = "C", D = "D", E = "E")),
+  rebuilt <- df[!duplicated(df[, c("lano", "siteid", "buildingid", "elementid")]), ]
+  rebuilt <- dplyr::mutate_(rebuilt,
+                           grade = ~(factor("N", levels = list(N = "N", A = "A", B = "B",
+                                                    C = "C", D = "D", E = "E"))),
                   cost = 0
-                  ) %>%  #  need to aggregate!
-    blockbuster::areafy2(input_checks = FALSE)  #  disable messages
+                  )  #  need to aggregate!
+  rebuilt <- blockbuster::areafy2(rebuilt, input_checks = FALSE)  #  disable messages
     
   # APPEND ROWS FROM REBUILT TO NOT REBUILT TIBBLE
   # drop temp variables, if rebuilt Grade is N
-  output <- dplyr::bind_rows(rebuilt, rebuild_tibble_not) %>%
-    dplyr::select_(~(-rebuild_status))
+  output <- dplyr::bind_rows(rebuilt, rebuild_tibble_not)
+  output <- dplyr::select_(output, ~(-rebuild_status))
   
   return(output)
 }

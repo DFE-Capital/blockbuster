@@ -28,5 +28,6 @@ tests/testthat/repair_costs_tidy.csv
 data-raw/06_inferno_optimising_code.R
 #tutorial
 07_blockbuster_output_for_tutorial.R
+08__bristol_bug_rebuild_vindicated.R
 # Packrat files
 packrat/lib*/
