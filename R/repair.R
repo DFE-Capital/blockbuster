@@ -111,8 +111,11 @@ repair <- function(blockbuster_tibble, repair_monies) {
     
 
     #  REPAIR DECISION MAKING ----
-    repairing <- blockbuster_tibble %>%
-      dplyr::arrange_(~ buildingid, ~ dplyr::desc(grade), ~ dplyr::desc(cost))
+    repairing <- blockbuster_tibble
+    repairing <- dplyr::arrange_(repairing,
+                                 ~ buildingid,
+                                 ~ dplyr::desc(grade),
+                                 ~ dplyr::desc(cost))
     
     #  MONEY PER BLOCK ----
     number_of_blocks <-  nrow(dplyr::distinct_(repairing, ~ buildingid,
@@ -132,8 +135,9 @@ repair <- function(blockbuster_tibble, repair_monies) {
       lapply(function(x) {  #  Apply helper function over a list of dataframes
         what_needs_repair_within_block(x,
                                        per_block_spend)
-      }) %>%
-      data.table::rbindlist()  #  changed from dplyr::bind_rows
+      })
+    
+    by_block_list <- data.table::rbindlist(by_block_list)  #  changed from dplyr::bind_rows
     
     #  CARRY OUT REPAIRS
     #  Create a list of 2 dataframes, one for repair_status 0 and two for repair_status 1
