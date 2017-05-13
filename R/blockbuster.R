@@ -52,15 +52,6 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   #  Sensible forecast horizon
   stopifnot(forecast_horizon > 0, forecast_horizon < 21)
   
-  #  Sensible rebuild_monies
-  #  Check the rebuild monies is either zero or greater than the cheapest
-  #  block to rebuild
-  # if (rebuild_monies != 0) {
-  #   stopifnot(rebuild_monies > min(blockbuster_tibble[blockbuster_tibble$gifa > 0,
-  #                                                     "gifa"]) * rebuild_cost_rate[1])
-  # }
-  
-  
   #  Create appropriate vector for rebuild_cost_rate if constant cost throughout forecast
   stopifnot(is.numeric(rebuild_cost_rate))
   
@@ -90,6 +81,24 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   }
   
   stopifnot(length(repair_monies) == forecast_horizon)
+  
+  #  Sensible rebuild_monies
+  #  Check the rebuild monies is either zero or greater than the cheapest
+  #  block to rebuild, for the year with the lowest non-zero rebuild_monies
+  
+#   rebuild_monies_check <- ifelse((test = (rebuild_monies != 0) &&
+#                                     rebuild_monies <= 
+#                                     (blockbuster_tibble$gifa *
+#                                     rebuild_cost_rate)),
+#                                  yes = 1,
+#                                  no = 0)
+#   
+#   if (sum(rebuild_monies_check) > 0) {
+#     stop("Error: reconsider your rebuild monies; at least one of your years 
+# has insufficient funds
+#          to rebuild the cheapest block in your blockbuster_tibble!")
+#     
+#   }
   
   #  Create placeholder
   #  Create placeholder variables for cost and block_rebuild_cost
