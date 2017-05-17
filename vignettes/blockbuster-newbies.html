@@ -12,7 +12,7 @@
 
 <meta name="author" content="Matthew Gregory" />
 
-<meta name="date" content="2017-05-04" />
+<meta name="date" content="2017-05-17" />
 
 <title>Blockbuster for R Newbies</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Blockbuster for R Newbies</h1>
 <h4 class="author"><em>Matthew Gregory</em></h4>
-<h4 class="date"><em>2017-05-04</em></h4>
+<h4 class="date"><em>2017-05-17</em></h4>
 
 
 
@@ -78,7 +78,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>I’m trying to free your mind, Neo. But I can only show you the door. You’re the one that has to walk through it. (<a href="http://www.imdb.com/title/tt0133093/quotes">via</a>)</p>
 </blockquote>
 <div id="a-beginners-guide-to-blockbuster" class="section level2">
-<h2>A Beginner’s Guide to blockbusteR</h2>
+<h2>A BeginneR’s Guide to blockbuster</h2>
 <p>This vignette focuses on providing a user with all the skills necessary to provide the blockbuster function with the desired inputs, thus asking it the right question. This will produce an output of the class <code>blockbuster_list</code>. The user will be shown how to handle this object for basic business questions.</p>
 <ul>
 <li>What will the total cost of repairs be in the three blocks with <code>buildingid</code>’s 4382, 4472 and 4487 after five years?</li>
@@ -306,6 +306,12 @@ final_year</code></pre></div>
             <span class="dt">rebuild_monies =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">9e4</span>, <span class="dv">0</span>, <span class="dv">0</span>),
             <span class="dt">repair_monies =</span> <span class="fl">5e3</span>,
             <span class="dt">rebuild_cost_rate =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1280</span>, <span class="dv">4</span>), <span class="dv">1285</span>))</code></pre></div>
+</div>
+<div id="saving-for-later" class="section level4">
+<h4>Saving for later</h4>
+<p>We can save our <code>blockbuster_list</code> object using <code>saveRDS</code> and if we want to look at the data in the future we can load it into R using <code>readRDS</code> (described <a href="http://stackoverflow.com/questions/19967478/how-to-save-data-file-into-rdata">here</a>). But does this save all the arguments we used to create the <code>blockbuster_list</code>?</p>
+<p>Try using the <code>attributes()</code> function to find out the inputs for <code>z</code>. How would you find out what the <code>forecast_horizon</code> was?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(z)</code></pre></div>
 </div>
 <div id="practice-2" class="section level4">
 <h4>Practice</h4>

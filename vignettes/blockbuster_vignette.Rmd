@@ -501,6 +501,15 @@ flood_repairs <- blockbuster(x, forecast_horizon = 5,
 
 ```
 
+Sometimes it is convenient to save these objects and then use them again later. If we were to `saveRDS` then `readRDS` we could use the `attributes()` function to find out the spending profile inputs of the `blockbuster_list`.
+
+```{r}
+attributes(drip_repairs)
+attributes(flood_repairs)
+
+```
+
+
 #### Manipulate data for assessment statistic of interest (total cost of repairs)
 
 This consistent repair spend profile can be visually compared by the user to a spending profile that invests more heavily sooner rather than later. However, we need to organise the data into a convenient form for comparison.  

@@ -74,3 +74,6 @@ fivenum(final_year$cost)
 #              repair_monies = 5e3,
 #              rebuild_cost_rate = c(rep(1280, 4), 1285))
 
+## ----eval = FALSE--------------------------------------------------------
+#  attributes(z)
+
