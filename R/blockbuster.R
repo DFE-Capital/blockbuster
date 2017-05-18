@@ -50,7 +50,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   
   
   #  Sensible forecast horizon
-  stopifnot(forecast_horizon > 0, forecast_horizon < 21)
+  stopifnot(forecast_horizon > 0, forecast_horizon < 31)
   
   #  Create appropriate vector for rebuild_cost_rate if constant cost throughout forecast
   stopifnot(is.numeric(rebuild_cost_rate))
