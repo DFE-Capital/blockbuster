@@ -90,12 +90,47 @@ blockbuster_det_data <- as_tibble(det_data)
 
 devtools::use_data(blockbuster_det_data, overwrite = TRUE)
 
+# ELEMENTID OVERHAUL 2017-05-17 - new feature
+# can't remember where building_component_lookup came from, let's check it 
+# has all the relevant elementid in it
+# it probably came from the pds? so should do
+x <- unique(blockbuster_pds$elementid)
+y <- blockbuster::building_component_lookup$elementid
+x %in% y
+rm(x, y)
+# of greater interest is whether our elementid in det_data_elementid
+# captures all the relevant elementid
+
+det_data_elementid <- read_tsv(file  = "./data-raw/det_data_elementid.txt",
+                     col_names = TRUE) %>%
+  mutate(concated_det =  gsub("[^[:alnum:] ]", "",
+                              paste(element, sub_element, const_type,
+                                    sep = "_")))
+# this does seem to hold all the relevant building components elementid
+# x <- unique(det_data_elementid$elementid)  #  x has some NA but irrelevant missing as not in PDS
+# y <- unique(blockbuster_pds$elementid)
+# x %in% y
+# rm(x, y)
+
+#  need to remove NAs
+det_data_elementid <- det_data_elementid %>%
+  filter(complete.cases(.)) %>%  # NA are getting removed
+  filter(!duplicated(.[["concated_det"]])) #  remove duplicates from Excel
+
+
+blockbuster_det_data <- as_tibble(det_data_elementid)
+devtools::use_data(blockbuster_det_data, overwrite = TRUE)
+
+# for next step
+det_data <- det_data_elementid
+
 # MARKOV CHAIN ------------------------------------------------------------
 library(markovchain)
 # Create a list of markov chain objects, one for each
 # element sub_element con_type combination
 # e.g. nn, read as from n to n...
 
+# READ CAREFULLY THIS IS FOR SINGLE CASE EXAMPLE
 # Helper function to keep code tidy
 get_det <- function(x) {
   as.numeric(det_data[1, x])
