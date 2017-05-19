@@ -12,6 +12,7 @@ det_data.txt
 det_data_ajj.txt
 missing_dtmc
 2016-11-30-missing_dtmc.txt
+
 #blockbuster_det_data.rda
 inst/doc
 building_component_life_summary.xls
@@ -24,6 +25,10 @@ data-raw/repair_costs_pre_tidy_with_missing_appended.csv
 data-raw/building_component_lookup.csv
 tests/testthat/repair_costs_pre_tidy_with_missing_appended.csv
 tests/testthat/repair_costs_tidy.csv 
+
+#elementid lookup overhaul
+data-raw/det_data_elementid.txt
+
 #benchmarking
 data-raw/06_inferno_optimising_code.R
 #tutorial
