@@ -42,6 +42,11 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   #  Match new variable and get index of match, this provide mc reference, see 02_read_det_data
   #  Note how we ignore case due to differences in caps from  Excel and SQL files
   pos <- integer(length = 1)
+  
+  #  USE ELEMENTID INSTEAD
+  # pos <- which(blockbuster_initial_state_row$elementid == blockbuster_det_data$elementid)
+  
+  #  OLD METHOD USING STRINGS
   #  Match on alphanumeric
   #  benchmarked, perl option as TRUE is faster
   pos <- grep(pattern = blockbuster_initial_state_row[["concated"]],
