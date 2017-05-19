@@ -206,6 +206,17 @@ z <- blockbuster(blockbuster_tibble = x, forecast_horizon = 5,
             rebuild_cost_rate = c(rep(1280, 4), 1285))
 ```
 
+#### Saving for later
+
+We can save our `blockbuster_list` object using `saveRDS` and if we want to look at the data in the future we can load it into R using `readRDS` (described [here](http://stackoverflow.com/questions/19967478/how-to-save-data-file-into-rdata)). But does this save all the arguments we used to create the `blockbuster_list`?  
+
+Try using the `attributes()` function to find out the inputs for `z`. How would you find out what the `forecast_horizon` was?
+
+```{r eval = FALSE}
+attributes(z)
+```
+
+
 #### Practice
 
 Upon fixing:  

@@ -6,6 +6,8 @@
 
 # blockbuster
 
+*This is a prototype package being developed in anticipation of analysing the [Condition Data Collection](https://www.gov.uk/guidance/condition-data-collection-programme-information-and-guidance) and is subject to constant development*
+
 This R package allows you to simulate the deterioration of School buildings through time using a Discrete Time Markov Chain. R packages are an ideal way to package and distribute R code and data for re-use by others.  
 
 The data were collected during the Property Data Survey Programme (PDSP) of 2012-2014. Approximately 2.7 million rows of data were collected. This provides the initial state of the School Estate at timestep zero. The deterioration of the School Estate is then modelled by using deterioration rates associated with each Construction Elements-Sub-element-construction-type. Cost of repairs for these building components are estimated. An investment profile for rebuilding and maintaining the School Estate can also be input to mitigate this entropic spiral. Here we provide an anonymised ten percent sample of School buildings or blocks with identifying features removed. During the development period we have some simulated data available to aid code development, real data may be uploaded later or may be available on request.

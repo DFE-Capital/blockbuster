@@ -283,6 +283,11 @@ flood_repairs <- blockbuster(x, forecast_horizon = 5,
 
 
 ## ------------------------------------------------------------------------
+attributes(drip_repairs)
+attributes(flood_repairs)
+
+
+## ------------------------------------------------------------------------
 drip <- dplyr::bind_rows(drip_repairs)
 flood <- dplyr::bind_rows(flood_repairs)
 

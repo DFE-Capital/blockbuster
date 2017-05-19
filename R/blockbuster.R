@@ -50,7 +50,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   
   
   #  Sensible forecast horizon
-  stopifnot(forecast_horizon > 0, forecast_horizon < 21)
+  stopifnot(forecast_horizon > 0, forecast_horizon < 31)
   
   #  Create appropriate vector for rebuild_cost_rate if constant cost throughout forecast
   stopifnot(is.numeric(rebuild_cost_rate))
@@ -81,6 +81,24 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   }
   
   stopifnot(length(repair_monies) == forecast_horizon)
+  
+  #  Sensible rebuild_monies
+  #  Check the rebuild monies is either zero or greater than the cheapest
+  #  block to rebuild, for the year with the lowest non-zero rebuild_monies
+  
+#   rebuild_monies_check <- ifelse((test = (rebuild_monies != 0) &&
+#                                     rebuild_monies <= 
+#                                     (blockbuster_tibble$gifa *
+#                                     rebuild_cost_rate)),
+#                                  yes = 1,
+#                                  no = 0)
+#   
+#   if (sum(rebuild_monies_check) > 0) {
+#     stop("Error: reconsider your rebuild monies; at least one of your years 
+# has insufficient funds
+#          to rebuild the cheapest block in your blockbuster_tibble!")
+#     
+#   }
   
   #  Create placeholder
   #  Create placeholder variables for cost and block_rebuild_cost
@@ -131,9 +149,12 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   }
   # CUSTOM CLASS FOR GENERIC METHODS
   class(blockbusted) <- c("blockbuster_list", "list")
+  # ATTRIBUTES DETAIL THE SPENDING PROFILES
+  attr(blockbusted, "rebuild_cost_rate") <- rebuild_cost_rate
+  attr(blockbusted, "rebuild_monies") <- rebuild_monies
+  attr(blockbusted, "repair_monies") <- repair_monies
   
-    # GATHER and TIDY ----
+  # RETURN
   return(blockbusted)
-  # could remove concated variable from each dataframe but let's save time by not
-  # tidyr::nest(data, ..., .key = data)
+
 }
