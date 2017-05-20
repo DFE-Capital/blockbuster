@@ -7,12 +7,9 @@
 
 #' Internal function that selects the correct markovchain object for deterioration of a row.
 #' 
-#' Since caching of the concated variable in the blockbuster function to improve 
-#' code speed, this function will no longer work on an unmutated blockbuster_tibble.
-#' 
-#' The \code{concated} variable can be created by pasting together the \code{element},
-#'  \code{sub_element} and \code{const_type} then replacing any non alpha numeric characters
-#'  with "". For details see the example.
+#' New approach that should improve speed 
+#' because testing equality (of \code{elementid}) is simpler than testing
+#'  inclusion in a set using %in%.
 #'
 #' @param blockbuster_initial_state_row a blockbuster dataframe or tibble single row.
 #' @return a markovchain object containing the appropriate transition matrix
@@ -21,12 +18,14 @@
 #' @import markovchain
 #' @export
 #' @examples 
-#' dtmc_a <- det_what_tm(
+#' old_strings_method <- det_what_tm(
 #' dplyr::mutate_(blockbuster_pds[1, ], 
 #' concated = ~gsub(pattern = "[^[:alnum:] ]",
 #' replacement = "",
 #' paste(element, sub_element, const_type,
-#'       sep = ""))))
+#'       sep = ""))))  #  old string method lookup required concated
+#'       
+#' new_lookup_is_faster <- det_what_tm(blockbuster_pds[96, ])
 #'       
 det_what_tm <- function(blockbuster_initial_state_row) {
   
@@ -44,14 +43,14 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   pos <- integer(length = 1)
   
   #  USE ELEMENTID INSTEAD
-  # pos <- which(blockbuster_initial_state_row$elementid == blockbuster_det_data$elementid)
+  pos <- which(blockbuster_initial_state_row$elementid == blockbuster_det_data$elementid)[1]  # some duplicates, take first one
   
   #  OLD METHOD USING STRINGS
   #  Match on alphanumeric
   #  benchmarked, perl option as TRUE is faster
-  pos <- grep(pattern = blockbuster_initial_state_row[["concated"]],
-              x = blockbuster_det_data$concated_det,
-              ignore.case = TRUE, perl = TRUE)
+  # pos <- grep(pattern = blockbuster_initial_state_row[["concated"]],
+  #             x = blockbuster_det_data$concated_det,
+  #             ignore.case = TRUE, perl = TRUE)
  
   # Test that length pos is not zero, therefore it has been matched
   if (length(pos) == 0) stop("Transition matrix of deterioration rates not found by name!")

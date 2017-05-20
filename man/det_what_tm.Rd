@@ -14,21 +14,19 @@ a markovchain object containing the appropriate transition matrix
 for the input blockbuster tibble row. Can only accept one row at a time due to how grep works.
 }
 \description{
-Since caching of the concated variable in the blockbuster function to improve 
-code speed, this function will no longer work on an unmutated blockbuster_tibble.
-}
-\details{
-The \code{concated} variable can be created by pasting together the \code{element},
- \code{sub_element} and \code{const_type} then replacing any non alpha numeric characters
- with "". For details see the example.
+New approach that should improve speed 
+because testing equality (of \code{elementid}) is simpler than testing
+ inclusion in a set using %in%.
 }
 \examples{
-dtmc_a <- det_what_tm(
+old_strings_method <- det_what_tm(
 dplyr::mutate_(blockbuster_pds[1, ], 
 concated = ~gsub(pattern = "[^[:alnum:] ]",
 replacement = "",
 paste(element, sub_element, const_type,
-      sep = ""))))
+      sep = ""))))  #  old string method lookup required concated
+      
+new_lookup_is_faster <- det_what_tm(blockbuster_pds[96, ])
       
 }
 \seealso{
