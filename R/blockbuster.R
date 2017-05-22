@@ -85,6 +85,7 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   #  Sensible rebuild_monies
   #  Check the rebuild monies is either zero or greater than the cheapest
   #  block to rebuild, for the year with the lowest non-zero rebuild_monies
+  #  Not working as intended yet, needs fix
   
 #   rebuild_monies_check <- ifelse((test = (rebuild_monies != 0) &&
 #                                     rebuild_monies <= 
