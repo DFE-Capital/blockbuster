@@ -96,8 +96,14 @@ costs_tidy_w_elementid <- left_join(costs_tidy_elementid, building_component_loo
   select(-(element.y:const_type.y)) %>%
   rename(element = element.x,
          sub_element = sub_element.x,
-         const_type = const_type.x)
+         const_type = const_type.x,
+         grade = variable)
 
+# if elementid NA then these don't appear in our 10% sample of the PDS
+
+# UPDATED -----------------------------------------------------------------
+
+costs_tidy <- costs_tidy_w_elementid
 
 # save --------------------------------------------------------------------
 

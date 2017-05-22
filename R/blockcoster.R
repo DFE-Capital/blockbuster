@@ -64,6 +64,10 @@ blockcoster_lookup <- function(
       concated_building_component_grade_clean, costs_lookup$concated_building_component_grade_clean
     )
     
+    #  USE ELEMENTID INSTEAD
+    # pos <- which(elementid == costs_lookup$elementid & 
+    #                grade == costs_lookup$grade)
+    
     # Test that length pos is not zero, therefore it has been matched
     if (length(pos) == 0) stop("Repair cost constant of building component not found by name!")
     
