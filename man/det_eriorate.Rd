@@ -9,7 +9,7 @@ det_eriorate(blockbuster_initial_state_row)
 \arguments{
 \item{blockbuster_initial_state_row}{a blockbuster dataframe or tibble single row. 
 Can only accept one row at a time due to how \code{grep} works
- in \code{\link{det_what_tm}}.}
+ in \code{\link{det_what_tm}}. Technical debt.}
 }
 \value{
 A one (if row is condition E) or two row tibble containing
@@ -21,14 +21,11 @@ The timestep also needs to increase by one given deterioration has occurred.
 }
 \description{
 Since changes to how the internal \code{concated} variable is created
-the function requires this variable to be part of the input dataframe row.
+the function used to require this variable to be part of the input dataframe row. 
+However given more recent change to looking up det rates by elementid we can do away with this.
 }
 \examples{
-one_year_later <- det_eriorate(dplyr::mutate_(blockbuster_pds[1, ],
-concated = ~gsub(pattern = "[^[:alnum:] ]",
-replacement = "",
-paste(element, sub_element, const_type,
-      sep = ""))))
+one_year_later <- det_eriorate(blockbuster_pds[1, ])
 }
 \seealso{
 \code{\link{blockbuster_det_data}}

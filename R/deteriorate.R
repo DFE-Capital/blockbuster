@@ -23,7 +23,7 @@
 #' concated = ~gsub(pattern = "[^[:alnum:] ]",
 #' replacement = "",
 #' paste(element, sub_element, const_type,
-#'       sep = ""))))  #  old string method lookup required concated
+#'       sep = ""))))  #  old string method lookup required concated cached
 #'       
 #' new_lookup_is_faster <- det_what_tm(blockbuster_pds[96, ])
 #'       
@@ -69,11 +69,12 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 #' The deterioration of one blockbuster row through one time period.
 #' 
 #' Since changes to how the internal \code{concated} variable is created
-#' the function requires this variable to be part of the input dataframe row.
+#' the function used to require this variable to be part of the input dataframe row. 
+#' However given more recent change to looking up det rates by elementid we can do away with this.
 #'
 #' @param blockbuster_initial_state_row a blockbuster dataframe or tibble single row. 
 #' Can only accept one row at a time due to how \code{grep} works
-#'  in \code{\link{det_what_tm}}.
+#'  in \code{\link{det_what_tm}}. Technical debt.
 #' @return A one (if row is condition E) or two row tibble containing
 #' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
 #' combination after one time period. This is handled within the function
@@ -84,11 +85,7 @@ det_what_tm <- function(blockbuster_initial_state_row) {
 #' @import markovchain
 #' @export
 #' @examples 
-#' one_year_later <- det_eriorate(dplyr::mutate_(blockbuster_pds[1, ],
-#' concated = ~gsub(pattern = "[^[:alnum:] ]",
-#' replacement = "",
-#' paste(element, sub_element, const_type,
-#'       sep = ""))))
+#' one_year_later <- det_eriorate(blockbuster_pds[1, ])
 det_eriorate <- function(blockbuster_initial_state_row) {
   
   #  Get appropriate markovchain
@@ -117,8 +114,9 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   #  output should be same grade but reduced unit_area as some decays
   same_grade <- dplyr::mutate_(blockbuster_initial_state_row,
                 unit_area = ~(unit_area*mc_stay_same), 
-                timestep = ~(timestep + 1), 
-                grade = ~(grade)
+                timestep = ~(timestep + 1)
+                # , 
+                # grade = ~(grade)  #  time waste
                 )
   
   #  Use switch to select appropriate transition rate for 
@@ -132,7 +130,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
                          "D" = .subset2(mc@transitionMatrix, 5, 6),
                          "E" = 0)
     
-  # old method, easier to intepret the above code
+  # old method, easier to intepret than the above code
   # mc_get_worse <- switch(EXPR = as.character(blockbuster_initial_state_row$grade), 
   #                       "N" = mc@transitionMatrix[1, 2],
   #                       "A" = mc@transitionMatrix[2, 3],
@@ -147,7 +145,7 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   
   worse_grade <- dplyr::mutate_(blockbuster_initial_state_row,
                                unit_area = ~(unit_area*mc_get_worse), 
-                               timestep = ~(timestep + 1), 
+                               timestep = ~(timestep + 1),
                                grade = ~(dplyr::if_else(grade == "E",
                                                       true = grade, #  E stays as E, the rest decay
                                                       false = switch(as.character(grade), 

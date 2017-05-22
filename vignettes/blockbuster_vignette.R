@@ -38,12 +38,18 @@ dplyr::select(x, element, sub_element, const_type, grade, unit_area)
 
 
 ## ------------------------------------------------------------------------
+# old method matched on strings of concated
 mc1 <- det_what_tm(dplyr::mutate_(x, 
                                   concated = ~gsub(pattern = "[^[:alnum:] ]",
                                     replacement = "",
                                     paste(element, sub_element, const_type,
                                      sep = ""))))
 mc1
+
+# new method tests for equality using elementid
+mc2 <- det_what_tm(x)
+
+identical(mc1, mc2)  #  they are the same, lookup no longer requires concated
 
 ## ------------------------------------------------------------------------
 mc1@transitionMatrix[, ]  #  [i, j] i for row, j column

@@ -24,7 +24,7 @@ dplyr::mutate_(blockbuster_pds[1, ],
 concated = ~gsub(pattern = "[^[:alnum:] ]",
 replacement = "",
 paste(element, sub_element, const_type,
-      sep = ""))))  #  old string method lookup required concated
+      sep = ""))))  #  old string method lookup required concated cached
       
 new_lookup_is_faster <- det_what_tm(blockbuster_pds[96, ])
       
