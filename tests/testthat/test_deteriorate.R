@@ -41,11 +41,11 @@ test_that("det_what_tm finds the correct markov chain", {
                                                                  sub_element,
                                                                  const_type,
                                                                  sep = "")))),
-               blockbuster_mc_list@markovchains[[103]])
+               blockbuster_mc_list@markovchains[[99]])
   #expect_(det_what_tm(w),  blockbuster_mc_list@markovchains[[]])
   #expect_equal(det_what_tm(x),  blockbuster_mc_list@markovchains[[]])
-  expect_equal(det_what_tm(y),  blockbuster_mc_list@markovchains[[68]])
-  expect_equal(det_what_tm(z),  blockbuster_mc_list@markovchains[[84]])
+  expect_equal(det_what_tm(y),  blockbuster_mc_list@markovchains[[65]])
+  expect_equal(det_what_tm(z),  blockbuster_mc_list@markovchains[[81]])
 })
 
 test_that("det_eriorate outputs two rows if appropriate", {
