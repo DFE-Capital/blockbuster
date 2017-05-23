@@ -133,8 +133,8 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
     #  then mutate the cost, needs to happen here after aggregation but before rebuild / maintenance
     blockbusted[[i + 1]] <- dplyr::mutate_(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
                                                                              data = x, FUN = sum)),
-                                          cost = ~(unit_area * blockcoster_lookup(concated = concated,
-                                                                                  grade = grade)),
+                                          cost = ~(unit_area * blockcoster_lookup(the_elementid = elementid,
+                                                                                  the_grade = grade)),
                                           block_rebuild_cost = ~(rebuild_cost_rate[i] * gifa))
                                           # ,
                                           # cost_decommissioned = ifelse(grade == "E",

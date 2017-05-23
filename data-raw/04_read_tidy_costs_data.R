@@ -104,6 +104,9 @@ costs_tidy_w_elementid <- left_join(costs_tidy_elementid, building_component_loo
 # UPDATED -----------------------------------------------------------------
 
 costs_tidy <- costs_tidy_w_elementid
+# Add correct levels to grade, N for new, E for decommisioned
+levels(costs_tidy$grade) <- list(N = "N", A = "A", B = "B",
+                                 C = "C", D = "D", E = "E")
 
 # save --------------------------------------------------------------------
 

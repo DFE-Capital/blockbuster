@@ -27,52 +27,63 @@
 #' blockbuster_pds[3, ]$grade)
 
 blockcoster_lookup <- function(
-  concated, grade, costs_lookup = blockbuster_pds_repair_costs
+  the_elementid, the_grade, costs_lookup = blockbuster_pds_repair_costs
 ) {
   
   #  Discovered bug, it was placing NA cost for N grade as this was not
   #  in the lookup table
+
     
     #  Create new variable to match against
     #  We do this without pipes which impairs readibility, see comments  for what happens at each step
     
-    concated_building_component_grade <- paste(
-      concated, grade, sep = ""
-    )
-    
-    concated_building_component_grade_clean <- iconv(
-      concated_building_component_grade, from = "UTF-8", to = "ASCII", sub = "byte"
-    )
-    
-    concated_building_component_grade_clean <- stringr::str_replace_all(
-      concated_building_component_grade_clean, "<e2><80><93>", "-"
-    )
-    
-    concated_building_component_grade_clean <- stringr::str_replace_all(
-      concated_building_component_grade_clean, "[[:number:]]|[^[:alnum:]]| ", ""
-    )
-    
-    concated_building_component_grade_clean <- stringr::str_to_lower(
-      concated_building_component_grade_clean
-    )
-    
+    # concated_building_component_grade <- paste(
+    #   concated, grade, sep = ""
+    # )
+    # 
+    # concated_building_component_grade_clean <- iconv(
+    #   concated_building_component_grade, from = "UTF-8", to = "ASCII", sub = "byte"
+    # )
+    # 
+    # concated_building_component_grade_clean <- stringr::str_replace_all(
+    #   concated_building_component_grade_clean, "<e2><80><93>", "-"
+    # )
+    # 
+    # concated_building_component_grade_clean <- stringr::str_replace_all(
+    #   concated_building_component_grade_clean, "[[:number:]]|[^[:alnum:]]| ", ""
+    # )
+    # 
+    # concated_building_component_grade_clean <- stringr::str_to_lower(
+    #   concated_building_component_grade_clean
+    # )
+    # 
     #  http://stackoverflow.com/questions/10294284/remove-all-special-characters-from-a-string-in-r
     
     #  Match new variable and get index of match, this blockbuster_pds_repair_costs index as default
-    pos <- as.integer()
-    pos <- match(
-      concated_building_component_grade_clean, costs_lookup$concated_building_component_grade_clean
-    )
+    # pos <- as.integer()
+    # pos <- match(
+    #   concated_building_component_grade_clean, costs_lookup$concated_building_component_grade_clean
+    # )
     
     #  USE ELEMENTID INSTEAD
-    # pos <- which(elementid == costs_lookup$elementid & 
-    #                grade == costs_lookup$grade)
+    pos <- as.integer()
+    # pos <- which(elementid == costs_lookup$elementid &
+    #   grade == costs_lookup$grade)
+    pos <- which(the_elementid == costs_lookup$elementid)
+    # print(pos)
+    pos_elementid_match <- costs_lookup[pos, ]
+    # print(pos_elementid_match)
+    pos_grade_match <- pos_elementid_match[pos_elementid_match$grade == "D", ]
+    # print(pos_grade_match)
     
+
+    # print(pos)
     # Test that length pos is not zero, therefore it has been matched
-    if (length(pos) == 0) stop("Repair cost constant of building component not found by name!")
-    
+    # if (length(pos) == 0) stop("Repair cost constant of building component not found by name!")
+
     #  Use pos to provide correct row, use column name to select repair cost numeric value
-    repair_costs_constant <- costs_lookup[pos, "repair_cost"]
+    repair_costs_constant <- pos_grade_match[, "repair_cost"]
+    # print(repair_costs_constant)
     
     # It's OK if its NA for grade E
     if (is.null(repair_costs_constant)) stop("Cost constant not assigned!")
