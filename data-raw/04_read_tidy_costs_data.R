@@ -108,6 +108,13 @@ costs_tidy <- costs_tidy_w_elementid
 levels(costs_tidy$grade) <- list(N = "N", A = "A", B = "B",
                                  C = "C", D = "D", E = "E")
 
+
+# ELEMENTID-GRADE ---------------------------------------------------------
+
+costs_tidy$concated_elementid_grade <- as.integer(paste0(costs_tidy$elementid,
+                                              as.integer(costs_tidy$grade)
+                                              ))
+
 # save --------------------------------------------------------------------
 
 write_excel_csv(costs_tidy, path = "./data-raw/repair_costs_tidy.csv")
