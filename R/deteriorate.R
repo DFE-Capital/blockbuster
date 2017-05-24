@@ -31,7 +31,7 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   
   # Test that we are passing a blockbuster-like dataframe or tibble to the function
   
-  if (!tibble::is.tibble(blockbuster_initial_state_row) && !is.data.frame(blockbuster_initial_state_row)) stop("'blockbuster_initial_state_row' must be a single row of a blockbuster tibble")
+  # if (!tibble::is.tibble(blockbuster_initial_state_row) && !is.data.frame(blockbuster_initial_state_row)) stop("'blockbuster_initial_state_row' must be a single row of a blockbuster tibble")
   
   #  Create new variable to match against 
   #  This is now cached before the for loop in blockbuster
@@ -53,14 +53,14 @@ det_what_tm <- function(blockbuster_initial_state_row) {
   #             ignore.case = TRUE, perl = TRUE)
  
   # Test that length pos is not zero, therefore it has been matched
-  if (length(pos) == 0) stop("Transition matrix of deterioration rates not found by name!")
+  # if (length(pos) == 0) stop("Transition matrix of deterioration rates not found by name!")
   
   #  Use pos to provide transition matrix
   #  benchmarked as fast, we are not growing a list or vector
   det_dtmc <- blockbuster_mc_list@markovchains[[pos]]
   
   # Test that det_dtmc is NULL
-  if (is.null(det_dtmc)) stop("Markovchain of deterioration rates not assigned!")
+  # if (is.null(det_dtmc)) stop("Markovchain of deterioration rates not assigned!")
   
   # Return for use in nested design
   return(det_dtmc)

@@ -109,29 +109,24 @@ blockbuster <- function(blockbuster_tibble, forecast_horizon,
   blockbusted <- rep(list(blockbusted), forecast_horizon + 1)
   
   #  Provide initial tibble at timestep zero
-  blockbusted[[1]] <- blockbuster_tibble %>%
-    #  Need to cache variable before for loop, only do this once to speed up code
-    #  This was originally carried out in det_what_tm()
-    #  Should also do for the blockcoster_lookup() also
-    dplyr::mutate_(concated = ~gsub(pattern = "[^[:alnum:] ]",
-                                    replacement = "",
-                                    paste(element, sub_element, const_type,
-                                     sep = "")))
+  blockbusted[[1]] <- blockbuster_tibble 
   
   for (i in 1:forecast_horizon) {
     #  the input tibble is at timestep zero, not included in the output list of tibbles
     #  Need to zero the cost variables, as it will be incorrect and misleading for non zero timestep
-    x <- dplyr::mutate_(blockbust(blockbusted[[i]]),
-                       cost = 0,  #  get repair costs constant, causes failure if done before aggregate
-                       cost_sum = 0)  #  having this here avoids aggregation errors, likely sub-optimal 
+    x <- blockbust(blockbusted[[i]])
+    x$cost <- 0L
+    x$cost_sum <- 0L
+    #  get repair costs constant, causes failure if done before aggregate
+    #  having this here avoids aggregation errors, likely sub-optimal 
     #  composition should also be set to zero as it is now redundant given unit_area estimates
     #  perhaps dropping these at the end rather than changing them each run will be faster
     
     #  BLOCKCOSTING ----
 
-    #  Sum unit_area over each row, keep all other variables
+    #  Sum unit_area over each row, keep all other variables and aggregate
     #  then mutate the cost, needs to happen here after aggregation but before rebuild / maintenance
-    blockbusted[[i + 1]] <- dplyr::mutate_(tibble::as_tibble(stats::aggregate(unit_area ~ .,  #  could try cbind(y1, y2) ~., here...
+    blockbusted[[i + 1]] <- dplyr::mutate_(tibble::as_tibble(stats::aggregate(unit_area ~ .,  
                                                                              data = x, FUN = sum)),
                                           cost = ~(unit_area * blockcoster_lookup(the_elementid = elementid,
                                                                                   the_grade = grade)),

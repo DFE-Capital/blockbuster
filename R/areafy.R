@@ -145,8 +145,8 @@ areafy2 <- function(blockbuster_initial_state, unit_area_methods = "PDS", input_
 #  filter(areafy2(y), element == "Fixed Furniture and Fittings")[, c("unit_area", "gifa", "composition")]
 
 # CONSIDER COMPOSITION ----------------------------------------------------
-  areafyed <- areafyed %>%
-    dplyr::mutate_(unit_area = ~(unit_area * composition))  #  composition relates to const_type not grade
+  areafyed <- dplyr::mutate_(areafyed,
+                   unit_area = ~(unit_area * composition))  #  composition relates to const_type not grade
 
   return(areafyed)
   
