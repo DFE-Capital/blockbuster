@@ -19,10 +19,10 @@ test_that("QA rebuild one block at year 2", {
 
 test_that("QA blockcoster considerations", {
   expect_equal(sum(round(
-    blockcoster_lookup(z[[4]]$concated, z[[4]]$grade)*z[[4]]$unit_area, 0)),
+    blockcoster_lookup(z[[4]]$elementid, z[[4]]$grade)*z[[4]]$unit_area, 0)),
                259) #  hand checked lookup and multiplications correct
-  expect_equal(blockcoster_lookup(z[[4]][9,]$concated,
-                                  grade = z[[4]][9,]$grade),
+  expect_equal(blockcoster_lookup(z[[4]][9,]$elementid,
+                                  z[[4]][9,]$grade),
                0
                )  #  N should give zero cost
 })

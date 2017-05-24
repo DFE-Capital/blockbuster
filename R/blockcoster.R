@@ -1,8 +1,8 @@
 
 # COSTING FAMILY OF FUNCTIONS ---------------------------------------------
 
-# Estimating the repair cost of a building component given its grade and unit_area
-
+#' A lookup table for repair cost rate given a building component and its grade.
+#' 
 #' An internal function in \code{\link{blockbuster}} to select the correct repair cost constant for a building component and its condition grade. 
 #' It works by matching on the concatenated \code{elementid} and \code{grade}.
 #' 
@@ -74,14 +74,14 @@ blockcoster_lookup <- function(
   # print(pos)
 
     # Test that length pos is not zero, therefore it has been matched
-    if (length(pos) == 0) stop("Repair cost constant of building component not found by name!")
+    # if (length(pos) == 0) stop("Repair cost constant of building component not found by name!")
 
     #  Use pos to provide correct row, use column name to select repair cost numeric value
     repair_costs_constant <- costs_lookup[pos, "repair_cost"]
     # print(repair_costs_constant)
     
     # It's OK if its NA for grade E
-    if (is.null(repair_costs_constant)) stop("Cost constant not assigned!")
+    # if (is.null(repair_costs_constant)) stop("Cost constant not assigned!")
     
     # If grade is "N" it gives NA
     # The user might prefer a zero cost similar to how grade A is costed
