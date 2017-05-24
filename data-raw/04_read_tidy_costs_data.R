@@ -56,6 +56,67 @@ costs_tidy <- costs_tidy %>%
            stringr::str_replace_all(" ", "") %>%
            stringr::str_to_lower())
 
+# elementid ---------------------------------------------------------------
+# left join on something with elementdid
+# punctuation messes string matching, need to remove
+costs_tidy_elementid <- mutate(costs_tidy,
+                               concat_clean =
+                                 iconv(
+                                   concated_costs, from = "UTF-8", to = "ASCII", sub = "byte"
+                                 )) %>%
+  mutate(concat_clean = stringr::str_replace_all(
+    concat_clean, "<e2><80><93>", "-"
+  )) %>%
+  mutate(concat_clean = stringr::str_replace_all(
+    concat_clean, "[[:number:]]|[^[:alnum:]]| ", ""
+  )) %>%
+  mutate(concat_clean = stringr::str_to_lower(
+    concat_clean
+  ))
+
+building_component_lookup_elementid <- building_component_lookup %>%
+  mutate(concat_clean = paste(element, sub_element, const_type)) %>%
+  mutate(concat_clean =
+                                                iconv(
+                                                  concat_clean, from = "UTF-8", to = "ASCII", sub = "byte"
+                                                )) %>%
+  mutate(concat_clean = stringr::str_replace_all(
+    concat_clean, "<e2><80><93>", "-"
+  )) %>%
+  mutate(concat_clean = stringr::str_replace_all(
+    concat_clean, "[[:number:]]|[^[:alnum:]]| ", ""
+  )) %>%
+  mutate(concat_clean = stringr::str_to_lower(
+    concat_clean
+  ))
+
+
+costs_tidy_w_elementid <- left_join(costs_tidy_elementid, building_component_lookup_elementid,
+          by = "concat_clean") %>%
+  select(-(element.y:const_type.y)) %>%
+  rename(element = element.x,
+         sub_element = sub_element.x,
+         const_type = const_type.x,
+         grade = variable)
+
+# if elementid NA then these don't appear in our 10% sample of the PDS
+
+# UPDATED -----------------------------------------------------------------
+
+costs_tidy <- costs_tidy_w_elementid
+# Add correct levels to grade, N for new, E for decommisioned
+levels(costs_tidy$grade) <- list(N = "N", A = "A", B = "B",
+                                 C = "C", D = "D", E = "E")
+
+
+# ELEMENTID-GRADE ---------------------------------------------------------
+
+costs_tidy$concated_elementid_grade <- as.integer(paste0(costs_tidy$elementid,
+                                              as.integer(costs_tidy$grade)
+                                              ))
+
+# save --------------------------------------------------------------------
+
 write_excel_csv(costs_tidy, path = "./data-raw/repair_costs_tidy.csv")
 
 blockbuster_pds_repair_costs <- tibble::as_tibble(costs_tidy)

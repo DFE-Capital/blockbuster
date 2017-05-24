@@ -94,10 +94,12 @@
 #'   \item{element}{The top level of the quantity surveyors' building component hierarchy.}
 #'   \item{sub_element}{The mid level of the quantity surveyors' building component hierarchy.}
 #'   \item{const_type}{The lowest level of the quantity surveyors' building component hierarchy.}
-#'   \item{variable}{The condition grade of the building component}
+#'   \item{grade}{The condition grade of the building component}
 #'   \item{repair_costs}{Cost in pounds per unit_area of the building component repaired to condition A.}
 #'   \item{concated_building_component_grade}{To save computation time we pre concatenate these for lookup.}
 #'   \item{concated_building_component_grade_clean}{To save computation time we pre concatenate these and tidy for lookup.}
+#'   \item{concat_clean}{Convenience, pasted element, sub element and construction type with only letters.}
+#'   \item{elementid}{Foreign key for building component to facilitate lookup.}
 #'   ...
 #' }
 "blockbuster_pds_repair_costs"

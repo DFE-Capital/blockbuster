@@ -122,15 +122,21 @@ dplyr::select(x, element, sub_element, const_type, grade, unit_area)
 
 ## Inspecting the associated deterioration rates
 
-To determine which transition matrix is associated with each row we use the `det_what_tm()` function. This produces an error if the `markovchain` object does not exist. This used to work by concatenating the `element`, `sub_elment` and `const_type` and matching with the `concated_det` we saw earlier. However, to speed up the efficiency of the code, the `concated` variable is now cached before the for loop in the `blockbuster` function. This requires a modified input for this function prior to look up of the associated deterioration rates.  
+To determine which transition matrix is associated with each row we use the `det_what_tm()` function. This produces an error if the `markovchain` object does not exist. This used to work by concatenating the `element`, `sub_elment` and `const_type` and matching with the `concated_det` we saw earlier. However, to speed up the efficiency of the code, the `concated` variable was also cached before the for loop in the `blockbuster` function. This required a modified input for this function prior to look up of the associated deterioration rates. This has since been replaced by using a lookup table based on `elementid`. This is faster as   
 
 ```{r}
+# old method matched on strings of concated
 mc1 <- det_what_tm(dplyr::mutate_(x, 
                                   concated = ~gsub(pattern = "[^[:alnum:] ]",
                                     replacement = "",
                                     paste(element, sub_element, const_type,
                                      sep = ""))))
 mc1
+
+# new method tests for equality using elementid
+mc2 <- det_what_tm(x)
+
+identical(mc1, mc2)  #  they are the same, lookup no longer requires concated
 ```
 
 This is a `markovchain` object as described in the documentation of that package. It is a S4 object and we can access different components using slots and `[` sub-setting.
@@ -143,7 +149,7 @@ mc1@transitionMatrix[, ]  #  [i, j] i for row, j column
 
 Typically the user will be interested in a subset of the data. Consult the `dplyr` vignette for handling and sub-setting your data based on desired filter conditions.  
 
-Here we demonstrate the deterioration of a single element through time. We chose a critical building feature of one particular block or building we are interested in.
+Here we demonstrate the deterioration of a single building component through time. We chose a critical building feature of one particular block or building we are interested in. CAVEAT: this modelling approach should be used at national level; this example is illustrative.
 
 ```{r}
 my_wall <- dplyr::filter(blockbuster_pds,
@@ -208,8 +214,6 @@ p4 + ylab("Estimated area (m^2)") + xlab("Condition grade") +
   govstyle::theme_gov() 
 ```
 
-
-
 ### Critical building elements
 
 Typically we may be more interested in critical, structural building-features such as the roof or walls and whether the `unit_area` exceeds a critical threshold determined by expert opinion. For example, is our wall's total `unit_area` after 10 years comprised of over 20% grade D and E? We plot then inspect the numbers.
@@ -245,9 +249,9 @@ dplyr::mutate(df, prop_area = unit_area / total_wall_area) %>%
 
 ## Costing
 
-The costing part of the `blockbuster` function is built using an internal function called `blockcoster_lookup`. This takes the building component and condition grade information and looks this character string up in the `blockbuster_pds_repair_costs` tibble, thus finding the appropriate repair costs constant to multiply the `unit_area` of that building component by.  
+The costing part of the `blockbuster` function is built using an internal function called `blockcoster_lookup`. This takes the building component `elementid` and condition `grade` information and looks this up in the `blockbuster_pds_repair_costs` tibble, thus finding the appropriate repair costs constant to multiply the `unit_area` of that building component by.  
 
-Originally it returned `NA` for grade E. This was due to lack of data on repairing a building component from grade E back to A, furthermore as grade E is meant to encapsulate a decommisioned status for now it was deemed more appropriate to only be able to get E back to grade N through rebuilding. However, user feedback suggested it more useful to attempt to approximate the grade E cost using a crude estiamte for now. This was achieved by modifying the code in `04_read_tidy_costs_data.R`. Costs for E are now simply the costs for D plus five percent. This approach was recommended by Adam Bray until we get empirical estimates.      
+Originally it returned `NA` for grade E. This was due to lack of data on repairing a building component from grade E back to A, furthermore as grade E is meant to encapsulate a decommisioned status for now it was deemed more appropriate to only be able to get E back to grade N through rebuilding. However, user feedback suggested it more useful to attempt to approximate the grade E cost using a crude estimate for now. This was achieved by modifying the code in `04_read_tidy_costs_data.R`. Costs for E are now simply the costs for D plus five percent. This approach was recommended by Adam Bray until we get empirical estimates.      
 
 Costs are calculated for each row. The `cost_sum` variable is set to zero as this can be recalculated later if required, as it requires an aggregation by `buildingid` step (this is somewhat technical, see the `blockbuster` code by the costing step, where aggregation occurs).
 

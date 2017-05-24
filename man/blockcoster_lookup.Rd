@@ -2,17 +2,15 @@
 % Please edit documentation in R/blockcoster.R
 \name{blockcoster_lookup}
 \alias{blockcoster_lookup}
-\title{An internal function in \code{\link{blockbuster}} to select the correct repair cost constant for a building component and its condition grade. 
-It works by matching strings from the concatenated \code{element}, \code{sub_element}, \code{const_type} and \code{grade}.}
+\title{A lookup table for repair cost rate given a building component and its grade.}
 \usage{
-blockcoster_lookup(concated, grade,
+blockcoster_lookup(the_elementid, the_grade,
   costs_lookup = blockbuster_pds_repair_costs)
 }
 \arguments{
-\item{concated}{the pasted \code{element}, \code{sub_element} and \code{const_type}
-of a blockbuster tibble single row as shown in the example.}
+\item{the_elementid}{the building component unique identifier found in the PDS.}
 
-\item{grade}{the grade of a blockbuster tibble single row}
+\item{the_grade}{the grade of a blockbuster tibble single row (a factor with 6 levels).}
 
 \item{costs_lookup}{the relevant costs look up table, default is derived from PDS 2016 costs}
 }
@@ -20,6 +18,10 @@ of a blockbuster tibble single row as shown in the example.}
 a numeric constant for the repair cost of building component by grade, in pounds per unit_area.
 }
 \description{
+An internal function in \code{\link{blockbuster}} to select the correct repair cost constant for a building component and its condition grade. 
+It works by matching on the concatenated \code{elementid} and \code{grade}.
+}
+\details{
 The default is to use the repair cost estimates for the PDS plus
 an E grade cost estimator based on D grade cost plus 5% (removal costs etc.). This
 is likely to be a source of error as the replacement of a decommisioned component
@@ -27,11 +29,9 @@ depends on the component as well as other complexities. This should be addressed
 improvements of the \code{\link{blockbuster}}.
 }
 \examples{
-cost_to_repair_one_unit_area_back_to_grade_a <- blockcoster_lookup(
-dplyr::mutate_(blockbuster_pds[3, ], 
-concated = ~gsub(pattern = "[^[:alnum:] ]", replacement = "",
-paste(element, sub_element, const_type, sep = "")))$concated,
-blockbuster_pds[3, ]$grade)
+x <- blockcoster_lookup(
+blockbuster_pds[1:10, ]$elementid,
+ blockbuster_pds[1:10, ]$grade)
 }
 \seealso{
 \code{\link{blockbuster_pds_repair_costs}}
