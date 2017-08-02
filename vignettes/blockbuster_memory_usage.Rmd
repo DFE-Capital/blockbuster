@@ -144,17 +144,27 @@ R will request more memory when it needs it and will also delete objects that no
 
 ## Memory useage during blockbuster
 
-Investigate what's happening to memory during the blockbuster simulation and track that with an additional attribute. `mem_change()` captures the net change in memory when running a block of code. Sometimes, however, we may want to measure incremental change. One way to do this is to use memory profiling to capture usage every few milliseconds. This functionality is provided by `utils::Rprof()` but it doesn’t provide a very useful display of the results. Instead we’ll use the `lineprof` package. It is powered by `Rprof()`, but displays the results in a more informative manner.   
+Investigate what's happening to memory during the blockbuster simulation and track that with an additional attribute. `mem_change()` captures the net change in memory when running a block of code. Sometimes, however, we may want to measure incremental change. One way to do this is to use memory profiling to capture usage every few milliseconds. This functionality is provided by `utils::Rprof()` but it doesn’t provide a very useful display of the results. Instead we’ll use the `profvis` package (which takes over from the depracated `lineprof`).  
 
-To demonstrate `lineprof`, we’re going to explore a bare-bones implementation of `blockbuster`:  
+To demonstrate `profvis`, we’re going to explore a bare-bones implementation of `blockbuster`:  
 
-```{r}
-library(lineprof)
+```{r message=FALSE}
+library(profvis)
 
-source("code/read-delim.R")
-prof <- lineprof(read_delim("diamonds.csv"))
-shine(prof)
+# https://rstudio.github.io/profvis/
+set.seed(255)  # relies on sampling
+
+x <- blockbuster_pds[1:100, ]
+
+profvis({
+  
+y <- blockbuster(x, forecast_horizon = 5)
+  
+})
 ```
 
 
+```{r}
+sessionInfo()
+```
 
