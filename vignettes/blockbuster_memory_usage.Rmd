@@ -1,0 +1,202 @@
+---
+title: "blockbuster_memory_usage.Rmd"
+author: "Matthew Gregory"
+date: "31 July 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Memory usage - Advanced R
+
+We explore the blockbuster package and ways to run larger simulations in a RAM efficient method using [Hadley Wickham's book](http://adv-r.had.co.nz/memory.html#memory) R has to hold everything in memory that you work on and its easy to mistakenly cause objects to grow or be copied unneccessarily. We inspect the blockbuster workflow to check the function is behaving sensibly. At the moment we run out of memory when running simulations on the 10% `blockbuster_pds` after 4 hours of computation on MG's desktop (32 Gb of memory).  
+
+```{r}
+library(pryr)
+library(dplyr)
+#  library(blockbuster)
+devtools::load_all(".")  #  loads my development version of blockbuster
+object_size(blockbuster::blockbuster_pds)
+```
+
+(This function is better than the built-in `object.size()` because it accounts for shared elements within an object and includes the size of environments.) The object contains meta-data, pointers, padding and the data. R also requests memory in blocks.  
+
+```{r}
+sizes <- sapply(0:50, function(n) object_size(seq_len(n)))
+plot(0:50, sizes, xlab = "Length", ylab = "Size (bytes)", 
+  type = "s")
+```
+
+40 bytes of overhead.
+
+If we remove this we see irregular growth in memory. 
+
+```{r}
+plot(0:50, sizes - 40, xlab = "Length", 
+  ylab = "Bytes excluding overhead", type = "n")
+abline(h = 0, col = "grey80")
+abline(h = c(8, 16, 32, 48, 64, 128), col = "grey80")
+abline(a = 0, b = 4, col = "grey90", lwd = 4)
+lines(sizes - 40, type = "s")
+```
+
+Beyond 128 bytes, it no longer makes sense for R to manage vectors. After all, allocating big chunks of memory is something that operating systems are very good at. Beyond 128 bytes, R will ask for memory in multiples of 8 bytes. This ensures good alignment.
+
+A subtlety of the size of an object is that components can be shared across multiple objects. For example, look at the following code:
+
+```{r}
+x <- 1:1e6
+object_size(x)
+```
+
+R can share components across objects. We hope this also applies to our blockbuster, let's check.  
+
+```{r}
+y <- list(x, x, x, x)
+object_size(y)
+```
+
+## blockbuster object sizes
+
+```{r}
+x <- blockbuster::blockbuster_pds
+object_size(x)
+y <- list(x, x, x, x)
+object_size(y)
+```
+
+What about if we run the blockbuster simulation, the object will change but alot of the columns will be the same, does it point to these or does it need to create new object each time?
+
+```{r}
+x <- blockbuster_pds[1:100, ]
+object_size(x)
+
+y <- blockbuster(x, forecast_horizon = 5)
+object_size(y)
+
+```
+
+The structure of y is a list of tibbles.
+
+```{r}
+
+sizer <- function(y) {
+  # where x is the blockbuster initial tibble of interest fed into blockbuster
+  # where y is the blockbuster_list 
+  n <- length(y) - 1
+  z <- as.numeric()
+  
+  for (i in 1:n) {
+    z[i] <- pryr::object_size(y[1:i+1])
+  }
+  
+  z$plot <- plot(z/1000, type = "l",
+       ylab = "Size in kB")
+  
+  return(as.vector(z))
+  
+} 
+
+sizer(y)
+
+```
+
+Seems to grow linearly. However, we are not looking at the memory during the blockbuster function, this is after, based on the ouput and does not reflect the inner workings under the hood while it is running.  
+
+## Memory change during simulations
+
+Let's look at a larger data set and see if it is equivalent. We may want to consider `mem_used` as that considers all objects. This would be good to run during large scale blockbuster simulation.
+
+`mem_change()` builds on top of `mem_used()` to tell you how memory changes during code execution. Positive numbers represent an increase in the memory used by R, and negative numbers represent a decrease.
+
+```{r}
+rm(y)
+mem_change(y <- blockbuster(x, forecast_horizon = 5))
+```
+
+## Remove non essential variables for the analytical question of interest
+
+Look at removing non essential variables; we don't need to know the number of windows in a block for example. Let's try dropping some variables, as storing these seems to take up extra RAM with a linear growth in RAM required. We use the same example as above but remove some variables.
+
+```{r}
+x_small <- x %>%
+  dplyr::select(buildingid:const_type, grade, cost, timestep, gifa, unit_area)
+
+
+mem_change(y_small <- blockbuster(x_small, forecast_horizon = 5))
+  
+```
+
+It seems that this does save some memory compared to using all the non-essential variables. The user should carefully select the variables that they need for later analysis, or you could keep the id variables which could be used for a left join of the data back onto the other variables.  
+
+This approach may be limited when running any simulations anymore complicated than the counterfactual (no repair or rebuild monies invested), as if we invest any monies in rebuilding (call the `rebuild` function), the `areafy2` function is called which requires these variables to rebuild a school block (repairing does not call `areafy2` (check the code and try to find it yourself [Ctrl + F])).   
+
+```{r}
+sizer(y_small)
+```
+
+This reduces the memory useage by a non-trivial amount. Again memory demand increases linearly as we extend the forecast horizon.  
+
+This also points to another solution. We only need the previous years data to run next years simulation. Thus you could write to disc and just hold the previous year's data in memory in order to call blockbuster on. This would require some reworking and is not ideal for user friendliness.    
+
+## Garbage collection
+
+R will request more memory when it needs it and will also delete objects that nothing is pointing at. There are some instances of memory leaks due to functions capturing environments, the memory, might not be freed upon the function completing.  
+
+## Memory useage during blockbuster
+
+Investigate what's happening to memory during the blockbuster simulation and track that with an additional attribute. `mem_change()` captures the net change in memory when running a block of code. Sometimes, however, we may want to measure incremental change. One way to do this is to use memory profiling to capture usage every few milliseconds. This functionality is provided by `utils::Rprof()` but it doesn’t provide a very useful display of the results. Instead we’ll use the `profvis` package (which takes over from the depracated `lineprof`).  
+
+To demonstrate `profvis`, we’re going to explore a bare-bones implementation of `blockbuster`:  
+
+```{r message=FALSE}
+library(profvis)
+
+# https://rstudio.github.io/profvis/
+set.seed(255)  # relies on sampling
+
+x <- blockbuster_pds[1:100, ]
+
+profvis({
+  
+y <- blockbuster(x, forecast_horizon = 5)
+  
+})
+```
+
+We know the memory change and object size from earlier in this document. How does the maximum Memory used at any time compare to this value?  
+
+In this simple example most of the memory and time is spent in the `blockbust` function which is concerned with the deterioration of each building component.  
+
+### With Rebuild an repair
+
+It may be the case that the rebuild and repair consume a lot of memory. Careful putting sensible values for the rebuild monies, it can error if its insufficient to rebuild the cheapest block.     
+
+```{r}
+set.seed(255)  # relies on sampling
+
+x <- blockbuster_pds[1:100, ]
+
+profvis({
+  
+y <- blockbuster(x, forecast_horizon = 5, rebuild_monies = c(0, 0, 50e4, 0, 0),
+                 repair_monies = rep(1e4, 5))
+  
+})
+```
+
+The repairing and rebuilding reduces the number of rows in the dataframe for that timestep thus reducing the memory issue but making the code to take longer to run.  
+
+## Potential work-arounds
+
+It looks like the deterioration of the dataframes at each timestep are held in memory thus their growth and the forecast horizon are the biggest impacters on RAM being used with both scaling linearly. The solution will be to reduce what is held in RAM. The simulation only needs to hold the current timestep and the next one (as it's deteriorating and rebuilding and repairing in RAM), the historic timesteps are no longer referenced too in that simulation, thus could rest be written to disk.  
+
+However, we also need to consider how to scale this to the eventual 100 % of the PDS. We are currently using only 10% sub-sample. Writing to disk once the current timestep's data frame is needed would drastically reduce the demand on RAM. An alternative would be to rewriting the package using data.table. Writing to disk frequnetly is not ideal and may slow things down but the important thing is that the simulations can be run at all.    
+
+
+```{r}
+sessionInfo()
+```
+

@@ -31,8 +31,16 @@ data-raw/det_data_elementid.txt
 
 #benchmarking
 data-raw/06_inferno_optimising_code.R
+
 #tutorial
 07_blockbuster_output_for_tutorial.R
 08__bristol_bug_rebuild_vindicated.R
+09_memory_usage.Rmd
 # Packrat files
 packrat/lib*/
+
+# system
+.DS_Store  
+
+# simulation output
+/output/*

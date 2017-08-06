@@ -3,6 +3,7 @@
 export(areafy2)
 export(blockbust)
 export(blockbuster)
+export(blockbuster_sim)
 export(blockcoster_lookup)
 export(det_eriorate)
 export(det_what_tm)
