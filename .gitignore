@@ -41,3 +41,6 @@ packrat/lib*/
 
 # system
 .DS_Store  
+
+# simulation output
+/output/*
