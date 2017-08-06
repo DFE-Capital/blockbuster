@@ -20,4 +20,3 @@ Assigns a new method to the generic \code{boxplot} function.
 # buildingid == 127617), 5))
 
 }
-

@@ -15,6 +15,9 @@ We explore the blockbuster package and ways to run larger simulations in a RAM e
 
 ```{r}
 library(pryr)
+library(dplyr)
+#  library(blockbuster)
+devtools::load_all(".")  #  loads my development version of blockbuster
 object_size(blockbuster::blockbuster_pds)
 ```
 
@@ -162,6 +165,35 @@ y <- blockbuster(x, forecast_horizon = 5)
   
 })
 ```
+
+We know the memory change and object size from earlier in this document. How does the maximum Memory used at any time compare to this value?  
+
+In this simple example most of the memory and time is spent in the `blockbust` function which is concerned with the deterioration of each building component.  
+
+### With Rebuild an repair
+
+It may be the case that the rebuild and repair consume a lot of memory. Careful putting sensible values for the rebuild monies, it can error if its insufficient to rebuild the cheapest block.     
+
+```{r}
+set.seed(255)  # relies on sampling
+
+x <- blockbuster_pds[1:100, ]
+
+profvis({
+  
+y <- blockbuster(x, forecast_horizon = 5, rebuild_monies = c(0, 0, 50e4, 0, 0),
+                 repair_monies = rep(1e4, 5))
+  
+})
+```
+
+The repairing and rebuilding reduces the number of rows in the dataframe for that timestep thus reducing the memory issue but making the code to take longer to run.  
+
+## Potential work-arounds
+
+It looks like the deterioration of the dataframes at each timestep are held in memory thus their growth and the forecast horizon are the biggest impacters on RAM being used with both scaling linearly. The solution will be to reduce what is held in RAM. The simulation only needs to hold the current timestep and the next one (as it's deteriorating and rebuilding and repairing in RAM), the historic timesteps are no longer referenced too in that simulation, thus could rest be written to disk.  
+
+However, we also need to consider how to scale this to the eventual 100 % of the PDS. We are currently using only 10% sub-sample. Writing to disk once the current timestep's data frame is needed would drastically reduce the demand on RAM. An alternative would be to rewriting the package using data.table. Writing to disk frequnetly is not ideal and may slow things down but the important thing is that the simulations can be run at all.    
 
 
 ```{r}

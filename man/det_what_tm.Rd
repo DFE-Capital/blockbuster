@@ -32,4 +32,3 @@ new_lookup_is_faster <- det_what_tm(blockbuster_pds[96, ])
 \seealso{
 \code{\link{blockbuster_det_data}}
 }
-
