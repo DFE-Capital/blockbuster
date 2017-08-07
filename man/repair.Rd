@@ -41,4 +41,3 @@ quick_fix <- blockbuster(dplyr::filter(blockbuster_pds,
   forecast_horizon = 2, rebuild_monies = 0, repair_monies = 2.5e6)
 
 }
-
