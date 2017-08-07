@@ -45,6 +45,10 @@ You can also use the extensive R help which explains the input arguments and out
 
 To simulate the deterioration of the School Estate into the future under various maintenance and rebuilding spending policies. This will provide a data driven approach to improving the management of the [School Estate potenitally saving public money](https://www.nao.org.uk/report/capital-funding-for-schools/). The model's predictions should be evaluated with the next [Condition Data Collection](https://www.gov.uk/guidance/condition-data-collection-programme-information-and-guidance) due in 2017 and beyond. This package will also provide the skills and learnings necessary to extend this package functionality for the CDC data.  
 
+### Further reading
+
+To learn more about the condition of the School Estate in the UK, see the [National Audit Office report](https://www.nao.org.uk/report/capital-funding-for-schools/) from 22 Feb 2017.  
+
 ### Improvements
 
 * If you find any bugs raise an issue on the [Github package page](https://github.com/mammykins/blockbuster).
