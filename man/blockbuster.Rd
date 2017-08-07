@@ -55,4 +55,3 @@ two_yrs_counterfactual <- blockbuster(dplyr::filter(blockbuster_pds,
  buildingid == 127617), 2)
 
 }
-

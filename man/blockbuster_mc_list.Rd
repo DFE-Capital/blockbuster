@@ -25,4 +25,3 @@ by construction type combination through time as in the
  To access slots of a S4 object use "@" or \code{slot}()
 }
 \keyword{datasets}
-
