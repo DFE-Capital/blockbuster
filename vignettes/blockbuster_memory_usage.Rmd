@@ -1,17 +1,17 @@
 ---
-title: "blockbuster_memory_usage.Rmd"
+title: "Blockbuster RAM usage"
 author: "Matthew Gregory"
-date: "31 July 2017"
-output: html_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{blockbuster_memory_usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ## Memory usage - Advanced R
 
-We explore the blockbuster package and ways to run larger simulations in a RAM efficient method using [Hadley Wickham's book](http://adv-r.had.co.nz/memory.html#memory) R has to hold everything in memory that you work on and its easy to mistakenly cause objects to grow or be copied unneccessarily. We inspect the blockbuster workflow to check the function is behaving sensibly. At the moment we run out of memory when running simulations on the 10% `blockbuster_pds` after 4 hours of computation on MG's desktop (32 Gb of memory).  
+We explore the blockbuster package and ways to run larger simulations in a RAM efficient method using [Hadley Wickham's book](http://adv-r.had.co.nz/memory.html#memory). R has to hold everything in memory that you work on and its easy to mistakenly cause objects to grow or be copied unneccessarily. We inspect the blockbuster workflow to check the function is behaving sensibly. At the moment we run out of memory when running simulations on the 10% `blockbuster_pds` after 4 hours of computation on MG's desktop (32 Gb of memory).  
 
 ```{r}
 library(pryr)
@@ -151,7 +151,7 @@ Investigate what's happening to memory during the blockbuster simulation and tra
 
 To demonstrate `profvis`, we’re going to explore a bare-bones implementation of `blockbuster`:  
 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 library(profvis)
 
 # https://rstudio.github.io/profvis/
@@ -174,7 +174,7 @@ In this simple example most of the memory and time is spent in the `blockbust` f
 
 It may be the case that the rebuild and repair consume a lot of memory. Careful putting sensible values for the rebuild monies, it can error if its insufficient to rebuild the cheapest block.     
 
-```{r}
+```{r eval=FALSE}
 set.seed(255)  # relies on sampling
 
 x <- blockbuster_pds[1:100, ]
@@ -187,7 +187,7 @@ y <- blockbuster(x, forecast_horizon = 5, rebuild_monies = c(0, 0, 50e4, 0, 0),
 })
 ```
 
-The repairing and rebuilding reduces the number of rows in the dataframe for that timestep thus reducing the memory issue but making the code to take longer to run.  
+The repairing and rebuilding reduces the number of rows in the dataframe for that timestep thus reducing the memory issue but also affects how long it takes the code to run. In this example it is reducing the number of rows that need to be deteriorated (as for each building component the worse condition rows will be repaired thus making more of the `unit_area` of the same `grade`, requiring fewer calls to `det_teriorate`).    
 
 ## Potential work-arounds
 

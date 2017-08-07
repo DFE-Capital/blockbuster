@@ -33,7 +33,8 @@ Suggests:
     rmarkdown (>= 1.2),
     govstyle (>= 0.1.0),
     devtools (>= 1.12.0),
-    ggthemes (>= 3.3.0)
+    ggthemes (>= 3.3.0),
+    profvis (>= 0.3.3)
 VignetteBuilder: knitr
 Remotes: github::UKGov-Data-Science/govstyle
 RoxygenNote: 5.0.1
