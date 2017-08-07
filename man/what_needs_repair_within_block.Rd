@@ -41,3 +41,4 @@ tibble::tibble(cost = seq(from = 0, to = 4500, by = 500),
                1e4)$repair_status
                
 }
+

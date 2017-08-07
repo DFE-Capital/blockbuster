@@ -25,3 +25,4 @@ A useful lookup table when deciding upon
 selecting your \code{critical_building_components} argument for \code{\link{blockbuster}}.
 }
 \keyword{datasets}
+
