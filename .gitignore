@@ -39,3 +39,5 @@ data-raw/06_inferno_optimising_code.R
 packrat/lib*/
 # DS Store
 .DS_Store
+# Output
+output/*

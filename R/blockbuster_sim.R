@@ -35,6 +35,9 @@ blockbuster_sim <- function(blockbuster_tibble, forecast_horizon,
   #  Sensible forecast horizon
   stopifnot(forecast_horizon > 0, forecast_horizon < 31)
   
+  #  Character string for output_dir
+  stopifnot(is.character(output_dir))
+  
   #  Create appropriate vector for rebuild_cost_rate if constant cost throughout forecast
   stopifnot(is.numeric(rebuild_cost_rate))
   
@@ -125,7 +128,28 @@ blockbuster_sim <- function(blockbuster_tibble, forecast_horizon,
     # don't need rebuild_cost_rate[i] as block_rebuild_cost calculated above in costing
     #  REPAIRS ----
     blockbusted[[i + 1]] <- repair(blockbusted[[i + 1]], repair_monies = repair_monies[i])
+    
+    #  RAM ISSUES, 
+    #  WRITE i (previous) YEAR TO DISC THEN DELETE, AS NO LONGER NEEDED in RAM
+    #  for testing, 
+    #  blockbuster_sim(blockbuster_pds[1:10, ], 3)
+    readr::write_rds(blockbusted[[i]], path = paste0(output_dir, output_filename,
+                                                     "_timestep_", 
+                                                     as.character(unique(blockbusted[[i]]$timestep)),
+                                                     ".rds")
+                     )
+    #  SAVE LAST YEAR TO DISC ALSO
+    if (i == forecast_horizon) {
+
+    readr::write_rds(blockbusted[[i + 1]], path = paste0(output_dir, output_filename,
+                                                     "_timestep_", 
+                                                     as.character(unique(blockbusted[[i + 1]]$timestep)),
+                                                     ".rds"))
+      }
+    #  WIPE
+    #  blockbusted[[i]] <- NULL
   }
+  
   # CUSTOM CLASS FOR GENERIC METHODS
   class(blockbusted) <- c("blockbuster_list", "list")
   # ATTRIBUTES DETAIL THE SPENDING PROFILES
