@@ -41,3 +41,5 @@ packrat/lib*/
 .DS_Store
 # Output
 output/*
+tests/testthat/blockbuster_sim_test_output_timestep_0.rds  
+tests/testthat/blockbuster_sim_test_output_timestep_1.rds  

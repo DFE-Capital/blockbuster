@@ -14,6 +14,7 @@ test_that("Files are produced in output dir", {
 })
 
 test_that("Produces same output as blockbuster", {
-  expect_equal(blockbuster_sim(x, 1),
+  expect_equal(blockbuster_sim(x, 1, output_dir = "./",
+                               output_filename = "blockbuster_sim_test_output"),
                blockbuster(x, 1))
 })

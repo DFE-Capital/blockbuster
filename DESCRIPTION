@@ -36,4 +36,4 @@ Suggests:
     ggthemes (>= 3.3.0)
 VignetteBuilder: knitr
 Remotes: github::UKGov-Data-Science/govstyle
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

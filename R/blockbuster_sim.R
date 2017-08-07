@@ -7,7 +7,7 @@
 #' intermediary blockbuster tibbles for each timestep to disk when no longer
 #' required.
 #' 
-#' See the help for blockbuster for more details.
+#' See the help for \code{\link{blockbuster}} for more details.
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
 #' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
@@ -15,9 +15,10 @@
 #' @param rebuild_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
 #' @param repair_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
 #' @param output_dir a character string of where to write each timestep's tibble to.
-#' @param output_filename a character string of the
-#' @return An object of class \code{blockbuster_list} written to disc as .RDS;
-#'  list of n plus one tibbles (where n is the \code{forecast_horizon}).
+#' @param output_filename a character string of the desired filename. Default is 
+#' system date and the timestep.
+#' @return An object of class \code{blockbuster_list} 
+#' of n plus one tibbles (where n is the \code{forecast_horizon}). T
 #' 
 #' @importFrom stats aggregate
 #' @export
@@ -146,8 +147,21 @@ blockbuster_sim <- function(blockbuster_tibble, forecast_horizon,
                                                      as.character(unique(blockbusted[[i + 1]]$timestep)),
                                                      ".rds"))
       }
-    #  WIPE
-    #  blockbusted[[i]] <- NULL
+   #  WIPE if no longer needed
+    #  fill with variables but no data
+    if (i > 1) {
+      blockbusted[[i - 1]] <- dplyr::slice(blockbusted[[i - 1]],
+                                           -(1:n()))
+    }
+
+  }
+  #  WITH COMPUTATION COMPLETE READ IN DATA
+  #  the last 2 years will contain data already, see above
+  for (i in 0:(forecast_horizon - 1)) {
+    blockbusted[[i + 1]] <- readr::read_rds(path = paste0(output_dir, output_filename,
+                                                      "_timestep_", 
+                                                      as.character(i),
+                                                      ".rds"))
   }
   
   # CUSTOM CLASS FOR GENERIC METHODS

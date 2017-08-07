@@ -46,4 +46,3 @@ building components of the English School Estate. The unit_area was estimated us
 the \code{areafy2} function in this package. School identifying features have been removed.
 }
 \keyword{datasets}
-

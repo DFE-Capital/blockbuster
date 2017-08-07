@@ -44,4 +44,3 @@ pds_data == blockbuster_pds[1, ]$unit_area
 \seealso{
 \url{http://www.machinegurning.com/rstats/case_when/}
 }
-
