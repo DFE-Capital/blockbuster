@@ -2,7 +2,7 @@
 % Please edit documentation in R/deteriorate.R
 \name{blockbust}
 \alias{blockbust}
-\title{The deterioration of more than one blockbuster rows through one time period.}
+\title{The det_erioration of more than one blockbuster rows through one time period.}
 \usage{
 blockbust(blockbuster_tibble)
 }
@@ -10,21 +10,18 @@ blockbust(blockbuster_tibble)
 \item{blockbuster_tibble}{a blockbuster dataframe or tibble.}
 }
 \value{
-A tibble containing
-the \code{unit_area} and condition of the \code{element sub_element constr_type} 
+The input blockbuster_tibble deteriorated through one timestep containing
+the \code{unit_area} and condition of the \code{element sub_element constr_type}  
 combination after one time period. Duplicating all other variables and values.
 The timestep also increases by one. The output tibble can be up to twice the number
-of rows of the input tibble. Accordingly this function merges to reduce the number of rows
-if possible, whereby there should be a max of six (one for each grade state) rows
-per \code{elementid}. This function is built using a for loop
- and the \code{\link{det_eriorate}} function.
+of rows of the input tibble. This function is built using \code{purrr::map} to vectorise
+the \code{\link{det_eriorate}} function.
 }
 \description{
-The deterioration of more than one blockbuster rows through one time period.
+The det_erioration of more than one blockbuster rows through one time period.
 }
 \examples{
 \dontrun{
 one_year_later <- blockbust(dplyr::filter(blockbuster_pds, buildingid == 127617))
 }
 }
-

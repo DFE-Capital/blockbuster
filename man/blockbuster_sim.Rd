@@ -46,4 +46,3 @@ one_yr_counterfactual <- blockbuster_sim(dplyr::filter(blockbuster_pds,
   output_dir = "./", output_filename = "example")
 
 }
-

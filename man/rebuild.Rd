@@ -43,4 +43,3 @@ jackpot <- blockbuster(dplyr::filter(blockbuster_pds,
   forecast_horizon = 2, rebuild_monies = 5e6)
 
 }
-

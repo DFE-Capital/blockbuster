@@ -102,8 +102,10 @@ blockbuster_sim <- function(blockbuster_tibble, forecast_horizon,
   blockbusted[[1]] <- blockbuster_tibble 
   
   for (i in 1:forecast_horizon) {
-    #  the input tibble is at timestep zero, not included in the output list of tibbles
-    #  Need to zero the cost variables, as it will be incorrect and misleading for non zero timestep
+    #  the input tibble is at timestep zero
+    #  Need to zero the cost variables to allow aggregation then recalculate afterwards
+    #  This is where we experience the RAM issue, in blockbuster prior to aggregation
+    
     x <- blockbust(blockbusted[[i]])
     x$cost <- 0L
     x$cost_sum <- 0L

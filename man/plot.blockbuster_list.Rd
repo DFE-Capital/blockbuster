@@ -23,4 +23,3 @@ Produces a line plot of total cost of repairs by grade through time.
  # buildingid == 127617), 5))
 
 }
-

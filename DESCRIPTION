@@ -1,6 +1,6 @@
 Package: blockbuster
 Title: Deterioration model of the School Estate
-Version: 0.0.0.9001
+Version: 0.6-1
 Authors@R: c(
     person("Matthew", "Gregory", email = "matthew.gregory@teachfirst.org.uk", role = c("aut", "cre")),
     person("Matthew", "Upson", email = "matthew.upson@digital.cabinet-office.gov.uk", role = "ctb"))
@@ -36,4 +36,4 @@ Suggests:
     ggthemes (>= 3.3.0)
 VignetteBuilder: knitr
 Remotes: github::UKGov-Data-Science/govstyle
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
