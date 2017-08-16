@@ -19,9 +19,11 @@
 #' system date and the timestep.
 #' @param plenty_of_ram the most conservative approach is setting this to FALSE.
 #' @return An object of class \code{blockbuster_list} 
-#' of n plus one tibbles (where n is the \code{forecast_horizon}). T
+#' of n plus one tibbles (where n is the \code{forecast_horizon}).
 #' 
 #' @importFrom stats aggregate
+#' @importFrom readr read_rds
+#' @importFrom readr write_rds
 #' @export
 #' @examples 
 #' 

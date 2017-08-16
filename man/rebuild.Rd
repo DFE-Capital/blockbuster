@@ -37,9 +37,11 @@ rebuilding the \code{unit_area} must be re-estimated for each building component
 is the output.
 }
 \examples{
-
+\dontrun{
 jackpot <- blockbuster(dplyr::filter(blockbuster_pds,
   buildingid == 4382 | buildingid == 4472 | buildingid == 4487), 
   forecast_horizon = 2, rebuild_monies = 5e6)
+  }
 
 }
+

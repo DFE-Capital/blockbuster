@@ -29,7 +29,7 @@ system date and the timestep.}
 }
 \value{
 An object of class \code{blockbuster_list} 
-of n plus one tibbles (where n is the \code{forecast_horizon}). T
+of n plus one tibbles (where n is the \code{forecast_horizon}).
 }
 \description{
 Sacrifices speed somewhat for a reduction in RAM reuirements by writing
@@ -46,3 +46,4 @@ one_yr_counterfactual <- blockbuster_sim(dplyr::filter(blockbuster_pds,
   output_dir = "./", output_filename = "example")
 
 }
+
