@@ -12,31 +12,39 @@ blockbuster_sim(blockbuster_tibble, forecast_horizon, rebuild_monies = 0,
 \arguments{
 \item{blockbuster_tibble}{a blockbuster dataframe or tibble.}
 
-\item{forecast_horizon}{an integer for the number of timesteps to model deterioration over.}
+\item{forecast_horizon}{an integer for the number of timesteps
+to model deterioration over.}
 
-\item{rebuild_monies}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+\item{rebuild_monies}{a numeric vector of length equal to the
+\code{forecast_horizon} or one.}
 
-\item{repair_monies}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+\item{repair_monies}{a numeric vector of length equal to the
+\code{forecast_horizon} or one.}
 
-\item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+\item{rebuild_cost_rate}{a numeric vector of length equal to the
+\code{forecast_horizon} or one.}
 
-\item{output_dir}{a character string of where to write each timestep's tibble to.}
+\item{output_dir}{a character string of where to write
+each timestep's tibble to.}
 
-\item{output_filename}{a character string of the desired filename. Default is 
+\item{output_filename}{a character string of the desired
+ filename. Default is 
 system date and the timestep.}
 
-\item{plenty_of_ram}{the most conservative approach is setting this to FALSE.}
+\item{plenty_of_ram}{the most conservative approach
+is setting this to FALSE.}
 }
 \value{
 An object of class \code{blockbuster_list} 
 of n plus one tibbles (where n is the \code{forecast_horizon}).
 }
 \description{
-Sacrifices speed somewhat for a reduction in RAM reuirements by writing
-intermediary blockbuster tibbles for each timestep to disk when no longer
+Sacrifices speed somewhat for a reduction in
+ RAM requirements by writing
+intermediary blockbuster tibbles for each timestep
+ to disk when no longer
 required.
-}
-\details{
+
 See the help for \code{\link{blockbuster}} for more details.
 }
 \examples{

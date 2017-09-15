@@ -1,23 +1,32 @@
 
 # BLOCKBUSTER SIM  -------------------------------------------------------------
 
-#' RAM efficient version of blockbuster designed to scale.
+#' @title RAM efficient version of blockbuster designed to scale.
 #' 
-#' Sacrifices speed somewhat for a reduction in RAM reuirements by writing
-#' intermediary blockbuster tibbles for each timestep to disk when no longer
+#' @description Sacrifices speed somewhat for a reduction in
+#'  RAM requirements by writing
+#' intermediary blockbuster tibbles for each timestep
+#'  to disk when no longer
 #' required.
 #' 
 #' See the help for \code{\link{blockbuster}} for more details.
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
-#' @param forecast_horizon an integer for the number of timesteps to model deterioration over.
-#' @param rebuild_cost_rate a numeric vector of length equal to the \code{forecast_horizon} or one.
-#' @param rebuild_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
-#' @param repair_monies a numeric vector of length equal to the \code{forecast_horizon} or one.
-#' @param output_dir a character string of where to write each timestep's tibble to.
-#' @param output_filename a character string of the desired filename. Default is 
+#' @param forecast_horizon an integer for the number of timesteps
+#'  to model deterioration over.
+#' @param rebuild_cost_rate a numeric vector of length equal to the
+#'  \code{forecast_horizon} or one.
+#' @param rebuild_monies a numeric vector of length equal to the
+#'  \code{forecast_horizon} or one.
+#' @param repair_monies a numeric vector of length equal to the
+#'  \code{forecast_horizon} or one.
+#' @param output_dir a character string of where to write
+#'  each timestep's tibble to.
+#' @param output_filename a character string of the desired
+#'  filename. Default is 
 #' system date and the timestep.
-#' @param plenty_of_ram the most conservative approach is setting this to FALSE.
+#' @param plenty_of_ram the most conservative approach
+#'  is setting this to FALSE.
 #' @return An object of class \code{blockbuster_list} 
 #' of n plus one tibbles (where n is the \code{forecast_horizon}).
 #' 
@@ -32,9 +41,11 @@
 #'   output_dir = "./", output_filename = "example")
 #' 
 blockbuster_sim <- function(blockbuster_tibble, forecast_horizon,
-                        rebuild_monies = 0, repair_monies = 0, rebuild_cost_rate = 1274,
+                        rebuild_monies = 0, repair_monies = 0,
+                        rebuild_cost_rate = 1274,
                         output_dir = "./output/",
-                        output_filename = paste0(Sys.Date(), "-blockbuster_sim"),
+                        output_filename = paste0(Sys.Date(),
+                                                 "-blockbuster_sim"),
                         plenty_of_ram = TRUE) {
   
   

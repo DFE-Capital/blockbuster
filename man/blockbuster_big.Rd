@@ -2,7 +2,8 @@
 % Please edit documentation in R/blockbuster_big.R
 \name{blockbuster_big}
 \alias{blockbuster_big}
-\title{Blockbuster mapreduce-like hack for answering questions using all blockbuster_pds.}
+\title{Blockbuster mapreduce-like hack for answering questions using
+ all blockbuster_pds.}
 \usage{
 blockbuster_big(blockbuster_tibble, forecast_horizon, rebuild_monies = 0,
   repair_monies = 0, rebuild_cost_rate = 1274, pds_prop,
@@ -13,52 +14,72 @@ blockbuster_big(blockbuster_tibble, forecast_horizon, rebuild_monies = 0,
 \arguments{
 \item{blockbuster_tibble}{a blockbuster dataframe or tibble.}
 
-\item{forecast_horizon}{an integer for the number of timesteps to model deterioration over.}
+\item{forecast_horizon}{an integer for the number of timesteps 
+to model deterioration over.}
 
-\item{rebuild_monies}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+\item{rebuild_monies}{a numeric vector of length equal to the 
+\code{forecast_horizon} or one.}
 
-\item{repair_monies}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+\item{repair_monies}{a numeric vector of length equal to the 
+\code{forecast_horizon} or one.}
 
-\item{rebuild_cost_rate}{a numeric vector of length equal to the \code{forecast_horizon} or one.}
+\item{rebuild_cost_rate}{a numeric vector of length equal 
+to the \code{forecast_horizon} or one.}
 
-\item{pds_prop}{a numeric between zero and one describing the relative size of your tibble
-to the entire PDS data set (\code{blockbuster_pds} is 0.1 of all \code{buildingid}). This is 
-used to multiply by the monies thus reducing investment accordingly to match 
-the size of the School Estate sample used. Currently defaulted at 10%.}
+\item{pds_prop}{a numeric between zero and one describing the relative size 
+of your tibble 
+to the entire PDS data set (\code{blockbuster_pds} is 0.1 of all 
+\code{buildingid}). This is 
+used to multiply by the monies thus reducing investment accordingly to
+match the size of the School Estate sample used. 
+Currently defaulted at 10 per cent or 0.1.}
 
-\item{output_dir}{a character string of where to write each timestep's tibble to.}
+\item{output_dir}{a character string of where to write 
+each timestep's tibble to. Default is output dir.}
 
-\item{output_filename}{a character string of the desired filename. Default is 
-system date and the timestep.}
+\item{output_filename}{a character string of the desired filename. 
+Default is system date and the timestep.}
 
 \item{plenty_of_ram}{the most conservative approach is setting this to FALSE.}
 
 \item{reproducible_seed}{make it reproducible by defining the random seed.}
 
-\item{partitions}{the number of partitions the data is split into (currently fixed at 2).}
+\item{partitions}{the number of partitions the data is split into 
+(currently fixed at 2).}
 }
 \value{
 An object of class \code{blockbuster_list} 
-of n plus one tibbles (where n is the \code{forecast_horizon}). It also writes to disc this 
-output, saving it in the \code{ouput_dir} with the \code{output_filename} suffixed 
+of n plus one tibbles (where n is the \code{forecast_horizon}).
+ It also writes to disc this 
+output, saving it in the \code{ouput_dir} with the
+ \code{output_filename} suffixed 
 with "_blockbuster_list.rds"
 }
 \description{
-Copes with the large size of the Property Data Survey by randomly 
-splitting the data (using the \code{buildingid} variable), 
+Copes with the large size of the Property Data Survey 
+by randomly splitting the data (using the \code{buildingid} variable), 
 running the \code{\link{blockbuster_sim}} seperately on 
 each chunk and reducing the monies proportional to the number of splits or 
-\code{partitions} and multiplying by the \code{pds_prop}.
- After computation is complete 
-the simulated output for each timestep is joined together. Currently this only works
-for the \code{blockbuster_pds} object and smaller (10% sample of the PDS). This approach 
-could be used on the whole PDS data set with some extra effort and time resource invested into
-making the code generaliseable. See the help for \code{\link{blockbuster}} and \code{\link{blockbuster_sim}}
- for more details. The comments in the body of the function explain how this 
- function works in more detail. Essentially it divides and conquers 
- sort-of-like how map reduce works, just a very simple version.
+\code{partitions} and multiplying by the \code{pds_prop}. 
+After computation is complete the simulated output for each timestep is 
+joined together.
+}
+\details{
+Currently this only works 
+for the \code{blockbuster_pds} object and smaller 
+(10 per cent sample of the PDS). This approach 
+could be used on the whole PDS data set with 
+some extra effort and time resource invested into 
+making the code generaliseable. 
+See the help for \code{\link{blockbuster}} and 
+\code{\link{blockbuster_sim}} 
+for more details. 
+The comments in the body of the function explain how this 
+function works in more detail. Essentially it divides and conquers 
+sort-of-like how map reduce works, just a very simple version.
 }
 \examples{
+
 \dontrun{ten_percent_counterfactual <- blockbuster_big(blockbuster_pds,
  forecast_horizon = 1, pds_prop = 0.1,
   reproducible_seed = 1337, partitions = 2)}
