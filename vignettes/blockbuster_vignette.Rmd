@@ -441,7 +441,7 @@ Rebuilding is carried out by the `rebuild` function which is internal to `blockb
 
 We inspect the effect of rebuilding on the cost of repairs of three buildings with a non-constant rebuilding investment profile and `rebuild_cost_rate` adjusted for 0% (year 2) then 1% inflation (year 3) (you can pass this as a vector rather than typing it manually of course). We inspect the effect of the rebuild on total repair costs using a faceted stacked bar chart for the different building elements in all the blocks (try increasing the `rebuild_monies` by one pound, what happens?).
 
-```{r fig.width=10, fig.height=12}
+```{r eval=FALSE, fig.width=10, fig.height=12}
 #  We filter our PDS sample for just three blocks to keep things simple
 x <- dplyr::filter(blockbuster::blockbuster_pds,  buildingid == 4382 | buildingid == 4472
                    | buildingid == 4487)
