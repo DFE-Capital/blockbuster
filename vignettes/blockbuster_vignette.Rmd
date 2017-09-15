@@ -520,7 +520,7 @@ This consistent repair spend profile can be visually compared by the user to a s
 
 First we convert our list of dataframes into one dataframe (for each spending profile).  
 
-```{r}
+```{r eval = FALSE}
 drip <- dplyr::bind_rows(drip_repairs)
 flood <- dplyr::bind_rows(flood_repairs)
 
@@ -528,7 +528,7 @@ flood <- dplyr::bind_rows(flood_repairs)
 
 Then we group by timestep and sum the total cost of repairs across all the blocks. We pretend you might want to compare many spending profiles here and thus demonstrate an approach that can be scaled. The model comparison of spending profiles suggests that the flood approach is slightly better when judged by the year 5 `total_cost` of repairs statistic generated using simple data manipulation and aggregation by the analyst. Not much difference at year 1 suggests that the "spend early" strategy may have over spent at year 1. This could be explored by further investigation or even automation to optimise the problem, given enough time or computation power.  
 
-```{r}
+```{r eval = FALSE}
 dripping <- drip %>%  #  extracat::visna(drip, sort = "b")
   group_by(timestep) %>%  #  drip_missing <- drip %>% filter(!complete.cases(.))
   #  table(drip_missing$timestep)  #  the originals rows are not being given this variable
@@ -548,7 +548,7 @@ spending_profile_ts
 
 #### Visualise
 
-```{r}
+```{r eval = FALSE}
 p8 <- ggplot(spending_profile_ts, aes(timestep,
                                 total_cost,
                                 colour = spend_profiles,
@@ -562,7 +562,7 @@ p8 <- ggplot(spending_profile_ts, aes(timestep,
 
 ```
 
-```{r fig.width=10, fig.height=12}
+```{r eval = FALSE, fig.width=10, fig.height=12}
 print(p8)
 ```
 
