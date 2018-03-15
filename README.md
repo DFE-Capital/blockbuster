@@ -4,6 +4,10 @@
 [![GitHub tag](https://img.shields.io/github/tag/mammykins/blockbuster.svg)]()
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/mammykins/blockbuster?branch=master&svg=true)
 
+# DEPRECIATED
+
+This package represents an older version of the Blockbuster model. Code optimisation resulted in a completely rewritten code base so it is appropriate to initiate a new github page. The current version can be found at: (https://github.com/DFE-Capital/Blockbuster-2)
+
 # blockbuster
 
 *This is a prototype package being developed in anticipation of analysing the [Condition Data Collection](https://www.gov.uk/guidance/condition-data-collection-programme-information-and-guidance) and is subject to constant development*
