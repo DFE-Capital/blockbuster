@@ -168,42 +168,40 @@ det_eriorate <- function(blockbuster_initial_state_row) {
   
 }
 
-#' The deterioration of more than one blockbuster rows through one time period.
+#' The det_erioration of more than one blockbuster rows through one time period.
 #'
 #' @param blockbuster_tibble a blockbuster dataframe or tibble. 
-#' @return A tibble containing
-#' the \code{unit_area} and condition of the \code{element sub_element constr_type} 
+#' @return The input blockbuster_tibble deteriorated through one timestep containing
+#' the \code{unit_area} and condition of the \code{element sub_element constr_type}  
 #' combination after one time period. Duplicating all other variables and values.
 #' The timestep also increases by one. The output tibble can be up to twice the number
-#' of rows of the input tibble. Accordingly this function merges to reduce the number of rows
-#' if possible, whereby there should be a max of six (one for each grade state) rows
-#' per \code{elementid}. This function is built using a for loop
-#'  and the \code{\link{det_eriorate}} function.
+#' of rows of the input tibble. This function is built using \code{purrr::map} to vectorise
+#' the \code{\link{det_eriorate}} function.
 #' @export
 #' @importFrom data.table rbindlist
+#' @importFrom purrr map
+#' @importFrom stats setNames
 #' @examples 
 #' \dontrun{
 #' one_year_later <- blockbust(dplyr::filter(blockbuster_pds, buildingid == 127617))
 #' }
 blockbust <- function(blockbuster_tibble) {
   
-  #  Initiate placeholders, cache variable, preallocate space
-  # blockbuster_tibble <- blockbuster_pds[1:10, ]  #  for testing
+  # blockbuster_tibble <- blockbuster_pds[1:100, ]  #  for testing
   blockbuster_initial_state <- blockbuster_tibble
-  nRow <- nrow(blockbuster_tibble)
-  d <- as.list(seq_len(nRow))
   
-  #  http://winvector.github.io/Accumulation/Accum.html
-  for (i in seq_len(nRow)) {
-    blockbuster_initial_state_row <- dplyr::slice_(blockbuster_initial_state, ~(i))
-    di <- blockbuster::det_eriorate(blockbuster_initial_state_row)
-    d[[i]] <- di
-    }
-  
+  #  https://stackoverflow.com/questions/3492379/data-frame-rows-to-a-list
+  #  pre-allocate list space with dataframe names
+  d <- stats::setNames(split(blockbuster_initial_state,
+                             seq(nrow(blockbuster_initial_state)), 
+                             drop = FALSE),
+                       rownames(blockbuster_initial_state))
+  #  map is quicker than lapply?
+  d <- purrr::map(d, blockbuster::det_eriorate)
+  #  convert list of dataframes into one data.table (as faster)
   d <- data.table::rbindlist(d)
-  #  all.equal(blockbust(blockbuster_pds[1:10, ]), d)  # same as the original slower version
   
-    output <- tibble::as_tibble(d)
-    
-    return(output)
-  }
+  output <- tibble::as_tibble(d)
+  
+  return(output)
+}

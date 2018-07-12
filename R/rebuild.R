@@ -30,10 +30,11 @@
 #' @importFrom dplyr %>%
 #' @export
 #' @examples 
-#' 
+#' \dontrun{
 #' jackpot <- blockbuster(dplyr::filter(blockbuster_pds,
 #'   buildingid == 4382 | buildingid == 4472 | buildingid == 4487), 
 #'   forecast_horizon = 2, rebuild_monies = 5e6)
+#'   }
 #' 
 rebuild <- function(blockbuster_tibble, rebuild_monies) {
   

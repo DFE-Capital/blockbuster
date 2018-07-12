@@ -34,5 +34,13 @@ data-raw/06_inferno_optimising_code.R
 #tutorial
 07_blockbuster_output_for_tutorial.R
 08__bristol_bug_rebuild_vindicated.R
+09_blockbuster_RAM_issues.Rmd
 # Packrat files
 packrat/lib*/
+# DS Store
+.DS_Store
+# Output
+output/*
+tests/testthat/blockbuster_sim_test_output_timestep_0.rds  
+tests/testthat/blockbuster_sim_test_output_timestep_1.rds
+example_timestep_?.rds
